@@ -1,16 +1,84 @@
+import type { Metadata } from "next";
+import Link from "next/link";
 import { SiteHeader } from "../../components/SiteHeader";
 import { SiteFooter } from "../../components/SiteFooter";
+import { PageIntro } from "../../components/PageIntro";
 
-export default function Page() {
+export const metadata: Metadata = {
+  title: "VAULT | PublicLogic",
+  description:
+    "The continuity spine for decisions, documents, audit trails, and institutional memory.",
+};
+
+const pillars = [
+  { title: "Continuity", body: "Knowledge survives turnover, transitions, and time. Nothing critical lives only in one head." },
+  { title: "Evidence", body: "Documents and records are preserved with the context that makes them mean something." },
+  { title: "Audit", body: "A clear trail of what happened, when, and why — ready when someone needs to ask." },
+  { title: "Memory", body: "The institution remembers its own decisions, so it stops re-learning the same lessons." },
+];
+
+export default function VaultPage() {
   return (
     <>
       <SiteHeader />
-      <main className="section">
-        <div className="panel">
-          <p className="eyebrow">PublicLogic</p>
-          <h1>VAULT</h1>
-          <p className="lede">The continuity spine for decisions, documents, audit trails, and institutional memory.</p>
-        </div>
+      <main>
+        <PageIntro
+          eyebrow="VAULT"
+          title="The continuity spine."
+          lede="VAULT is where finished work goes to stay. Decisions, documents, audit trails, and institutional memory — preserved and findable."
+        />
+
+        <section className="section">
+          <div className="grid grid-2">
+            {pillars.map((pillar) => (
+              <article key={pillar.title} className="card">
+                <h3>{pillar.title}</h3>
+                <p>{pillar.body}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="section split">
+          <div>
+            <p className="eyebrow">Retention, on purpose</p>
+            <h2>Nothing rots quietly.</h2>
+            <p className="lede">
+              Material moves into VAULT through retention — completed or stale work gets reviewed,
+              kept, or closed deliberately. The record stays clean because the system tends it.
+            </p>
+            <p className="muted-note">The system holds, not people.</p>
+          </div>
+          <ul className="list">
+            <li>
+              <strong>Capture</strong>
+              <span>PJ collects it</span>
+            </li>
+            <li>
+              <strong>Work</strong>
+              <span>CaseSpace holds it</span>
+            </li>
+            <li>
+              <strong>Retention</strong>
+              <span>Review keep or close</span>
+            </li>
+            <li>
+              <strong>VAULT</strong>
+              <span>Preserved and findable</span>
+            </li>
+          </ul>
+        </section>
+
+        <section className="section">
+          <div className="cta-row">
+            <Link className="button primary" href="/work">
+              See the full system
+            </Link>
+            <Link className="button secondary" href="/contact">
+              Talk to us
+            </Link>
+          </div>
+        </section>
       </main>
       <SiteFooter />
     </>
