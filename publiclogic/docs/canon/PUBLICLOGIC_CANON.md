@@ -1,4 +1,4 @@
-# PUBLICLOGIC_CANON.md — Series 1, **V1 (Reconciled Edition)**
+# PUBLICLOGIC_CANON.md — Series 1, **V1.1 (Reconciled + Bookend Doctrine)**
 
 The PuddleJumper Product Ecosystem — Build Reference
 
@@ -17,6 +17,9 @@ Companion to the Series 1 Final Workbook (v2) — the control system. This is th
 > 7. **Policy/SOP Stewardship set to P0.** Resolves a conflict *inside* the Series 1 Workbook (sheet 06 cell read P2; sheet 05 and Final Audit A-010 say P0 — "core stewardship moat"). P0 is canonical; the P2 cell was stale.
 > 8. **Permit & Bridge lanes given canonical IDs PB-01…PB-13** (and PB-07 includes Wetlands) to match Workbook sheet 08.
 > 9. **Tonkean/Coupa watch note + Source Register appendix added** to reconcile with Workbook sheets 23/24.
+>
+> ### Addendum (V1 → V1.1)
+> 10. **Bookend doctrine elevated to foundational.** Added the three foundational principles, the **Bookend Rule** (PJ owns the Entry Surface and the Repository), the **Agnostic Middle Rule** (content-agnostic, governance-aware), and the **Runtime Contract** diagram. Category sharpened in §16 to *"governed transitions between two immutable guarantees."*
 
 ---
 
@@ -67,6 +70,14 @@ Companion to the Series 1 Final Workbook (v2) — the control system. This is th
 
 ## 1. Doctrine
 
+### The three foundational principles
+
+These three statements explain almost the entire architecture — and are difficult for competitors to imitate without changing what they fundamentally are.
+
+1. **CaseSpace is the only primitive.**
+2. **PuddleJumper owns the two guarantees: Entry and Repository.**
+3. **The middle is content-agnostic but governance-aware.**
+
 ### One Primitive, Many Surfaces
 
 PublicLogic is a governed work library of templates, tools, and information that open as standing/closing CaseSpaces, backed by stewardship and designed not to replace existing systems.
@@ -76,6 +87,8 @@ PublicLogic is a governed work library of templates, tools, and information that
 | One Primitive | CaseSpace | A governed operating record for a unit of work. Standing/container or closing/leaf. | Doctrine |
 | Standing CaseSpace | Container | Ongoing parent: property, department, project, client, program, app/repo, or operating area. | Doctrine |
 | Closing CaseSpace | Leaf | Finite child: turnover, permit lane, grant submission, release, invoice, incident, policy update, request, or handoff. | Doctrine |
+| Bookend Rule | Entry Surface + Repository | PuddleJumper owns exactly two guarantees: the **Entry Surface** (work becomes a CaseSpace — received → logged) and the **Repository** (work becomes a sealed, append-only record — closed → sealed → rolled up). Everything between belongs to the operator. | **Foundational** |
+| Agnostic Middle Rule | Content-agnostic, governance-aware | The middle is where the operator works, with whatever systems, data, vendors, and processes fit. PJ governs the **movement** of the CaseSpace, not the software being used; every transition is wrapped by CAL. | **Foundational** |
 | Seal-Upward Rule | Closing → Standing | Closing work resolves and seals upward into its standing parent as a referenceable proof package. It does not mutate parent truth. | Moat |
 | Surface-not-State Rule | External tools are signals/surfaces | Email, Drive, PMS, CRM, permitting, grant, and finance systems can inform a CaseSpace. They are not the canonical PJ state. | Moat |
 | Non-Replacement Rule | Do not become their system of record | PublicLogic makes work ready, visible, portable, and provable across systems without asking clients to rip and replace. | Partner-safe |
@@ -93,6 +106,56 @@ PublicLogic is a governed work library of templates, tools, and information that
 
 Operator phrasing: **FORM opens. PRR records. CAL gates. PRM checks. VAULT governs. ARCHIEVE seals.**
 CAL and Manifest/PRM are a *gate* and a *precondition*, not hand-off stages.
+
+### Bookend Rule
+
+**PuddleJumper owns the two guarantees.**
+
+- **Entry Surface** — the point where work becomes a CaseSpace (received → logged).
+- **Repository** — the point where work becomes a sealed, append-only record (closed → sealed → rolled up).
+
+Everything between those two contracts belongs to the operator. PublicLogic does not require a specific workflow, database, CRM, permitting system, PMS, ERP, file store, or vendor. Those remain the operator's choice. **The middle is therefore content-agnostic, not unconstrained.**
+
+### Agnostic Middle Rule
+
+**The middle is where the operator works.** Users may use whatever systems, data, vendors, and processes fit their organization. PuddleJumper does not prescribe those systems, nor does it attempt to replace them.
+
+What PuddleJumper governs is the **movement** of the CaseSpace, not the software being used. Every transition is wrapped by CAL. CAL does not evaluate what the work *is*; it evaluates whether the transition is:
+
+- authorized
+- valid
+- complete enough to advance
+- eligible to seal
+
+The runtime is therefore **content-agnostic while remaining governance-aware.**
+
+### Runtime Contract
+
+```
+Entry Surface
+(received → logged)
+        │
+        ▼
+CaseSpace opens
+        │
+        ▼
+Capture
+        │
+        ▼
+Classify
+        │
+        ▼
+Advance      ← CAL wraps every transition
+        │
+        ▼
+Seal
+        │
+        ▼
+Repository
+(closed → sealed → rollup)
+```
+
+Everything between Entry and Repository may involve Gmail, Drive, SharePoint, Munis, Tyler, OpenGov, Polimorphic, Airbnb, Hospitable, spreadsheets, paper, or people. **PJ doesn't care.** It only cares that every transition is **authorized**, **attributable**, and **preserved**.
 
 ### The enforcement spine
 
@@ -439,9 +502,11 @@ No new **client-specific** feature until the same need appears three times. **Co
 
 ## 16. Competitive Positioning
 
+**The real category.** We are not selling *workflow*, not a *system of record*, not an *integration platform*. We are selling **governed transitions between two immutable guarantees (Entry and Repository).** That is a much rarer statement.
+
 | Section | Position | Action |
 |---|---|---|
-| Category We Own | Governed work library + CaseSpace runtime | Use |
+| Category We Own | Governed work library + CaseSpace runtime; **governed transitions between two immutable guarantees** | Use |
 | Plain English | Complicated work → standing/closing CaseSpace → next steps → seal upward | Use |
 | Hero Claim | Closing work seals upward into standing work across systems | Lead |
 | Non-Replacement Claim | We do not want to be your system of record | Lead |
