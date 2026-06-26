@@ -1,0 +1,17 @@
+{
+  "name": "@publiclogic/kpl-casespace",
+  "private": true,
+  "version": "0.0.0",
+  "description": "KPL CaseSpace feed: ingest the Kendall Pond Lodge Airbnb iCal export into Booking and Turnover cases.",
+  "type": "module",
+  "main": "src/index.js",
+  "bin": {
+    "kpl-sync": "bin/kpl-sync.js",
+    "kpl-dashboard": "bin/kpl-dashboard.js"
+  },
+  "scripts": {
+    "sync": "node bin/kpl-sync.js",
+    "dashboard": "node bin/kpl-dashboard.js",
+    "test": "node --test"
+  }
+}

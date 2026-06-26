@@ -10,6 +10,9 @@
   "scripts": {
     "dev": "npm --workspace apps/web run dev",
     "build": "npm --workspace apps/web run build",
-    "lint": "npm --workspace apps/web run lint"
+    "lint": "npm --workspace apps/web run lint",
+    "kpl:sync": "npm --workspace @publiclogic/kpl-casespace run sync --",
+    "kpl:dashboard": "npm --workspace @publiclogic/kpl-casespace run dashboard --",
+    "kpl:test": "npm --workspace @publiclogic/kpl-casespace run test"
   }
 }

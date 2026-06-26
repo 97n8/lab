@@ -18,6 +18,10 @@ npm-debug.log*
 .env.local
 .env*.local
 
+# KPL CaseSpace generated data (may contain reservation data)
+data/kpl/*.json
+data/kpl/*.jsonl
+
 # OS
 .DS_Store
 
