@@ -19,7 +19,8 @@ Companion to the Series 1 Final Workbook (v2) — the control system. This is th
 > 9. **Tonkean/Coupa watch note + Source Register appendix added** to reconcile with Workbook sheets 23/24.
 >
 > ### Addendum (V1 → V1.1)
-> 10. **Bookend doctrine elevated to foundational.** Added the three foundational principles, the **Bookend Rule** (PJ owns the Entry Surface and the Repository), the **Agnostic Middle Rule** (content-agnostic, governance-aware), and the **Runtime Contract** diagram. Category sharpened in §16 to *"governed transitions between two immutable guarantees."*
+> 10. **Bookend doctrine elevated to foundational.** Added the three foundational principles, the **Bookend Rule** (PJ owns the Entry Surface and the Repository), the **Agnostic Middle Rule** (content-agnostic, governance-aware), and the **Runtime Contract** diagram, grouped as one section (*The Bookend Contract*).
+> 11. **Sealed with three precision corrections** so the new text cannot contradict locked rulings: (a) principle #1 → *only top-level primitive* (Owner/Subject/Resource/Window are parts, not peers); (b) `closed → sealed → rollup` retyped as **state → operation → view**, preserving the Rollup-View ruling; (c) category → *"governed transitions between two fixed contracts — provenance at entry, immutability at exit"* (no longer flattening the entry/exit asymmetry).
 
 ---
 
@@ -74,9 +75,11 @@ Companion to the Series 1 Final Workbook (v2) — the control system. This is th
 
 These three statements explain almost the entire architecture — and are difficult for competitors to imitate without changing what they fundamentally are.
 
-1. **CaseSpace is the only primitive.**
-2. **PuddleJumper owns the two guarantees: Entry and Repository.**
+1. **CaseSpace is the only top-level primitive** — the one thing that opens, moves, and seals. Owner / Subject / Resource / Window are its *parts*, not peers; the OPS modules are presets over those parts.
+2. **PuddleJumper owns the two guarantees: Entry (provenance) and Repository (immutability).**
 3. **The middle is content-agnostic but governance-aware.**
+
+> **The moat is #2 and #3 — the load-bearing pair.** It is not a feature a competitor lacks; it is a *stance* they cannot take while staying what they are. A workflow tool that owns only the bookends stops being a workflow tool; a system of record that refuses the middle stops being a system of record. The posture is the moat.
 
 ### One Primitive, Many Surfaces
 
@@ -87,7 +90,7 @@ PublicLogic is a governed work library of templates, tools, and information that
 | One Primitive | CaseSpace | A governed operating record for a unit of work. Standing/container or closing/leaf. | Doctrine |
 | Standing CaseSpace | Container | Ongoing parent: property, department, project, client, program, app/repo, or operating area. | Doctrine |
 | Closing CaseSpace | Leaf | Finite child: turnover, permit lane, grant submission, release, invoice, incident, policy update, request, or handoff. | Doctrine |
-| Bookend Rule | Entry Surface + Repository | PuddleJumper owns exactly two guarantees: the **Entry Surface** (work becomes a CaseSpace — received → logged) and the **Repository** (work becomes a sealed, append-only record — closed → sealed → rolled up). Everything between belongs to the operator. | **Foundational** |
+| Bookend Rule | Entry Surface + Repository | PuddleJumper owns exactly two guarantees: the **Entry Surface** (work becomes a CaseSpace — received → logged) and the **Repository** (work becomes a sealed, append-only record — PRR ends at `closed` (state), ARCHIEVE seals the leaf (operation), the parent renders it as rollup (view)). Everything between belongs to the operator. | **Foundational** |
 | Agnostic Middle Rule | Content-agnostic, governance-aware | The middle is where the operator works, with whatever systems, data, vendors, and processes fit. PJ governs the **movement** of the CaseSpace, not the software being used; every transition is wrapped by CAL. | **Foundational** |
 | Seal-Upward Rule | Closing → Standing | Closing work resolves and seals upward into its standing parent as a referenceable proof package. It does not mutate parent truth. | Moat |
 | Surface-not-State Rule | External tools are signals/surfaces | Email, Drive, PMS, CRM, permitting, grant, and finance systems can inform a CaseSpace. They are not the canonical PJ state. | Moat |
@@ -107,16 +110,20 @@ PublicLogic is a governed work library of templates, tools, and information that
 Operator phrasing: **FORM opens. PRR records. CAL gates. PRM checks. VAULT governs. ARCHIEVE seals.**
 CAL and Manifest/PRM are a *gate* and a *precondition*, not hand-off stages.
 
-### Bookend Rule
+### The Bookend Contract
+
+*The Bookend Rule, the Agnostic Middle Rule, and the Runtime Contract are one doctrine: what PJ owns, what the operator owns, and the shape of the line between them.*
+
+#### Bookend Rule
 
 **PuddleJumper owns the two guarantees.**
 
-- **Entry Surface** — the point where work becomes a CaseSpace (received → logged).
-- **Repository** — the point where work becomes a sealed, append-only record (closed → sealed → rolled up).
+- **Entry Surface** — the point where work becomes a CaseSpace (received → logged). The guarantee here is **provenance**.
+- **Repository** — the point where work becomes a sealed, append-only record. The guarantee here is **immutability**. The three are typed, not a state chain: PRR ends at `closed` (a **state**) → ARCHIEVE seals the leaf (an **operation**) → the parent renders it as rollup (a **view**, per the Seals-into-parent = Rollup View ruling).
 
 Everything between those two contracts belongs to the operator. PublicLogic does not require a specific workflow, database, CRM, permitting system, PMS, ERP, file store, or vendor. Those remain the operator's choice. **The middle is therefore content-agnostic, not unconstrained.**
 
-### Agnostic Middle Rule
+#### Agnostic Middle Rule
 
 **The middle is where the operator works.** Users may use whatever systems, data, vendors, and processes fit their organization. PuddleJumper does not prescribe those systems, nor does it attempt to replace them.
 
@@ -129,7 +136,7 @@ What PuddleJumper governs is the **movement** of the CaseSpace, not the software
 
 The runtime is therefore **content-agnostic while remaining governance-aware.**
 
-### Runtime Contract
+#### Runtime Contract
 
 ```
 Entry Surface
@@ -152,8 +159,10 @@ Seal
         │
         ▼
 Repository
-(closed → sealed → rollup)
+(sealed, append-only)
 ```
+
+*Typed, not a state chain: `closed` is a PRR **state**, sealing is an ARCHIEVE **operation**, and rollup is a parent **view**.*
 
 Everything between Entry and Repository may involve Gmail, Drive, SharePoint, Munis, Tyler, OpenGov, Polimorphic, Airbnb, Hospitable, spreadsheets, paper, or people. **PJ doesn't care.** It only cares that every transition is **authorized**, **attributable**, and **preserved**.
 
@@ -502,11 +511,11 @@ No new **client-specific** feature until the same need appears three times. **Co
 
 ## 16. Competitive Positioning
 
-**The real category.** We are not selling *workflow*, not a *system of record*, not an *integration platform*. We are selling **governed transitions between two immutable guarantees (Entry and Repository).** That is a much rarer statement.
+**The real category.** We are not selling *workflow*, not a *system of record*, not an *integration platform*. We are selling **governed transitions between two fixed contracts — provenance at entry, immutability at exit.** That is a much rarer statement.
 
 | Section | Position | Action |
 |---|---|---|
-| Category We Own | Governed work library + CaseSpace runtime; **governed transitions between two immutable guarantees** | Use |
+| Category We Own | Governed work library + CaseSpace runtime; **governed transitions between two fixed contracts — provenance at entry, immutability at exit** | Use |
 | Plain English | Complicated work → standing/closing CaseSpace → next steps → seal upward | Use |
 | Hero Claim | Closing work seals upward into standing work across systems | Lead |
 | Non-Replacement Claim | We do not want to be your system of record | Lead |
