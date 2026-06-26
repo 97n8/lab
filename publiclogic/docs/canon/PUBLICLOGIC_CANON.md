@@ -1,4 +1,4 @@
-# PUBLICLOGIC_CANON.md — Series 1, **V1.1 (Reconciled + Bookend Doctrine)**
+# PUBLICLOGIC_CANON.md — Series 1, **V1.2 (Reconciled + Bookend + Signal-Behavior)**
 
 The PuddleJumper Product Ecosystem — Build Reference
 
@@ -21,6 +21,9 @@ Companion to the Series 1 Final Workbook (v2) — the control system. This is th
 > ### Addendum (V1 → V1.1)
 > 10. **Bookend doctrine elevated to foundational.** Added the three foundational principles, the **Bookend Rule** (PJ owns the Entry Surface and the Repository), the **Agnostic Middle Rule** (content-agnostic, governance-aware), and the **Runtime Contract** diagram, grouped as one section (*The Bookend Contract*).
 > 11. **Sealed with three precision corrections** so the new text cannot contradict locked rulings: (a) principle #1 → *only top-level primitive* (Owner/Subject/Resource/Window are parts, not peers); (b) `closed → sealed → rollup` retyped as **state → operation → view**, preserving the Rollup-View ruling; (c) category → *"governed transitions between two fixed contracts — provenance at entry, immutability at exit"* (no longer flattening the entry/exit asymmetry).
+>
+> ### Addendum (V1.1 → V1.2 — old VAULT packet pull-forward)
+> 12. **Signal Behavior Rule** added to §1 (the packet's one big keeper, modernized — tool-agnostic intake, rule-aware behavior). **Classification gate** (four outcomes, recommend-then-ratify) and **Record Lifecycle view** (the old 6-step lifecycle, kept as a view inside a CaseSpace) added to §4. **Stewardship Onboarding Track** (Appendix C) and **Lineage** mapping with retired/refactored terms (Appendix D) added. Guardrails honored: VAULT is *not* reframed as municipal records-retention, and classification is recommended-not-determined (counsel-ready fence intact).
 
 ---
 
@@ -92,6 +95,7 @@ PublicLogic is a governed work library of templates, tools, and information that
 | Closing CaseSpace | Leaf | Finite child: turnover, permit lane, grant submission, release, invoice, incident, policy update, request, or handoff. | Doctrine |
 | Bookend Rule | Entry Surface + Repository | PuddleJumper owns exactly two guarantees: the **Entry Surface** (work becomes a CaseSpace — received → logged) and the **Repository** (work becomes a sealed, append-only record — PRR ends at `closed` (state), ARCHIEVE seals the leaf (operation), the parent renders it as rollup (view)). Everything between belongs to the operator. | **Foundational** |
 | Agnostic Middle Rule | Content-agnostic, governance-aware | The middle is where the operator works, with whatever systems, data, vendors, and processes fit. PJ governs the **movement** of the CaseSpace, not the software being used; every transition is wrapped by CAL. | **Foundational** |
+| Signal Behavior Rule | Tool-agnostic intake, rule-aware behavior | PJ does not care what tool produced the signal. It cares what happens once the signal becomes a CaseSpace. | Doctrine |
 | Seal-Upward Rule | Closing → Standing | Closing work resolves and seals upward into its standing parent as a referenceable proof package. It does not mutate parent truth. | Moat |
 | Surface-not-State Rule | External tools are signals/surfaces | Email, Drive, PMS, CRM, permitting, grant, and finance systems can inform a CaseSpace. They are not the canonical PJ state. | Moat |
 | Non-Replacement Rule | Do not become their system of record | PublicLogic makes work ready, visible, portable, and provable across systems without asking clients to rip and replace. | Partner-safe |
@@ -135,6 +139,21 @@ What PuddleJumper governs is the **movement** of the CaseSpace, not the software
 - eligible to seal
 
 The runtime is therefore **content-agnostic while remaining governance-aware.**
+
+#### Signal Behavior Rule
+
+*Pulled forward from the original VAULT packet — its one big keeper, modernized.*
+
+**PJ does not care what tool produced the signal.** A form, email, call, upload, PMS event, calendar entry, invoice, photo, or spreadsheet can all start work. What matters is how the signal *behaves* once received — whether it becomes:
+
+- a **CaseSpace fact** (known fact),
+- a **missing item** (missing fact / needed document),
+- a **decision**,
+- a **proof event**,
+- a **transitory reference**, or
+- a **sealed record**.
+
+This is the intake-side companion to the Agnostic Middle Rule: *don't control the tool — control what happens after the signal arrives.* The old packet treated records as the center; the canon treats **work** as the center, with records and proof as the **output**.
 
 #### Runtime Contract
 
@@ -242,6 +261,33 @@ Every CaseSpace shares a spine. Standing and closing diverge on a few fields.
 | bridge_score | number | both | Systems + manual re-entry + people + risk + missing proof | Recommended | Client |
 | seal_status | open/sealed/rolled_up | closing | ARCHIEVE closeout state | Required | Internal/client |
 | rollup_view | array/ref | standing | References sealed children without mutating parent truth (read model) | Required | Doctrine |
+| classification | work_item / record / transitory / archive | both | What the signal becomes (see Classification gate). Recommended by rule; ratified by an authorized user when required. | Recommended | Internal/client |
+
+### Classification gate (recommend, then ratify)
+
+*Pulled forward from the old packet's "four outcomes." It stops the system from treating everything like equal truth.*
+
+Every received signal must classify as one of:
+
+1. **CaseSpace work item** — something to be worked.
+2. **Record / proof event** — evidence of what happened.
+3. **Transitory reference** — context that informs but is not the record.
+4. **Permanent archive / sealed repository item** — durable, sealed, retained.
+
+The gate runs at **Path Sheet** (first pass) and again at **Seal**. **Counsel-ready fence:** the system **recommends** a classification based on declared rules; an **authorized user ratifies** when required. PJ never makes an automated legal determination — it never "chooses based on the rule" on its own.
+
+### Record Lifecycle view *(inside a CaseSpace — a view, not the main doctrine)*
+
+The old packet's six-step records lifecycle is kept as a **view a CaseSpace can expose**, mapped onto the runtime. Work is the center; the record is the output.
+
+| Record Lifecycle step | Runtime equivalent |
+|---|---|
+| Intake | Entry Surface (received → logged) |
+| Conversion | Capture / normalize |
+| Validation | CAL checks (authorized · valid · complete-enough · eligible-to-seal) |
+| Certification & Filing | CaseSpace authority + Repository assignment |
+| Use & Access | Client / operator surface |
+| Disposition | ARCHIEVE seal · retention · rollup |
 
 ---
 
@@ -729,7 +775,40 @@ Plain-text public URLs used to ground the competitive pressure-test. Not NDA or 
 | Permit lanes PB-01…PB-13 | — | 08 | §9 — aligned |
 | Ratifier R-001…R-011 | — | 18 | §23 — aligned |
 | Source Register | — | 24 | Appendix A — added |
+| Signal Behavior Rule + Classification gate + Record Lifecycle | (pull-forward) | (pull-forward) | §1, §4 — added (Appendix D lineage) |
 
 ---
 
-*End of canon — V1 (Reconciled). Build from §22, prove on Path Sheet → standing/closing demo → PRR record → seal-upward rollup → Series 1 launch doors, expand the rest behind the fence.*
+## Appendix C — Stewardship Onboarding Track
+
+*Belongs to the Live CaseSpace / Stewardship tier — not the free/public product. The old packet's six-week records rollout, modernized into six questions.*
+
+| Step | Question | (Old packet lineage) |
+|---|---|---|
+| 1 | What comes in? | Week 1 — intake clarity |
+| 2 | What fields matter? | Week 2 — conversion / structure |
+| 3 | What blocks movement? | Week 3 — validation |
+| 4 | Who has authority? | Week 4 — retention / authority |
+| 5 | How does staff use it? | Week 5 — operational use |
+| 6 | What closes and seals? | Week 6 — disposition / closeout |
+
+## Appendix D — Lineage (old VAULT packet → new canon)
+
+What was pulled forward, and how each term/role was refactored. **Kept the concepts; updated the names and recentered on work, not records.**
+
+| Old packet | New canon | Note |
+|---|---|---|
+| "VAULT does NOT care what tool you used… only how the data behaves once it exists." | **Signal Behavior Rule** (§1) | The one big keeper. Tool-agnostic intake, rule-aware behavior. |
+| 6-step records lifecycle (Intake → Disposition) | **Record Lifecycle view** (§4) | Kept as a *view inside a CaseSpace*, not the main doctrine. |
+| Four outcomes (legal record / non-record / work file / permanent archive) | **Classification gate** (§4) | work_item · record/proof · transitory · sealed archive. Recommend-then-ratify. |
+| FormKey (universal intake language) | Entry schema / intake language | Concept kept. |
+| SEAL (required-fields checker) | **Retired as a standalone term** | CAL owns validation; "seal" now means closeout only, owned by ARCHIEVE. |
+| VAULT (legal lifecycle engine) | VAULT = doctrine / proof logic | Already canon (Tab 12); not a stage. |
+| ARCHIVE | **ARCHIEVE** | One spelling; the repository / final-seal layer. |
+| PublicInsight (workload observation) | Stewardship / usage intelligence | Concept kept; renamed. |
+
+**Not brought forward:** the framing that VAULT is mainly a municipal records-retention system (shrinks the product, exposes it to records-management vendors), and "the system chooses based on the rule" (would read as automated legal determination — the canon recommends, an authorized user ratifies).
+
+---
+
+*End of canon — V1.2 (Reconciled + Bookend + Signal-Behavior pull-forward). Build from §22, prove on Path Sheet → standing/closing demo → PRR record → seal-upward rollup → Series 1 launch doors, expand the rest behind the fence.*

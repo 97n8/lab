@@ -17,6 +17,8 @@ The three statements the rest of the canon hangs off. Everything else — schema
 
 The middle — Gmail, Drive, SharePoint, Munis, Tyler, OpenGov, Polimorphic, Airbnb, Hospitable, spreadsheets, paper, people — belongs to the operator. PJ governs the **movement** of the CaseSpace, not the software. Every transition is wrapped by CAL (authorized · valid · complete-enough-to-advance · eligible-to-seal). This is what the seal covers: the case record and its transition history — never the operator's CAMA, PMS, or ERP state.
 
+**Signal Behavior Rule.** PJ does not care what tool produced the signal — a form, email, call, upload, PMS event, calendar entry, invoice, photo, or spreadsheet can all start work. It cares what the signal *becomes* once it is a CaseSpace: a fact, a missing item, a decision, a proof event, a transitory reference, or a sealed record. Classification is recommended by rule and ratified by an authorized user — never an automated determination.
+
 ## The category
 
 **Governed transitions between two fixed contracts — provenance at entry, immutability at exit.** Not workflow. Not a system of record. Not an integration platform.

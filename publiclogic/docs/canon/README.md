@@ -5,7 +5,7 @@ Reconciled doctrine + product reference for the PuddleJumper ecosystem.
 | File | Role |
 |---|---|
 | `PROOF.md` | The spine — the three foundational principles the rest hangs off. Read first. |
-| `PUBLICLOGIC_CANON.md` | **V1.1 (Reconciled + Bookend Doctrine)** build reference — the understanding layer. Read top to bottom. |
+| `PUBLICLOGIC_CANON.md` | **V1.2 (Reconciled + Bookend + Signal-Behavior)** build reference — the understanding layer. Read top to bottom. |
 | `PublicLogic_Series1_Final_Workbook.xlsx` | The control system — Series 1 templates, work packs, lanes, dashboards, governance (27 sheets). |
 | `PublicLogic-Canon.xlsx` | Locked doctrine workbook — runtime line (Tab 02) and VAULT (Tab 12) that the markdown reconciles to. |
 
