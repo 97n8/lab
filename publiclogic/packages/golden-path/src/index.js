@@ -39,3 +39,12 @@ export {
   verifySignal,
   sourceKey,
 } from "./signal.js";
+export {
+  CASE_ACTIONS,
+  REVIEW_THRESHOLD,
+  toSignal,
+  toPJObject,
+  resolveCaseSpace,
+  emitReceipt,
+  defineConnector,
+} from "./connector.js";

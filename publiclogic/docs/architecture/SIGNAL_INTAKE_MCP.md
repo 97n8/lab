@@ -2,10 +2,12 @@
 
 **Status:** Architecture / design. The verified spine it plugs into (canonical
 form → Record Receipt → PRR → CaseReceipt → offline verification) is **built and
-tested** in `@publiclogic/golden-path`. **Step 1 — the Signal object + signal
-Record Receipt — is now built** (`golden-path/signal.js`, 20 tests; see §7). The
-MCP-backed connectors above it are still **proposed**, with one real precedent
-already shipping (`@publiclogic/kpl-casespace`, the official Airbnb iCal feed).
+tested** in `@publiclogic/golden-path`. **Steps 1 and 2 are built** — the Signal
+object + signal Record Receipt (`signal.js`), and the source-agnostic connector
+interface `receive → normalize → resolve → receipt` (`connector.js`) with three
+sample connectors (see §7). The MCP-backed network adapter and FORM/PRR wiring are
+still **proposed**; one real precedent already ships (`@publiclogic/kpl-casespace`,
+the official Airbnb iCal feed) and is the next thing to route through the interface.
 Nothing here changes canon; it operationalizes the **Signal Behavior Rule** and the
 **Bookend Rule (Entry = provenance)**.
 
@@ -181,8 +183,16 @@ the work a spine.
    20 adversarial tests (idempotency, key-order independence, source-vs-content
    identity, payload/provenance tamper). This is to ingestion what Canonical Form v1
    is to sealing: the deterministic core.
-2. **Generalize KPL into a connector interface** (`Signal in → canonical object +
-   receipt out`), with the iCal feed as the first conformant adapter. *Next.*
+2. ✅ **Generalize KPL into a connector interface** — **Shipped** (`golden-path/connector.js`).
+   A source-agnostic contract — `receive → normalize → resolve → receipt` — with core
+   types (`Signal`, `PJObject`, `CaseSpaceAction`, `Receipt`). A connector implements only
+   its source edges (`receive`, `normalize`); the **resolver** (open / append / needs_review /
+   ignore) and the **receipt emitter** are core, so no vendor logic leaks past normalize.
+   The receipt's `checksum` is the Canonical Form v1 hash of the placed object (Step 1's core),
+   so "we can prove where it went" is also "we can prove it wasn't altered." Three sample
+   connectors (gmail / airbnb / file) with fixtures prove it end to end — the Airbnb one mirrors
+   the KPL reservation shape (*KPL today*). 14 tests. The real KPL feed wiring through this
+   interface is the next proof; the contract is ready for it.
 3. **Add one MCP-backed adapter** (Files & Docs, e.g. Drive) behind that interface,
    reading over MCP, config/env only.
 4. **Wire signals to FORM / PRR** so a signal either opens a CaseSpace or appends to
