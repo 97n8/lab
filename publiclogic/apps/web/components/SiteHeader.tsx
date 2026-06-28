@@ -5,7 +5,7 @@ const links = [
   { href: "/casespaces", label: "CaseSpaces" },
   { href: "/pj", label: "PJ" },
   { href: "/vault", label: "VAULT" },
-  { href: "/kpl", label: "KPL" },
+  { href: "/stay", label: "STAY" },
   { href: "/contact", label: "Contact" },
 ];
 
