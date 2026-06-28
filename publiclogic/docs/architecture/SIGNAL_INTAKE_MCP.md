@@ -2,12 +2,12 @@
 
 **Status:** Architecture / design. The verified spine it plugs into (canonical
 form → Record Receipt → PRR → CaseReceipt → offline verification) is **built and
-tested** in `@publiclogic/golden-path`. **Steps 1 and 2 are built** — the Signal
-object + signal Record Receipt (`signal.js`), and the source-agnostic connector
-interface `receive → normalize → resolve → receipt` (`connector.js`) with three
-sample connectors (see §7). The MCP-backed network adapter and FORM/PRR wiring are
-still **proposed**; one real precedent already ships (`@publiclogic/kpl-casespace`,
-the official Airbnb iCal feed) and is the next thing to route through the interface.
+tested** in `@publiclogic/golden-path`. **Steps 1, 2, 2A, and 3 are built** — the
+Signal object + receipt (`signal.js`), the source-agnostic connector interface
+`receive → normalize → resolve → receipt` (`connector.js`), the human review loop
+(`review.js`), and the first network-backed adapter — PJ's **product-side**,
+vendor-neutral FileSurfaceConnector (`@publiclogic/pj`, `src/connectors/files`)
+with swappable env-configured Sources. Only **Step 4 — FORM/PRR wiring — remains proposed**.
 Nothing here changes canon; it operationalizes the **Signal Behavior Rule** and the
 **Bookend Rule (Entry = provenance)**.
 
@@ -201,11 +201,26 @@ the work a spine.
    overwritten; an item can't be resolved twice. This is the moat: PJ does not pretend scattered
    information is connected unless it has evidence — and when it doesn't, a person decides and the
    decision is preserved. 9 tests.
-3. **Add one MCP-backed adapter** (Files & Docs, e.g. Drive) behind that interface,
-   reading over MCP, config/env only.
+3. ✅ **Add one network-backed adapter** (Files & Docs) behind the interface —
+   **Shipped, product-side** in `@publiclogic/pj` (`src/connectors/files`) as a vendor-neutral
+   **FileSurfaceConnector**: one connector, many **Sources** (Google Drive is just one producer;
+   OneDrive/Dropbox/SharePoint/local-watch-folder drop in with the same `FileSource` contract,
+   no connector or resolver change). PJ does not organize files; it *watches a file surface for
+   signals.* A source reads via env config (per-source vars, e.g. `PJ_GOOGLE_DRIVE_URL` +
+   optional token; **no scraping, no committed keys**) and maps the vendor shape to a canonical
+   file record; the connector converts it into the existing `Signal` shape.
+   The decision is an **evidence** decision (the same matrix for every vendor): existing
+   CaseSpace proven (folder match) → **append**; **strong** evidence of a new case (structured
+   folder, or a filename that clearly names a case) → **open**; **weak** evidence (a vague
+   filename like `scan 22.pdf`) → **needs_review**; **no** evidence → **needs_review**. A vague
+   filename never opens a CaseSpace. The strong/weak judgement lives in PJ's `normalize`/`hint`;
+   the core resolver is untouched (`fileSurfaceConnector.resolve === resolveCaseSpace`) and only
+   sees the normalized object + evidence. Every receipt carries `matchEvidence` / `missingEvidence`.
+   `mockFileSource` makes the whole path testable with no network. 11 tests. *Stops at the receipt
+   — no FORM/PRR.*
 4. **Wire signals to FORM / PRR** so a signal either opens a CaseSpace or appends to
    one — closing the loop into the verified spine already on `/recordstream`, `/muni`,
-   and `/cemetery`.
+   and `/cemetery`. *Next.*
 
 ### Step 1 surface (`@publiclogic/golden-path`)
 
