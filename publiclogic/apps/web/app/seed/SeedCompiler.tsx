@@ -127,6 +127,10 @@ export function SeedCompiler() {
         <strong>Attach rule:</strong> everything in the runtime must attach to a Source Profile,
         an Asset, a Document, or a CaseSpace. If it can’t, it isn’t part of the runtime.
       </p>
+
+      <div className="cta-row">
+        <a className="button primary" href="/form">Now open the work (GP-002) →</a>
+      </div>
     </div>
   );
 }

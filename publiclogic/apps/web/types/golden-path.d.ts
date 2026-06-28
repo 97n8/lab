@@ -18,4 +18,26 @@ declare module "@publiclogic/golden-path" {
     document_set: { id: string; folders: { folder: string }[] };
     casespace: { id: string; tabs: string[]; source_profile_id: string };
   };
+
+  export const LOCKED_LANES: string[];
+  export const FORM_FIELDS: {
+    key: string;
+    label: string;
+    kind: string;
+    required?: boolean;
+    grounded?: boolean;
+    placeholder?: string;
+  }[];
+  export function deriveFormDefaults(identity: unknown): Record<string, string>;
+  export function openForm(
+    identity: unknown,
+    answers?: Record<string, string>,
+    opts?: { timestamp?: string }
+  ): {
+    valid: boolean;
+    missing: string[];
+    form_entry: Record<string, unknown>;
+    casespace: Record<string, unknown> & { tabs_content: Record<string, unknown> };
+    prr: { seq: number; at: string | null; event: string; by: string }[];
+  };
 }

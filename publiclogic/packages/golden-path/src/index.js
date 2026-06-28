@@ -8,3 +8,4 @@ export {
   CASESPACE_TABS,
   PIPELINE,
 } from "./compile.js";
+export { openForm, deriveFormDefaults, FORM_FIELDS, LOCKED_LANES } from "./form.js";
