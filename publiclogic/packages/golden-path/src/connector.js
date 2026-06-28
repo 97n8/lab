@@ -249,6 +249,10 @@ export async function emitReceipt({ signal, object, action }, opts = {}) {
     timestamp: opts.timestamp ?? signal.occurredAt ?? null,
     source: signal.source,
     preserved: true,
+    // The receipt carries the evidence behind the decision — self-describing
+    // proof of why it was placed (or why it was held).
+    matchEvidence: action.matchEvidence ?? [],
+    missingEvidence: action.missingEvidence ?? [],
     checksum,
   };
   if (action.caseSpaceId) receipt.caseSpaceId = action.caseSpaceId;

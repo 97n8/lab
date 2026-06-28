@@ -205,10 +205,14 @@ the work a spine.
    Files/Drive surface (an MCP Files HTTP bridge or an official listing endpoint;
    `PJ_FILES_SOURCE_URL` + optional `PJ_FILES_TOKEN`, **no scraping, no committed keys**),
    converts each file into the existing `Signal` shape, and runs it through the connector
-   interface. Every file earns a receipt; a file with no folder/hint to connect it is **held
-   as `needs_review`**, not guessed. The core resolver is untouched (`filesConnector.resolve
-   === resolveCaseSpace`). A `mockFilesPort` makes the whole path testable with no network.
-   10 tests. *Stops at the receipt — no FORM/PRR.*
+   interface. Decision matrix: a file in a folder matching an active CaseSpace **appends**;
+   a **strong** hint (a structured case folder, or a filename that clearly names a case like
+   `KPL Reservation 2026-07-03.pdf`) with no match **opens**; a **weak or absent** hint (a vague
+   filename like `scan 22.pdf`) is **held as `needs_review`**, not guessed. That strong/weak
+   judgement lives in the adapter's normalizer — the core resolver is untouched
+   (`filesConnector.resolve === resolveCaseSpace`) and only ever sees the normalized object.
+   Every receipt carries `matchEvidence` / `missingEvidence`. A `mockFilesPort` makes the whole
+   path testable with no network. 10 tests. *Stops at the receipt — no FORM/PRR.*
 4. **Wire signals to FORM / PRR** so a signal either opens a CaseSpace or appends to
    one — closing the loop into the verified spine already on `/recordstream`, `/muni`,
    and `/cemetery`. *Next.*
