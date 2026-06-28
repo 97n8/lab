@@ -1,0 +1,40 @@
+BEGIN:VCALENDAR
+PRODID:-//Airbnb Inc//Hosting Calendar 0.8.8//EN
+CALSCALE:GREGORIAN
+VERSION:2.0
+BEGIN:VEVENT
+DTEND;VALUE=DATE:20260211
+DTSTART;VALUE=DATE:20260208
+UID:uid-active@airbnb.example
+SUMMARY:Reserved
+DESCRIPTION:Reservation URL: https://www.airbnb.example/hosting/reservation
+ s/details/ACTIVE1\nPhone Number (Last 4 Digits): 0000
+END:VEVENT
+BEGIN:VEVENT
+DTEND;VALUE=DATE:20260214
+DTSTART;VALUE=DATE:20260212
+UID:uid-sda@airbnb.example
+SUMMARY:Reserved
+DESCRIPTION:Reservation URL: https://www.airbnb.example/hosting/reservations/details/SDA1
+END:VEVENT
+BEGIN:VEVENT
+DTEND;VALUE=DATE:20260218
+DTSTART;VALUE=DATE:20260214
+UID:uid-sdb@airbnb.example
+SUMMARY:Reserved
+DESCRIPTION:Reservation URL: https://www.airbnb.example/hosting/reservations/details/SDB1
+END:VEVENT
+BEGIN:VEVENT
+DTEND;VALUE=DATE:20260224
+DTSTART;VALUE=DATE:20260220
+UID:uid-future@airbnb.example
+SUMMARY:Reserved
+DESCRIPTION:Reservation URL: https://www.airbnb.example/hosting/reservations/details/FUTURE1
+END:VEVENT
+BEGIN:VEVENT
+DTEND;VALUE=DATE:20260228
+DTSTART;VALUE=DATE:20260226
+UID:uid-block@airbnb.example
+SUMMARY:Airbnb (Not available)
+END:VEVENT
+END:VCALENDAR

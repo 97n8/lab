@@ -1,0 +1,11 @@
+{
+  "name": "@publiclogic/golden-path",
+  "private": true,
+  "version": "0.0.0",
+  "description": "GP-001 identity compiler: one seed -> four governed objects (Source Profile, Asset Set, Document Set, Starter CaseSpace).",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node --test"
+  }
+}

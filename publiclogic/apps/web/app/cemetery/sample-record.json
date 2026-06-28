@@ -1,0 +1,34 @@
+{
+  "org": { "name": "Town of Example", "domain": "townofexample.gov" },
+  "record": {
+    "id": "MUNI-CEM-MAPLE-G14-2024",
+    "subject": "Eleanor M. Hartwell",
+    "applicant": "Estate of E. Hartwell",
+    "plot": { "section": "Maple", "plot": "G-14", "deed": "DIR-2024-0414" },
+    "status": "Permanent record",
+    "retention": "Permanent",
+    "owner": "Cemetery Sexton",
+    "opened_at": "2024-04-02T09:00:00Z",
+    "intake": {
+      "problem": "Family has requested an interment in the Maple section. Plot, deed, fees, scheduling, and permit must all be handled and kept as one permanent record.",
+      "desired_outcome": "Plot assigned, deed issued, fees paid, interment scheduled and completed, and the whole record sealed for permanent retention."
+    },
+    "timeline": [
+      { "date": "2024-04-02", "kind": "request", "label": "Burial request received", "file": "Burial Request.pdf" },
+      { "date": "2024-04-03", "kind": "decision", "label": "Plot assigned — Section Maple, Plot G-14" },
+      { "date": "2024-04-04", "kind": "deed", "label": "Deed of Interment Right issued (DIR-2024-0414)", "file": "Deed of Interment Right.pdf" },
+      { "date": "2024-04-05", "kind": "fees", "label": "Interment fees paid", "file": "Payment Receipt.pdf" },
+      { "date": "2024-04-08", "kind": "schedule", "label": "Interment scheduled for April 10" },
+      { "date": "2024-04-08", "kind": "permit", "label": "Burial permit filed", "file": "Burial Permit.pdf" },
+      { "date": "2024-04-10", "kind": "interment", "label": "Interment completed" },
+      { "date": "2024-04-11", "kind": "map", "label": "Section Maple map updated", "file": "Section Maple Map.pdf" }
+    ],
+    "files": [
+      "Burial Request.pdf",
+      "Deed of Interment Right.pdf",
+      "Payment Receipt.pdf",
+      "Burial Permit.pdf",
+      "Section Maple Map.pdf"
+    ]
+  }
+}

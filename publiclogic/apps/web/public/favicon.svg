@@ -1,12 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="720" height="180" viewBox="0 0 720 180">
-  <rect width="720" height="180" fill="#F7F3EA"/>
-  <circle cx="92" cy="90" r="58" fill="#FFFFFF" stroke="#D9E2DE" stroke-width="4"/>
-  <path d="M55 112 C76 130 119 133 146 108 C132 151 75 154 55 112Z" fill="#A9CDD6"/>
-  <path d="M72 98 C76 58 111 42 139 63 C156 76 160 101 142 118 C116 140 73 129 72 98Z" fill="#00453E"/>
-  <path d="M140 83 C166 83 180 92 190 103 C173 113 156 112 140 103Z" fill="#C59B4B"/>
-  <circle cx="121" cy="76" r="6" fill="#FFFFFF"/>
-  <circle cx="122" cy="76" r="3" fill="#142321"/>
-  <text x="180" y="88" font-family="Arial, sans-serif" font-size="56" font-weight="800" fill="#00453E">PublicLogic</text>
-  <line x1="180" y1="110" x2="590" y2="110" stroke="#C59B4B" stroke-width="4" stroke-linecap="round"/>
-  <text x="180" y="140" font-family="Arial, sans-serif" font-size="18" font-weight="800" letter-spacing="2" fill="#142321">SYSTEMS THAT STICK</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#00453E"/>
+  <path d="M20 40 C26 47 40 48 47 39 C43 53 24 54 20 40Z" fill="#A9CDD6"/>
+  <path d="M25 35 C26 22 38 17 47 24 C53 28 54 36 48 42 C40 49 26 45 25 35Z" fill="#F7F3EA"/>
+  <path d="M47 30 C55 30 60 33 63 37 C57 41 51 41 47 37Z" fill="#C59B4B"/>
+  <circle cx="40" cy="28" r="2.6" fill="#142321"/>
 </svg>
