@@ -66,4 +66,30 @@ declare module "@publiclogic/golden-path" {
   export const PUNCH_LABELS: Record<string, string>;
   export function punch(rt: Runtime, p: { type: string; who?: string; at?: string }, opts?: { timestamp?: string }): Runtime;
   export function computeHours(punches: { type: string; at: string | null }[]): number;
+
+  // Canonical Form v1 + Record Receipts
+  export const CANONICAL_FORM_VERSION: string;
+  export function canonicalize(value: unknown): string;
+  export function sha256Hex(text: string): Promise<string>;
+  export function hashCanonical(value: unknown): Promise<string>;
+  export function makeReceipt(object: unknown, meta?: Record<string, unknown>): Promise<Record<string, unknown>>;
+  export function verifyReceipt(object: unknown, receipt: Record<string, unknown> | null): Promise<boolean>;
+
+  // Packet Builder — seal + offline verification
+  export type RecordReceipt = { object: string; canonical_form_version: string; seq: number; object_hash: string };
+  export type PacketItem = { seq: number; record: Record<string, unknown>; receipt: RecordReceipt };
+  export type CaseReceipt = {
+    object: string;
+    canonical_form_version: string;
+    casespace: Record<string, unknown>;
+    record_count: number;
+    merkle_root: string;
+    receipt_hash: string;
+    [k: string]: unknown;
+  };
+  export type Packet = { object: string; canonical_form_version: string; case_receipt: CaseReceipt; items: PacketItem[] };
+  export type Verdict = { ok: boolean; failures: string[]; merkle_root?: string };
+  export function merkleRoot(objectHashes: string[]): Promise<string>;
+  export function buildPacket(caseRef: Record<string, unknown>, records: unknown[], meta?: Record<string, unknown>): Promise<Packet>;
+  export function verifyPacket(packet: Packet | null): Promise<Verdict>;
 }

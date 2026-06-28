@@ -633,6 +633,28 @@ h2 { font-size: clamp(2.2rem, 6vw, 4rem); }
 
 @media (max-width: 850px) { .rs-grid { grid-template-columns: 1fr; } }
 
+/* ---------- Seal & verify ---------- */
+.seal-panel { margin-top: 1.25rem; border-top: 3px solid var(--line); }
+.seal-panel.seal-ok { border-top-color: var(--green); }
+.seal-panel.seal-fail { border-top-color: #97331f; }
+.seal-body { margin-top: .85rem; display: grid; gap: 1rem; }
+.seal-line { margin: 0; color: var(--ink); }
+.seal-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: .85rem; margin: 0; }
+.seal-grid > div { background: #fbfaf6; border: 1px solid var(--line); border-radius: 12px; padding: .7rem .85rem; }
+.seal-grid dt { color: var(--muted); font-size: .72rem; text-transform: uppercase; letter-spacing: .05em; margin: 0 0 .3rem; }
+.seal-grid dd { margin: 0; color: var(--ink); font-weight: 700; font-size: .95rem; }
+.seal-grid code { font-size: .82rem; color: var(--green); }
+.seal-verdict { margin: 0; border-radius: 12px; padding: .9rem 1.1rem; }
+.seal-verdict.ok { background: rgba(0,69,62,.06); border: 1px solid rgba(0,69,62,.25); color: var(--ink); }
+.seal-verdict.ok strong { color: var(--green); }
+.seal-verdict.fail { background: rgba(151,51,31,.06); border: 1px solid rgba(151,51,31,.3); color: var(--ink); }
+.seal-verdict.fail strong { color: #97331f; }
+.seal-verdict.fail p { margin: 0 0 .5rem; }
+.seal-failed-item { font-weight: 600; }
+.seal-failed-event { color: #97331f; font-style: italic; }
+.seal-failures { margin: .5rem 0 0; padding-left: 1.1rem; color: #97331f; font-size: .85rem; font-family: ui-monospace, monospace; }
+@media (max-width: 850px) { .seal-grid { grid-template-columns: repeat(2, minmax(0,1fr)); } }
+
 /* ---------- BIZ · Living Job Folder ---------- */
 .today-strip { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 1rem; margin-top: .75rem; }
 .today-job { background: #fbfaf6; border: 1px solid var(--line); border-radius: 16px; padding: 1rem 1.15rem; display: grid; gap: .25rem; }

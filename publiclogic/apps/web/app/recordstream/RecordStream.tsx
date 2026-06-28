@@ -4,7 +4,8 @@ import { useMemo, useState } from "react";
 import {
   compileSeed, openRuntime,
   requestEvidence, provideEvidence, logDecision, runCAL, runPRM,
-  type Runtime,
+  buildPacket, verifyPacket,
+  type Runtime, type Packet, type Verdict,
 } from "@publiclogic/golden-path";
 
 const EVIDENCE_ITEMS = ["Vendor invoice", "Before/after photos", "Cleaner sign-off", "Damage receipt"];
@@ -31,11 +32,52 @@ export function RecordStream() {
   const [evIdx, setEvIdx] = useState(0);
   const [dcIdx, setDcIdx] = useState(0);
 
+  // Seal state: null = unsealed; otherwise a sealed packet + its current verdict.
+  const [packet, setPacket] = useState<Packet | null>(null);
+  const [verdict, setVerdict] = useState<Verdict | null>(null);
+  const [tampered, setTampered] = useState(false);
+
   const outstanding = rt.evidence.find((e) => e.status === "requested");
   const lastPrm = [...rt.checks].reverse().find((c) => c.object === "PRM");
   const cs = rt.casespace as Record<string, unknown>;
 
-  const act = (fn: () => Runtime) => setRt(fn());
+  // Once sealed, new events would invalidate the seal — so we lock the stream.
+  const sealed = packet !== null;
+  const act = (fn: () => Runtime) => { if (!sealed) setRt(fn()); };
+
+  async function seal() {
+    const caseRef = { id: cs.id, lane: cs.lane, owner: cs.owner };
+    const p = await buildPacket(caseRef, rt.prr, { closed_at: nowIso(), closed_by: String(cs.owner ?? "owner") });
+    setPacket(p);
+    setVerdict(await verifyPacket(p));
+    setTampered(false);
+  }
+
+  // Tamper OUTSIDE the database: edit a sealed record's bytes, re-verify.
+  async function tamper() {
+    if (!packet) return;
+    const target = Math.min(3, packet.items.length - 1); // record #004 if present
+    const next: Packet = {
+      ...packet,
+      items: packet.items.map((it, i) =>
+        i === target ? { ...it, record: { ...it.record, event: it.record.event + " (edited)" } } : it,
+      ),
+    };
+    setPacket(next);
+    setVerdict(await verifyPacket(next));
+    setTampered(true);
+  }
+
+  function reset() {
+    setPacket(null);
+    setVerdict(null);
+    setTampered(false);
+  }
+
+  const failedItem = packet && verdict && !verdict.ok
+    ? packet.items.find((it) => verdict.failures.some((f) => f.includes(`seq ${it.seq}`)))
+    : undefined;
+  const shortRoot = (h?: string) => (h ? h.slice(0, 16) + "…" + h.slice(-8) : "—");
 
   return (
     <div className="seed-wrap">
@@ -49,25 +91,77 @@ export function RecordStream() {
           · Lane {String(cs.lane)} · Owner {String(cs.owner)} · {String(cs.status)}
         </p>
         <div className="rs-actions">
-          <button className="button secondary" onClick={() => { act(() => requestEvidence(rt, { item: EVIDENCE_ITEMS[evIdx % EVIDENCE_ITEMS.length], owner: "Nate" }, { timestamp: nowIso() })); setEvIdx((i) => i + 1); }}>
+          <button className="button secondary" disabled={sealed} onClick={() => { act(() => requestEvidence(rt, { item: EVIDENCE_ITEMS[evIdx % EVIDENCE_ITEMS.length], owner: "Nate" }, { timestamp: nowIso() })); setEvIdx((i) => i + 1); }}>
             Request evidence
           </button>
-          <button className="button secondary" disabled={!outstanding} onClick={() => outstanding && act(() => provideEvidence(rt, { evidenceId: outstanding.id, by: "vendor" }, { timestamp: nowIso() }))}>
+          <button className="button secondary" disabled={sealed || !outstanding} onClick={() => outstanding && act(() => provideEvidence(rt, { evidenceId: outstanding.id, by: "vendor" }, { timestamp: nowIso() }))}>
             Provide latest evidence
           </button>
-          <button className="button secondary" onClick={() => { act(() => logDecision(rt, { decision: DECISIONS[dcIdx % DECISIONS.length], by: "Nate" }, { timestamp: nowIso() })); setDcIdx((i) => i + 1); }}>
+          <button className="button secondary" disabled={sealed} onClick={() => { act(() => logDecision(rt, { decision: DECISIONS[dcIdx % DECISIONS.length], by: "Nate" }, { timestamp: nowIso() })); setDcIdx((i) => i + 1); }}>
             Log decision
           </button>
-          <button className="button secondary" onClick={() => act(() => runCAL(rt, { action: "advance", actor: "owner", allowed: true }, { timestamp: nowIso() }))}>
+          <button className="button secondary" disabled={sealed} onClick={() => act(() => runCAL(rt, { action: "advance", actor: "owner", allowed: true }, { timestamp: nowIso() }))}>
             CAL · owner advances
           </button>
-          <button className="button secondary" onClick={() => act(() => runCAL(rt, { action: "advance", actor: "guest", allowed: false, reason: "guests can’t advance the case" }, { timestamp: nowIso() }))}>
+          <button className="button secondary" disabled={sealed} onClick={() => act(() => runCAL(rt, { action: "advance", actor: "guest", allowed: false, reason: "guests can’t advance the case" }, { timestamp: nowIso() }))}>
             CAL · guest tries
           </button>
-          <button className="button primary" onClick={() => act(() => runPRM(rt, { milestone: "closeout" }, { timestamp: nowIso() }))}>
+          <button className="button primary" disabled={sealed} onClick={() => act(() => runPRM(rt, { milestone: "closeout" }, { timestamp: nowIso() }))}>
             PRM check
           </button>
         </div>
+      </div>
+
+      {/* The seal — proof made visible. Unsealed → Sealed → Verification Failed. */}
+      <div className={`panel seal-panel${sealed ? (verdict?.ok ? " seal-ok" : " seal-fail") : ""}`}>
+        <div className="section-head">
+          <h3>Seal &amp; verify</h3>
+          <span className="pill-soft">
+            {!sealed ? "Unsealed" : verdict?.ok ? "Sealed · verified" : "Verification failed"}
+          </span>
+        </div>
+
+        {!sealed && (
+          <div className="seal-body">
+            <p className="seal-line"><strong>{rt.prr.length} events captured.</strong> The recordstream is open and still accumulating. Seal it to commit a CaseReceipt and an offline-verifiable packet.</p>
+            <button className="button primary" onClick={seal}>Seal recordstream</button>
+          </div>
+        )}
+
+        {sealed && (
+          <div className="seal-body">
+            <dl className="seal-grid">
+              <div><dt>Events sealed</dt><dd>{packet!.case_receipt.record_count}</dd></div>
+              <div><dt>CaseReceipt</dt><dd>{packet!.case_receipt.object === "CASE_RECEIPT" ? "committed" : "—"}</dd></div>
+              <div><dt>Merkle root</dt><dd><code>{shortRoot(packet!.case_receipt.merkle_root)}</code></dd></div>
+              <div><dt>Canonical form</dt><dd><code>{packet!.canonical_form_version}</code></dd></div>
+            </dl>
+
+            {verdict?.ok ? (
+              <p className="seal-verdict ok">
+                <strong>Offline packet verified.</strong> Every record matches its sealed receipt and the Merkle root is intact — no PublicLogic server in the loop.
+              </p>
+            ) : (
+              <div className="seal-verdict fail">
+                <p><strong>Verification failed.</strong> {tampered ? "A record was edited after sealing." : "The packet does not match its CaseReceipt."}</p>
+                {failedItem && (
+                  <p className="seal-failed-item">
+                    Record #{String(failedItem.seq).padStart(3, "0")} no longer matches its sealed receipt —{" "}
+                    <span className="seal-failed-event">“{String(failedItem.record.event)}”</span>
+                  </p>
+                )}
+                <ul className="seal-failures">{verdict?.failures.map((f) => <li key={f}>{f}</li>)}</ul>
+              </div>
+            )}
+
+            <div className="rs-actions">
+              {!tampered && verdict?.ok && (
+                <button className="button secondary" onClick={tamper}>Tamper with record #004</button>
+              )}
+              <button className="button secondary" onClick={reset}>Reset</button>
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="rs-grid">
