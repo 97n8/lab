@@ -7,6 +7,7 @@ const links = [
   { href: "/vault", label: "VAULT" },
   { href: "/stay", label: "STAY" },
   { href: "/muni", label: "MUNI" },
+  { href: "/cemetery", label: "Records" },
   { href: "/contact", label: "Contact" },
 ];
 

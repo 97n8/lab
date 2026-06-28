@@ -723,6 +723,36 @@ h2 { font-size: clamp(2.2rem, 6vw, 4rem); }
   .muni-switch { flex-direction: column; }
 }
 
+/* ---------- Cemetery · the record is the service ---------- */
+.cem-record { padding: 0; overflow: hidden; }
+.cem-tabs { display: flex; flex-wrap: wrap; gap: .25rem; background: var(--green); padding: .6rem .9rem; }
+.cem-head { display: flex; justify-content: space-between; gap: 1.25rem; flex-wrap: wrap; padding: 1.4rem 1.6rem 1rem; border-bottom: 1px solid var(--line); }
+.cem-head h3 { margin: 0; color: var(--ink); }
+.cem-head p { margin: .1rem 0 .4rem; color: var(--muted); }
+.cem-retention { background: #fbfaf6; border: 1px solid var(--line); border-radius: 12px; padding: .7rem 1rem; display: grid; gap: .1rem; align-content: start; min-width: 170px; }
+.cem-retention-label { color: var(--muted); font-size: .7rem; text-transform: uppercase; letter-spacing: .05em; font-weight: 800; }
+.cem-retention-val { color: #7a5a14; font-weight: 800; font-size: 1.05rem; }
+.cem-retention-note { color: var(--muted); font-size: .8rem; font-style: italic; }
+
+.cem-body { display: grid; grid-template-columns: 2fr 1fr; gap: 1.6rem; padding: 1.3rem 1.6rem; }
+.cem-body h4 { margin: 0 0 .9rem; color: var(--green); font-size: .9rem; }
+.cem-timeline { list-style: none; margin: 0; padding: 0; position: relative; }
+.cem-timeline::before { content: ""; position: absolute; left: 13px; top: 6px; bottom: 6px; width: 2px; background: var(--line); }
+.cem-event { display: flex; gap: .9rem; padding-bottom: 1.1rem; position: relative; }
+.cem-event:last-child { padding-bottom: 0; }
+.cem-dot { width: 28px; height: 28px; flex: none; border-radius: 50%; background: #fff; border: 2px solid var(--green); color: var(--green); display: grid; place-items: center; font-size: .8rem; font-weight: 800; z-index: 1; }
+.cem-event-body { display: grid; gap: .15rem; }
+.cem-event-date { color: var(--muted); font-size: .76rem; text-transform: uppercase; letter-spacing: .04em; font-variant-numeric: tabular-nums; }
+.cem-event-label { color: var(--ink); font-weight: 600; }
+.cem-event-file { color: #b03a2e; font-size: .82rem; }
+.cem-files { border-left: 1px solid var(--line); padding-left: 1.4rem; }
+.cem-owner { margin: 1rem 0 0; color: var(--muted); font-size: .88rem; }
+.cem-owner strong { color: var(--ink); }
+@media (max-width: 850px) {
+  .cem-body { grid-template-columns: 1fr; }
+  .cem-files { border-left: none; padding-left: 0; border-top: 1px solid var(--line); padding-top: 1rem; }
+}
+
 /* ---------- BIZ · Living Job Folder ---------- */
 .today-strip { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 1rem; margin-top: .75rem; }
 .today-job { background: #fbfaf6; border: 1px solid var(--line); border-radius: 16px; padding: 1rem 1.15rem; display: grid; gap: .25rem; }
