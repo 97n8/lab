@@ -1,4 +1,4 @@
-# PUBLICLOGIC_CANON.md — Series 1, **V1.4 (… + Verifiable Record)**
+# PUBLICLOGIC_CANON.md — Series 1, **V1.5 (… + GTM roadmap & live pilots)**
 
 The PuddleJumper Product Ecosystem — Build Reference
 
@@ -30,6 +30,9 @@ Companion to the Series 1 Final Workbook (v2) — the control system. This is th
 >
 > ### Addendum (V1.3 → V1.4 — Verifiable Record, no-custody trust)
 > 14. **Verifiable Record doctrine** added to §1 (decisions D-009…D-013). Immutability is redefined as **tamper-evidence across custody boundaries** (alteration is exposed, not custody-prevented) — the Bookend Repository guarantee is updated accordingly. Adds **Record Receipt vs closing CaseReceipt** (object integrity vs set completeness), **Canonical Form v1** (deterministic bytes; build blocker before signatures), **offline verification as the invariant**, **separated keys** (runtime/org/closure; dual attestation default for MUNI/PROJECT) **+ trust anchors**, and **ARCHIEVE = a manifest-backed verifiable bundle**, not a PDF. The Golden Path is renumbered GP-001→014 (Canonical Object + Record Receipt inserted before FORM; CaseReceipt + Trust Anchor at the seal).
+>
+> ### Addendum (V1.4 → V1.5 — GTM roadmap, positioning & live pilots)
+> 15. **Go-to-market roadmap reconciled** from the strategy one-pager into new **§24**. Positioning sharpened to *"the governance-aware continuity layer for real work — don't replace your stack, give it a spine"* (consonant with, not replacing, the canon thesis **Proof is the product**). Adds **The Moat** (traceable intake → living case record → decisions & artifacts captured → immutable closeout), **How PJ Works** as the five-step customer view (Intake → CaseSpace → Events → Close → Continuity) mapped to the ten-step enforcement spine, **three live pilots** (Small Contractor `/job` · Town HR `/muni` · Cemetery Records `/cemetery`), the **90-day focus**, and the build-status ledger of what is now shipped (verified spine: Canonical Form v1, Record Receipt, Packet/CaseReceipt, offline verification, tamper demo) vs proposed (MCP signal intake, see `docs/architecture/SIGNAL_INTAKE_MCP.md`). No doctrine changed; this is the GTM/build layer. Benchmarks are flagged *representative*, not guaranteed.
 
 ---
 
@@ -779,6 +782,72 @@ The first clickable loop must prove: Path Sheet Entry → CaseSpace seed → sta
 PublicLogic is a governed work library: ready-to-run CaseSpace templates for rule-bound operational work, backed by stewardship. Every door — path sheet, permits, grants, property, policy — opens into the same system. **FORM** captures the signal, **CaseSpace** owns the work and surfaces the launchers, **CAL** clears the action, **Manifest/PRM** checks the state, **PRR** records the change (append-only), and **ARCHIEVE** seals each closing case into its parent as rollup proof — with **VAULT** the doctrine that proves authority and evidence over that record, enforced by CAL gates and the append-only audit stream, never a stage in the line.
 
 We don't replace your tools. We turn them into a command center — and the proof of what happened outlives whoever was running it.
+
+---
+
+## 24. Go-to-market roadmap & live pilots *(V1.5, reconciled from the strategy one-pager)*
+
+This section is the **GTM/build layer** — how PJ is positioned and sold, and which proofs are shipped. It does not change doctrine (§1) or the runtime line (§1, §23); it sits on top of them. Where the poster's customer-facing language and canon's doctrine language differ, **both are correct at their altitude**: the poster is what a buyer hears; §1 is what the runtime guarantees.
+
+### Positioning
+
+- **One-liner:** PuddleJumper — *the governance-aware continuity layer for real work.*
+- **Wedge line:** *Don't replace your stack. Give it a spine.*
+- **Promise:** *One time-stamped record from intake to exit — fast enough for everyday work, defensible enough for audits, turnover, and retention.*
+- **Thesis (unchanged):** **Proof is the product.** The continuity-layer framing is the *approach*; proof is the *product*.
+
+### The Moat (customer-facing)
+
+Traceable intake → Living case record → Decisions & artifacts captured → Immutable closeout.
+Wins it buys: **fewer re-entries · faster closeout · cleaner audits · less institutional amnesia.**
+
+### How PJ Works — five steps (customer view) ↔ the spine
+
+| # | Customer step | Maps to (enforcement spine, §1/§23) |
+|---|---|---|
+| 1 | **Intake** — form, email, calendar | Signal → FORM (GP-004) |
+| 2 | **CaseSpace** — one record opens | CaseSpace opens; identity grounded (GP-001) |
+| 3 | **Events** — time, notes, files, approvals | PRR append-only recordstream (GP-006) + Evidence/CAL/PRM |
+| 4 | **Close** — freeze, export, archive | Packet + closing CaseReceipt → ARCHIEVE seal (GP-013/014) |
+| 5 | **Continuity** — survives turnover | Offline-verifiable record; rollup into the parent |
+
+*Every intake becomes a case. Every change becomes an event. Every close becomes an immutable packet.*
+
+### Three live pilots (built on the verified spine)
+
+| Pilot | Lane | Demo | Pitch | Representative benchmark |
+|---|---|---|---|---|
+| **Small Contractor** | BIZ | `/job` | Hours, materials, photos, and decisions in one job record — payroll- and invoice-ready without Friday-night reconstruction. | ~$10K/yr + 4 hrs/mo saved |
+| **Town HR** | MUNI | `/muni` | One governed employee case from accepted offer to exit, coordinated across HR, payroll, IT, supervisor. | ~35% time savings |
+| **Cemetery Records** | MUNI | `/cemetery` | Burial request, deed, fees, scheduling, and permit on one timeline — *the record itself is the service*, kept permanently. | Permanent retention |
+
+Benchmarks are **representative**, not guaranteed. All three demos drive the same `@publiclogic/golden-path` runtime and seal + verify offline in the browser (tamper fails verification with a hash mismatch).
+
+### Why it wins
+
+Simple enough for a tiny shop · rigorous enough for town hall · turns everyday work into a trustworthy record.
+
+### Proof points (bottom strip)
+
+Time-stamped every step · provenance for every change · immutable closeout · exportable anytime · built for audits, retention, and trust.
+
+### Recommended 90-day focus
+
+- **Days 1–30** — Positioning reset; homepage + vertical pages; clickable proof demos. *(Done: homepage aligned; `/job`, `/muni`, `/cemetery` live.)*
+- **Days 31–60** — Calendar/email + QuickBooks/payroll connectors; export pack; contractor + town pilots. *(Connector design: `docs/architecture/SIGNAL_INTAKE_MCP.md`.)*
+- **Days 61–90** — Publish pilot proof; add offboarding + cemetery templates; A/B-test headlines.
+
+### Build status ledger
+
+| Capability | Status |
+|---|---|
+| Canonical Form v1 (deterministic bytes) | **Shipped** — `golden-path/canonical.js`, adversarial tests |
+| Record Receipt (object integrity + provenance) | **Shipped** — `makeReceipt`/`verifyReceipt` |
+| Packet + closing CaseReceipt (Merkle root) | **Shipped** — `golden-path/packet.js`, frozen/immutable |
+| Offline verification + tamper demo | **Shipped** — `/recordstream`, `/muni`, `/cemetery` |
+| FORM into the verified spine (GP-002) | **Shipped** — `submitForm`, canonical FORM + receipt |
+| Signal intake via MCP (tool-agnostic connectors) | **Proposed** — design doc; KPL iCal is the one real adapter |
+| Keys / org / closure signatures + trust anchors | **Proposed** — doctrine ratified (§1, V1.4); not yet built |
 
 ---
 
