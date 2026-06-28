@@ -660,7 +660,15 @@ h2 { font-size: clamp(2.2rem, 6vw, 4rem); }
 .seal-verdict.fail p { margin: 0 0 .5rem; }
 .seal-failed-item { font-weight: 600; }
 .seal-failed-event { color: #97331f; font-style: italic; }
-.seal-failures { margin: .5rem 0 0; padding-left: 1.1rem; color: #97331f; font-size: .85rem; font-family: ui-monospace, monospace; }
+.seal-detail-label { margin: .65rem 0 .15rem; color: #97331f; font-weight: 700; font-size: .82rem; }
+.seal-failures { margin: 0; padding-left: 1.1rem; color: #97331f; font-size: .85rem; font-family: ui-monospace, monospace; }
+.seal-proof { margin: .85rem 0 0; display: grid; gap: .5rem; border-top: 1px dashed rgba(151,51,31,.3); padding-top: .75rem; }
+.seal-proof > div { display: grid; gap: .2rem; }
+.seal-proof dt { color: var(--muted); font-size: .72rem; text-transform: uppercase; letter-spacing: .04em; }
+.seal-proof dd { margin: 0; }
+.seal-proof code { font-size: .72rem; word-break: break-all; color: var(--green); }
+.seal-proof code.hash-bad { color: #97331f; }
+.seal-proof-note { margin: .15rem 0 0; color: var(--ink); font-size: .82rem; }
 @media (max-width: 850px) { .seal-grid { grid-template-columns: repeat(2, minmax(0,1fr)); } }
 
 /* ---------- BIZ · Living Job Folder ---------- */

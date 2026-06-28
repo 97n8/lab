@@ -1,14 +1,16 @@
 // Packet Builder prototype — proves the seal exposes both alteration and
 // omission, offline, with placeholder data. If this holds with messy ordered
 // records, the verifiable-record plan's spine is de-risked.
+//
+// A sealed packet is deep-frozen, so a "tamper" can't edit it in place — it must
+// produce a NEW packet, which verification then re-derives from bytes and
+// rejects. That's the point: the packet catches alteration, not the editor.
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { buildPacket, verifyPacket, merkleRoot } from "../src/packet.js";
+import { hashCanonical } from "../src/canonical.js";
 
-// Placeholder closed-CaseSpace stream (shape mirrors a PRR: ordered, frozen-ish).
-// Each test takes a fresh clone — buildPacket holds references to the records,
-// so cloning keeps tampering in one test from leaking into the next.
 const CASE_REF = { id: "cs_demo_1", lane: "BIZ", owner: "kim" };
 const META = { closed_at: "2026-06-28T16:05:00Z", closed_by: "kim" };
 const records = () => [
@@ -18,6 +20,14 @@ const records = () => [
   { seq: 4, kind: "DECISION", event: "change order approved", by: "client", at: "2026-06-28T11:00:00Z" },
   { seq: 5, kind: "TIME", event: "End Day", by: "kim", at: "2026-06-28T16:00:00Z" },
 ];
+
+// An attacker can't edit the sealed packet in place; they hand over a new one.
+function tamperRecord(packet, idx, patch) {
+  return {
+    ...packet,
+    items: packet.items.map((it, i) => (i === idx ? { ...it, record: { ...it.record, ...patch } } : it)),
+  };
+}
 
 test("a freshly built packet verifies clean", async () => {
   const packet = await buildPacket(CASE_REF, records(), META);
@@ -34,13 +44,44 @@ test("the build is deterministic — same inputs, same root", async () => {
   assert.equal(a.case_receipt.receipt_hash, b.case_receipt.receipt_hash);
 });
 
+// ---- Immutability / independence of the seal --------------------------------
+
+test("a sealed packet is deep-frozen — in-place edits throw", async () => {
+  const packet = await buildPacket(CASE_REF, records(), META);
+  assert.ok(Object.isFrozen(packet));
+  assert.ok(Object.isFrozen(packet.items));
+  assert.ok(Object.isFrozen(packet.items[3].record));
+  assert.ok(Object.isFrozen(packet.case_receipt));
+  assert.throws(() => { packet.items[3].record.by = "kim"; }, TypeError);
+});
+
+test("editing the caller's records AFTER sealing does not change the packet", async () => {
+  const src = records();
+  const packet = await buildPacket(CASE_REF, src, META);
+  const sealedHash = packet.items[3].receipt.object_hash;
+  src[3].by = "kim"; // mutate the original after the seal
+  assert.equal(packet.items[3].record.by, "client"); // packet kept its snapshot
+  assert.equal(packet.items[3].receipt.object_hash, sealedHash);
+  assert.equal((await verifyPacket(packet)).ok, true);
+});
+
+// ---- Alteration -------------------------------------------------------------
+
 test("ALTERATION: editing a record after sealing fails verification", async () => {
   const packet = await buildPacket(CASE_REF, records(), META);
-  // Tamper: change the change-order from approved to a different actor.
-  packet.items[3].record.by = "kim";
-  const verdict = await verifyPacket(packet);
+  const tampered = tamperRecord(packet, 3, { by: "kim" });
+  const verdict = await verifyPacket(tampered);
   assert.equal(verdict.ok, false);
-  assert.ok(verdict.failures.some((f) => /seq 4 altered/.test(f)));
+  assert.ok(verdict.failures.some((f) => /seq 4 altered \(hash mismatch\)/.test(f)));
+});
+
+test("the packet — not the editor — catches it: re-derived hash != sealed receipt", async () => {
+  const packet = await buildPacket(CASE_REF, records(), META);
+  const tampered = tamperRecord(packet, 3, { by: "kim" });
+  const sealed = packet.items[3].receipt.object_hash;
+  const recomputed = await hashCanonical(tampered.items[3].record);
+  assert.notEqual(recomputed, sealed); // the proof is a hash mismatch, not a UI diff
+  assert.equal((await verifyPacket(tampered)).ok, false);
 });
 
 test("ALTERATION is caught even if the attacker fixes the inner receipt hash", async () => {
@@ -48,49 +89,59 @@ test("ALTERATION is caught even if the attacker fixes the inner receipt hash", a
   // Smarter tamper: change the record AND recompute its receipt hash so the
   // per-record check passes — the Merkle root (committed in the CaseReceipt)
   // still exposes it.
-  const { hashCanonical } = await import("../src/canonical.js");
-  packet.items[3].record.by = "kim";
-  packet.items[3].receipt.object_hash = await hashCanonical(packet.items[3].record);
-  const verdict = await verifyPacket(packet);
+  const newRecord = { ...packet.items[3].record, by: "kim" };
+  const tampered = {
+    ...packet,
+    items: packet.items.map((it, i) =>
+      i === 3 ? { ...it, record: newRecord, receipt: { ...it.receipt } } : it,
+    ),
+  };
+  tampered.items[3].receipt.object_hash = await hashCanonical(newRecord);
+  const verdict = await verifyPacket(tampered);
   assert.equal(verdict.ok, false);
   assert.ok(verdict.failures.some((f) => /merkle_root mismatch/.test(f)));
 });
 
+// ---- Omission ---------------------------------------------------------------
+
 test("OMISSION: dropping a record is exposed by count + root", async () => {
   const packet = await buildPacket(CASE_REF, records(), META);
-  packet.items.splice(3, 1); // silently remove the change-order approval
-  const verdict = await verifyPacket(packet);
+  const tampered = { ...packet, items: packet.items.filter((_, i) => i !== 3) };
+  const verdict = await verifyPacket(tampered);
   assert.equal(verdict.ok, false);
   assert.ok(verdict.failures.some((f) => /omission|merkle_root mismatch/.test(f)));
 });
 
 test("OMISSION hidden by also editing the count is still caught by the root", async () => {
   const packet = await buildPacket(CASE_REF, records(), META);
-  packet.items.splice(3, 1);
-  // Re-seq and fix the count to hide the gap; root + caseReceipt self-hash catch it.
-  packet.items.forEach((it, i) => (it.seq = i + 1));
-  packet.case_receipt.record_count = packet.items.length;
-  const verdict = await verifyPacket(packet);
+  const kept = packet.items.filter((_, i) => i !== 3).map((it, i) => ({ ...it, seq: i + 1 }));
+  const tampered = {
+    ...packet,
+    items: kept,
+    case_receipt: { ...packet.case_receipt, record_count: kept.length },
+  };
+  const verdict = await verifyPacket(tampered);
   assert.equal(verdict.ok, false);
   assert.ok(verdict.failures.some((f) => /merkle_root mismatch/.test(f)));
 });
 
 test("REORDER: swapping two records is exposed", async () => {
   const packet = await buildPacket(CASE_REF, records(), META);
-  const tmp = packet.items[1];
-  packet.items[1] = packet.items[2];
-  packet.items[2] = tmp;
-  const verdict = await verifyPacket(packet);
+  const items = [...packet.items];
+  [items[1], items[2]] = [items[2], items[1]];
+  const verdict = await verifyPacket({ ...packet, items });
   assert.equal(verdict.ok, false);
 });
 
 test("CASE RECEIPT TAMPER: editing closing metadata fails the self-hash", async () => {
   const packet = await buildPacket(CASE_REF, records(), META);
-  packet.case_receipt.closed_by = "someone_else";
-  const verdict = await verifyPacket(packet);
+  const tampered = { ...packet, case_receipt: { ...packet.case_receipt, closed_by: "someone_else" } };
+  const verdict = await verifyPacket(tampered);
   assert.equal(verdict.ok, false);
   assert.ok(verdict.failures.some((f) => /case_receipt metadata altered/.test(f)));
 });
+
+// ---- Edges ------------------------------------------------------------------
 
 test("an empty CaseSpace still seals and verifies", async () => {
   const packet = await buildPacket(CASE_REF, [], META);

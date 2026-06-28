@@ -17,6 +17,21 @@ const RECORD_RECEIPT = "RECORD_RECEIPT";
 const CASE_RECEIPT = "CASE_RECEIPT";
 const PACKET = "PACKET";
 
+// A sealed packet must be immutable and independent of the caller's objects:
+// the receipt was computed over a *snapshot*, so later edits to the caller's
+// records (or to the packet) can't silently change what was sealed.
+function clone(v) {
+  if (typeof globalThis.structuredClone === "function") return globalThis.structuredClone(v);
+  return JSON.parse(JSON.stringify(v));
+}
+function deepFreeze(v) {
+  if (v && typeof v === "object") {
+    for (const k of Object.keys(v)) deepFreeze(v[k]);
+    Object.freeze(v);
+  }
+  return v;
+}
+
 // Merkle leaf is domain-separated from internal nodes so a leaf hash can never
 // be reinterpreted as an interior node (second-preimage hardening).
 async function leafHash(objectHash) {
@@ -49,16 +64,21 @@ export async function merkleRoot(objectHashes) {
  */
 export async function buildPacket(caseRef, records, meta = {}) {
   const items = await Promise.all(
-    records.map(async (record, i) => ({
-      seq: i + 1,
-      record,
-      receipt: {
-        object: RECORD_RECEIPT,
-        canonical_form_version: CANONICAL_FORM_VERSION,
+    records.map(async (record, i) => {
+      // Snapshot the record so the receipt commits to bytes the caller can no
+      // longer reach and mutate. hashCanonical(snap) === hashCanonical(record).
+      const snap = clone(record);
+      return {
         seq: i + 1,
-        object_hash: await hashCanonical(record),
-      },
-    })),
+        record: snap,
+        receipt: {
+          object: RECORD_RECEIPT,
+          canonical_form_version: CANONICAL_FORM_VERSION,
+          seq: i + 1,
+          object_hash: await hashCanonical(snap),
+        },
+      };
+    }),
   );
 
   const root = await merkleRoot(items.map((it) => it.receipt.object_hash));
@@ -66,7 +86,7 @@ export async function buildPacket(caseRef, records, meta = {}) {
   const caseReceipt = {
     object: CASE_RECEIPT,
     canonical_form_version: CANONICAL_FORM_VERSION,
-    casespace: caseRef,
+    casespace: clone(caseRef),
     record_count: items.length,
     merkle_root: root,
     ...meta,
@@ -74,12 +94,14 @@ export async function buildPacket(caseRef, records, meta = {}) {
   // The CaseReceipt commits to itself too, so its own metadata can't be edited.
   caseReceipt.receipt_hash = await hashCanonical({ ...caseReceipt, receipt_hash: undefined });
 
-  return {
+  // Freeze the whole sealed packet: in-place edits throw, so a "tamper" must
+  // produce a *new* packet that verification then re-derives and rejects.
+  return deepFreeze({
     object: PACKET,
     canonical_form_version: CANONICAL_FORM_VERSION,
     case_receipt: caseReceipt,
     items,
-  };
+  });
 }
 
 /**
