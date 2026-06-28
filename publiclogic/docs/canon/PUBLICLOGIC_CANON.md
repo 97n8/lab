@@ -849,7 +849,7 @@ Time-stamped every step · provenance for every change · immutable closeout · 
 | Signal object + signal Record Receipt (intake core) | **Shipped** — `golden-path/signal.js`; canonical, content-addressed, provenance-committed, 20 tests |
 | Connector interface (`receive → normalize → resolve → receipt`) | **Shipped** — `golden-path/connector.js`; source-agnostic resolver + receipt (checksum from Canonical Form v1), 3 sample connectors, 14 tests |
 | Human review resolution loop (held signals + linked second receipt) | **Shipped** — `golden-path/review.js`; decision carries confidence + match/missing evidence; `needs_review` preserves a ReviewItem; human resolve emits a `priorReceiptId`-linked receipt; no silent overwrite, 9 tests |
-| PJ file-surface connector (Files/Drive, env-config) | **Shipped** — product-side in `@publiclogic/pj` (`src/connectors/files`); env-only `FilesPort`, official endpoint (no scraping/keys), strong-vs-weak hint, holds weak/no-hint as `needs_review`, core resolver untouched, 10 tests |
+| PJ FileSurfaceConnector (vendor-neutral; Google Drive = one Source) | **Shipped** — product-side in `@publiclogic/pj` (`src/connectors/files`); one connector + swappable env-config Sources, evidence matrix (append/open/weak→hold/none→hold), no scraping/keys, core resolver untouched, 11 tests |
 | Signal → FORM/PRR wiring (open/append a CaseSpace) | **Proposed** — Step 4; closes the intake→record→seal loop |
 | Keys / org / closure signatures + trust anchors | **Proposed** — doctrine ratified (§1, V1.4); not yet built |
 
