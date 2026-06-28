@@ -29,3 +29,4 @@ export {
   makeReceipt,
   verifyReceipt,
 } from "./canonical.js";
+export { buildPacket, verifyPacket, merkleRoot } from "./packet.js";
