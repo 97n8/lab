@@ -1,13 +1,18 @@
-// The Files connector — source-specific edges only (receive, normalize). resolve
-// and receipt come from the golden-path core, untouched. A raw file record from a
-// Files/Drive surface becomes a canonical Signal, then a PJObject; the core then
-// decides where it goes and proves it. No vendor logic past normalize().
+// PJ · file-surface connector (product-side).
 //
-// The hint-strength judgement lives HERE (it is file/Drive-specific), never in the
-// core resolver. The doctrine it encodes: a strong hint (a structured case folder,
-// or a filename that clearly names a case) is worth opening a CaseSpace for; a
-// weak or absent hint is NOT — PJ preserves the signal and lets a human decide
-// rather than inventing context from a vague filename.
+// PJ does NOT organize files. PJ watches an external file surface (Google Drive,
+// a Files MCP server, SharePoint…) for *signals*, and for each one asks:
+//   1. Do we know where this belongs?
+//   2. Can we prove why?
+//   3. Should this append to an existing CaseSpace?
+//   4. Is the evidence strong enough to open a new CaseSpace?
+//   5. Or should a human decide?
+//
+// This is a product concern of PuddleJumper, not a generic Drive utility. It
+// implements only the source-specific edges (receive, normalize); placement and
+// proof are the golden-path runtime core, untouched. The strong-vs-weak hint
+// judgement lives HERE (it is file/Drive-specific) — a vague filename must never
+// be enough to open a CaseSpace.
 
 import { defineConnector, toSignal, toPJObject } from "@publiclogic/golden-path";
 
@@ -38,8 +43,8 @@ function slug(s) {
  *    nested path) — also the only thing that can match an existing CaseSpace.
  *  - strong (file_name): a filename that clearly names a case (a case keyword,
  *    capitalised — e.g. "KPL Reservation 2026-07-03.pdf", "Smith Stay Agreement.pdf").
- *  - weak / none: a vague filename ("notes.pdf", "scan 22.pdf", "IMG_1044.jpeg")
- *    or a generic folder — not enough to open anything.
+ *  - weak / none: a vague filename ("notes.pdf", "scan 22.pdf", "guest thing.docx",
+ *    "IMG_1044.jpeg") or a generic folder — never enough to open anything.
  * @returns {{key: string|null, strength: "strong"|"weak"|"none", via: string|null}}
  */
 export function assessHint(file) {

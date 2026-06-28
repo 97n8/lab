@@ -1,15 +1,16 @@
-// Step 3 — the first network-backed adapter. The decision matrix:
-//   folder matches active CaseSpace            → append
+// PJ · file-surface connector. PJ watches a file surface for signals — it does
+// not organize files. The decision matrix:
+//   folder matches active CaseSpace             → append
 //   strong case hint (folder/filename), no match → open
-//   weak hint or no hint                        → needs_review  (held, not guessed)
+//   weak hint  → needs_review   (a vague filename is NOT enough to open)
+//   no hint    → needs_review
 // Every path emits a receipt. All offline via mocks.
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { resolveCaseSpace } from "@publiclogic/golden-path";
-import { filesConnector, assessHint, mockFilesPort, httpFilesPort, createFilesAdapter } from "../src/index.js";
+import { filesConnector, assessHint, mockFilesPort, httpFilesPort, createFilesAdapter } from "../src/connectors/files/index.js";
 
-// One active CaseSpace to match against (carries identifying keys).
 const EXISTING = [
   { id: "stay:Kendall Pond Lodge:2026-07-03", type: "stay", keys: { folder_path: "stay:Kendall Pond Lodge:2026-07-03" } },
 ];
@@ -75,9 +76,7 @@ test("4 · weak hint → needs_review (a vague filename is NOT enough to open)",
 });
 
 test("5 · no core leakage — the resolver only sees the normalized object", () => {
-  // The Files connector adds no custom resolver; placement is core identity.
   assert.equal(filesConnector.resolve, resolveCaseSpace);
-  // Same normalized object → same decision regardless of source label.
   const a = resolveCaseSpace({ objectType: "files.document", title: "T", suggestedCaseSpace: "cs1", confidence: 0.7, metadata: { source: "drive", evidence: {}, expects: [] } }, { existing: [{ id: "cs1" }] });
   const b = resolveCaseSpace({ objectType: "files.document", title: "T", suggestedCaseSpace: "cs1", confidence: 0.7, metadata: { source: "anything", evidence: {}, expects: [] } }, { existing: [{ id: "cs1" }] });
   assert.equal(a.action, b.action);
@@ -93,7 +92,7 @@ test("assessHint: structured folders and case-naming filenames are strong", () =
   assert.equal(assessHint({ name: "KPL Reservation 2026-07-03.pdf" }).strength, "strong");
 });
 
-test("assessHint: vague filenames are weak, empties are none", () => {
+test("assessHint: vague filenames never open a CaseSpace", () => {
   for (const name of ["notes.pdf", "guest thing.docx", "scan 22.pdf", "IMG_1044.jpeg"]) {
     assert.notEqual(assessHint({ name }).strength, "strong", name);
   }
@@ -106,7 +105,7 @@ test("a full pull counts each disposition and queues the held files", async () =
   const adapter = createFilesAdapter({ port: mockFilesPort(Object.values(FILES)) });
   const { summary, review } = await adapter.pull({ existing: EXISTING });
   assert.deepEqual(summary.byAction, { open: 1, append: 1, needs_review: 2, ignore: 0 });
-  assert.equal(review.list("open").length, 2); // both held files awaiting a human
+  assert.equal(review.list("open").length, 2);
 });
 
 // ---- The env-configured real surface (no network: stubbed fetch) -----------

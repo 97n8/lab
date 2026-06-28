@@ -1,11 +1,13 @@
-// The adapter: list files from a port, run each through the connector, collect
-// the receipts. It owns no placement logic of its own — every decision is the
-// core resolver's, every proof is a receipt. Held signals (needs_review) are
-// preserved in a review queue, not dropped and not guessed.
+// PJ's file-surface adapter: list files from a port, run each through the
+// connector, collect the receipts. It owns no placement logic of its own —
+// every decision is the runtime resolver's, every proof is a receipt. Held
+// signals (needs_review) are preserved in a review queue, not dropped and not
+// guessed.
 //
-// What this step deliberately does NOT do: wire into FORM/PRR. It stops at the
-// receipt. A signal becomes a traceable object with a decision and a receipt;
-// turning that into an opened/appended CaseSpace is the next step.
+// Hard boundaries (product doctrine): no silent file movement, no renaming, no
+// write-back. It stops at the receipt. A file becomes a traceable object with a
+// decision and a receipt; turning that into an opened/appended CaseSpace on the
+// verified spine is the next step (FORM/PRR wiring).
 
 import { createReviewQueue } from "@publiclogic/golden-path";
 import { filesConnector } from "./filesConnector.js";
@@ -21,14 +23,14 @@ function summarize(results) {
  */
 export function createFilesAdapter({ port, connector = filesConnector, review = createReviewQueue() } = {}) {
   if (!port || typeof port.listFiles !== "function") {
-    throw new Error("connector-files: a FilesPort with listFiles() is required.");
+    throw new Error("pj/files: a FilesPort with listFiles() is required.");
   }
 
   return {
     review,
     /**
      * Pull the surface and process every file. `ctx.existing` is the set of
-     * active CaseSpaces the core resolver matches against.
+     * active CaseSpaces the resolver matches against.
      * @returns {Promise<{results: object[], review: any, summary: object}>}
      */
     async pull(ctx = {}) {
