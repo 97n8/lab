@@ -55,7 +55,10 @@ export default function StayDashboard() {
               <h1 className="page-title">Kendall Pond Lodge</h1>
               <p className="lede">At-a-glance operations — as of {dashboard.now_date}.</p>
             </div>
-            <span className="pill-soft">Sample feed · live via <code>kpl:sync</code></span>
+            <div className="head-actions">
+              <Link className="button secondary" href="/stay/guestbook">Preview guest guide</Link>
+              <span className="pill-soft">Sample feed · live via <code>kpl:sync</code></span>
+            </div>
           </div>
 
           <div className="stat-grid stat-grid-6">

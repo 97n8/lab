@@ -6,7 +6,7 @@ Reconciled doctrine + product reference for the PuddleJumper ecosystem.
 |---|---|
 | `PuddleJumper_Final_Go_Forward_Workbook_BUILD_LOCKED.xlsx` | **🔒 The locked go-forward execution file** (2026-06-28). Run the build from this: Control Panel, Golden Path GP-001→012, 90-day plan, lanes, pricing, scope guards, demo script, decision log, launch locks. Supersedes earlier GTM/lane taxonomy where they differ. |
 | `PROOF.md` | The spine — the three foundational principles the rest hangs off. Read first. |
-| `PUBLICLOGIC_CANON.md` | **V1.2 (Reconciled + Bookend + Signal-Behavior)** build reference — the understanding layer. Read top to bottom. |
+| `PUBLICLOGIC_CANON.md` | **V1.3 (… + Locked Lanes)** build reference — the understanding layer. Read top to bottom. |
 | `PublicLogic_Series1_Final_Workbook.xlsx` | The control system — Series 1 templates, work packs, lanes, dashboards, governance (27 sheets). |
 | `PublicLogic-Canon.xlsx` | Locked doctrine workbook — runtime line (Tab 02) and VAULT (Tab 12) that the markdown reconciles to. |
 

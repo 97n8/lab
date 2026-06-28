@@ -1,4 +1,4 @@
-# PUBLICLOGIC_CANON.md — Series 1, **V1.2 (Reconciled + Bookend + Signal-Behavior)**
+# PUBLICLOGIC_CANON.md — Series 1, **V1.3 (Reconciled + Bookend + Signal-Behavior + Locked Lanes)**
 
 The PuddleJumper Product Ecosystem — Build Reference
 
@@ -24,6 +24,9 @@ Companion to the Series 1 Final Workbook (v2) — the control system. This is th
 >
 > ### Addendum (V1.1 → V1.2 — old VAULT packet pull-forward)
 > 12. **Signal Behavior Rule** added to §1 (the packet's one big keeper, modernized — tool-agnostic intake, rule-aware behavior). **Classification gate** (four outcomes, recommend-then-ratify) and **Record Lifecycle view** (the old 6-step lifecycle, kept as a view inside a CaseSpace) added to §4. **Stewardship Onboarding Track** (Appendix C) and **Lineage** mapping with retired/refactored terms (Appendix D) added. Guardrails honored: VAULT is *not* reframed as municipal records-retention, and classification is recommended-not-determined (counsel-ready fence intact).
+>
+> ### Addendum (V1.2 → V1.3 — locked lanes, go-forward)
+> 13. **Public lanes locked to four — STAY · MUNI · PROJECT · BIZ** (CORE is the internal runtime, not a public lane). **GRANT folds into PROJECT** as a module family; LIVE/HOME/PEOPLE/FINANCE/OPS/PROPERTY become module families or entry modes, not standalone public lanes (per the locked go-forward workbook, decisions D-001/D-002). See §1 "Public lanes." The Series 1 template families (§5–§6) remain the architecture reference — they are now module families under the four lanes.
 
 ---
 
@@ -83,6 +86,19 @@ These three statements explain almost the entire architecture — and are diffic
 3. **The middle is content-agnostic but governance-aware.**
 
 > **The moat is #2 and #3 — the load-bearing pair.** It is not a feature a competitor lacks; it is a *stance* they cannot take while staying what they are. A workflow tool that owns only the bookends stops being a workflow tool; a system of record that refuses the middle stops being a system of record. The posture is the moat.
+
+### Public lanes (locked go-forward)
+
+Four public lanes are market skins over the one runtime. **CORE** is the internal runtime — never sold as a public lane. Entry modes (Single · Duo · Team · Quick Review · Bridge · Live CaseSpace) cut across all lanes.
+
+| Lane | Public promise |
+|---|---|
+| **STAY** | Run the property cleanly, prove readiness, keep guests and owners in sync. |
+| **MUNI** | Keep public work lawful, traceable, and closed with a clean record. |
+| **PROJECT** | Turn messy project development into a funder-/partner-/decision-ready record. (**GRANT** is a module family here.) |
+| **BIZ** | Give every client engagement a path, a record, and a clean handoff. |
+
+LIVE/HOME/PEOPLE/FINANCE/OPS/PROPERTY are **module families or entry modes**, not standalone public lanes. The Series 1 template families (§5–§6) are the architecture reference and now sit as module families under these four lanes.
 
 ### One Primitive, Many Surfaces
 
@@ -248,7 +264,7 @@ Every CaseSpace shares a spine. Standing and closing diverge on a few fields.
 |---|---|---|---|---|---|
 | case_id | string | both | Unique CaseSpace identifier | Required | Internal |
 | case_type | standing / closing | both | Proof-axis distinction | Required | Doctrine |
-| family | STAY/MUNI/BIZ/GRANT/LIVE/HOME/PEOPLE/OPS/etc. | both | Skin/template family | Required | Client-safe |
+| family | Public lanes: STAY / MUNI / PROJECT / BIZ · internal: CORE · module families: GRANT/LIVE/HOME/PEOPLE/OPS/PROPERTY | both | Skin/template family. The four public lanes are go-forward locked; the rest are module families or entry modes. | Required | Client-safe |
 | parent_case_id | string/null | closing | Standing parent for child/leaf cases | Required for closing | Internal |
 | owners | 1-2 authenticated users; scales to team/department | both | Who owns this CaseSpace. Floor is a single user or a duo on one shared CaseSpace. | Required | Internal |
 | desired_outcome | text | both | What are we trying to get done? | Required | Client |
@@ -428,7 +444,7 @@ First clickable proof: Entry answers → Path Sheet → Bridge Rating → CaseSp
 | Field | Prompt / Meaning | Required? | Output Surface |
 |---|---|---|---|
 | Desired Outcome | What are we trying to get done? | Required | Path Sheet |
-| Matter Type | STAY/MUNI/BIZ/GRANT/LIVE/HOME/PEOPLE/OPS/PROPERTY | Required | CaseSpace seed |
+| Matter Type | STAY / MUNI / PROJECT / BIZ (+ module families: GRANT/LIVE/HOME/PEOPLE/OPS/PROPERTY) | Required | CaseSpace seed |
 | Current Reality | What is true today? | Required | Path Sheet |
 | Known Facts | Facts already available | Required | CaseSpace seed |
 | Missing Facts | Facts needed before movement | Required | Path Sheet |
@@ -811,4 +827,4 @@ What was pulled forward, and how each term/role was refactored. **Kept the conce
 
 ---
 
-*End of canon — V1.2 (Reconciled + Bookend + Signal-Behavior pull-forward). Build from §22, prove on Path Sheet → standing/closing demo → PRR record → seal-upward rollup → Series 1 launch doors, expand the rest behind the fence.*
+*End of canon — V1.3 (Reconciled + Bookend + Signal-Behavior + Locked Lanes). Build the Golden Path first (Seed → FORM → CaseSpace → PRR → Evidence → CAL/PRM → Digest → Packet → ARCHIEVE) before any lane depth; run the build from the locked go-forward workbook.*
