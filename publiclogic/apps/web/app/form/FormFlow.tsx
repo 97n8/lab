@@ -5,11 +5,12 @@ import {
   SEED_TYPES,
   compileSeed,
   deriveFormDefaults,
-  openForm,
+  submitForm,
   LOCKED_LANES,
 } from "@publiclogic/golden-path";
 
 type Answers = Record<string, string>;
+type SubmitResult = Awaited<ReturnType<typeof submitForm>>;
 
 export function FormFlow() {
   const [seedType, setSeedType] = useState("airbnb");
@@ -19,7 +20,7 @@ export function FormFlow() {
   const spId = String(sp.id);
 
   const [answers, setAnswers] = useState<Answers>(() => deriveFormDefaults(identity));
-  const [result, setResult] = useState<ReturnType<typeof openForm> | null>(null);
+  const [result, setResult] = useState<SubmitResult | null>(null);
 
   // When the identity changes, re-ground the prefilled fields (the "teeth").
   useEffect(() => {
@@ -29,7 +30,7 @@ export function FormFlow() {
   }, [spId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const set = (k: string, v: string) => setAnswers((a) => ({ ...a, [k]: v }));
-  const submit = () => setResult(openForm(identity, answers, { timestamp: new Date().toISOString() }));
+  const submit = async () => setResult(await submitForm(identity, answers, { timestamp: new Date().toISOString() }));
 
   return (
     <div className="seed-wrap">
@@ -102,7 +103,7 @@ export function FormFlow() {
   );
 }
 
-function OpenedCaseSpace({ result }: { result: ReturnType<typeof openForm> }) {
+function OpenedCaseSpace({ result }: { result: SubmitResult }) {
   const cs = result.casespace as Record<string, unknown>;
   const tc = cs.tabs_content as Record<string, Record<string, unknown>>;
   const overview = tc.Overview as Record<string, unknown>;
@@ -145,17 +146,36 @@ function OpenedCaseSpace({ result }: { result: ReturnType<typeof openForm> }) {
         </div>
       </div>
 
-      <p className="opened-prr">
-        PRR #{result.prr[0].seq}: {result.prr[0].event} — by {result.prr[0].by}
-      </p>
+      {/* The verified spine: the FORM is a canonical object that earned a
+          Record Receipt before it became a PRR event. */}
+      <ol className="spine">
+        <li className="spine-step">
+          <span className="spine-kind">Canonical object</span>
+          <code className="code-dark">FORM {String(result.form_entry.id)}</code>
+        </li>
+        <li className="spine-step">
+          <span className="spine-kind">Record Receipt</span>
+          <code className="code-dark">{result.receipt ? hashShort(result.receipt.object_hash) : "—"}</code>
+          <span className="spine-tag">{result.receipt?.canonical_form_version ?? ""}</span>
+        </li>
+        <li className="spine-step">
+          <span className="spine-kind">PRR #{result.prr[0].seq}</span>
+          <span className="spine-event">{result.prr[0].event}</span>
+        </li>
+      </ol>
       <p className="obj-note obj-note-dark">
-        FORM {String(result.form_entry.id)} · attaches to {String(cs.source_profile_id)}.
+        The receipt commits to the exact bytes of FORM {String(result.form_entry.id)} — the PRR
+        event references that hash, and it attaches to {String(cs.source_profile_id)}.
       </p>
       <div className="cta-row">
         <a className="button secondary" href="/recordstream">Watch it record (GP-004) →</a>
       </div>
     </div>
   );
+}
+
+function hashShort(h: string) {
+  return h.slice(0, 12) + "…" + h.slice(-6);
 }
 
 function Field({

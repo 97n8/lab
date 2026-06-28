@@ -29,6 +29,26 @@ declare module "@publiclogic/golden-path" {
     placeholder?: string;
   }[];
   export function deriveFormDefaults(identity: unknown): Record<string, string>;
+  export type FormReceipt = {
+    object: string;
+    canonical_form_version: string;
+    object_hash: string;
+    object_type: string;
+    object_id: string;
+    at: string | null;
+  };
+  export function submitForm(
+    identity: unknown,
+    answers?: Record<string, string>,
+    opts?: { timestamp?: string }
+  ): Promise<{
+    valid: boolean;
+    missing: string[];
+    form_entry: Record<string, unknown> & { id: string };
+    receipt: FormReceipt | null;
+    casespace: Record<string, unknown> & { tabs_content: Record<string, unknown> };
+    prr: { seq: number; at: string | null; kind: string; event: string; by: string; ref: string | null }[];
+  }>;
   export function openForm(
     identity: unknown,
     answers?: Record<string, string>,

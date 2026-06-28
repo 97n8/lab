@@ -2,6 +2,7 @@
 // so it never re-asks what the Source Profile already knows. The shortest
 // possible intake, then it opens a valid CaseSpace + the first PRR entry.
 import { shortHash } from "./seed.js";
+import { makeReceipt, CANONICAL_FORM_VERSION } from "./canonical.js";
 
 export const LOCKED_LANES = ["STAY", "MUNI", "PROJECT", "BIZ"];
 
@@ -96,3 +97,33 @@ export function openForm(identity, answers = {}, opts = {}) {
 
   return { valid, missing, form_entry, casespace, prr };
 }
+
+/**
+ * GP-002 into the verified spine. Same shape as openForm, but the FORM object is
+ * treated as a canonical object and earns a Record Receipt BEFORE it becomes a
+ * PRR event — so the recordstream's first entry is anchored to verifiable bytes,
+ * not just an id. Order: FORM submission → canonical object → Record Receipt →
+ * PRR event → CaseSpace intake.
+ * @returns {Promise<{valid, missing, form_entry, receipt, casespace, prr}>}
+ */
+export async function submitForm(identity, answers = {}, opts = {}) {
+  const base = openForm(identity, answers, opts);
+  if (!base.valid) return { ...base, receipt: null };
+
+  // The canonical object is the FORM entry itself. Its receipt commits to the
+  // exact bytes; verifyReceipt(form_entry, receipt) re-derives and compares.
+  const receipt = await makeReceipt(base.form_entry, {
+    object_type: "FORM",
+    object_id: base.form_entry.id,
+    at: opts.timestamp ?? null,
+  });
+
+  // The PRR FORM event now references the receipt hash, not just the form id.
+  const prr = base.prr.map((e) =>
+    e.seq === 1 ? { ...e, ref: receipt.object_hash } : e,
+  );
+
+  return { ...base, receipt, prr };
+}
+
+export { CANONICAL_FORM_VERSION };

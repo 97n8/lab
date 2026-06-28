@@ -606,7 +606,15 @@ h2 { font-size: clamp(2.2rem, 6vw, 4rem); }
 .opened-meta { color: #a9d6cc !important; font-size: .85rem; }
 .opened-prr { background: rgba(255,255,255,.1); border-radius: 10px; padding: .55rem .8rem; color: #eafff7; font-weight: 700; font-size: .88rem; margin: .25rem 0 0; }
 
-@media (max-width: 700px) { .form-grid, .opened-grid { grid-template-columns: 1fr; } }
+/* The verified spine: canonical object → Record Receipt → PRR event */
+.spine { list-style: none; margin: .25rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: .6rem; }
+.spine-step { background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.16); border-radius: 12px; padding: .65rem .8rem; display: grid; gap: .35rem; position: relative; }
+.spine-step + .spine-step::before { content: "→"; position: absolute; left: -.5rem; top: 50%; transform: translate(-50%, -50%); color: #a9d6cc; font-weight: 800; }
+.spine-kind { color: #a9d6cc; font-size: .72rem; text-transform: uppercase; letter-spacing: .05em; font-weight: 800; }
+.spine-step code { font-size: .8rem; }
+.spine-event { color: #eafff7; font-size: .82rem; line-height: 1.4; }
+.spine-tag { color: #cbe9df; font-size: .72rem; font-family: ui-monospace, monospace; }
+@media (max-width: 700px) { .form-grid, .opened-grid, .spine { grid-template-columns: 1fr; } .spine-step + .spine-step::before { content: "↓"; left: 50%; top: -.55rem; } }
 
 /* ---------- GP-004 Recordstream ---------- */
 .rs-head { display: grid; gap: .5rem; }
