@@ -846,7 +846,8 @@ Time-stamped every step · provenance for every change · immutable closeout · 
 | Packet + closing CaseReceipt (Merkle root) | **Shipped** — `golden-path/packet.js`, frozen/immutable |
 | Offline verification + tamper demo | **Shipped** — `/recordstream`, `/muni`, `/cemetery` |
 | FORM into the verified spine (GP-002) | **Shipped** — `submitForm`, canonical FORM + receipt |
-| Signal intake via MCP (tool-agnostic connectors) | **Proposed** — design doc; KPL iCal is the one real adapter |
+| Signal object + signal Record Receipt (intake core) | **Shipped** — `golden-path/signal.js`; canonical, content-addressed, provenance-committed, 20 tests |
+| Signal intake via MCP (tool-agnostic connectors) | **Proposed** — design doc; KPL iCal is the one real adapter; Step 1 core now built |
 | Keys / org / closure signatures + trust anchors | **Proposed** — doctrine ratified (§1, V1.4); not yet built |
 
 ---

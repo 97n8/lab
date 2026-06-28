@@ -30,3 +30,12 @@ export {
   verifyReceipt,
 } from "./canonical.js";
 export { buildPacket, verifyPacket, merkleRoot } from "./packet.js";
+export {
+  SIGNAL_KINDS,
+  CONNECTOR_TYPES,
+  makeSignal,
+  signalReceipt,
+  ingestSignal,
+  verifySignal,
+  sourceKey,
+} from "./signal.js";

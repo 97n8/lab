@@ -2,10 +2,12 @@
 
 **Status:** Architecture / design. The verified spine it plugs into (canonical
 form → Record Receipt → PRR → CaseReceipt → offline verification) is **built and
-tested** in `@publiclogic/golden-path`. The MCP connectors described here are
-**proposed**, with one real precedent already shipping (`@publiclogic/kpl-casespace`,
-the official Airbnb iCal feed). Nothing here changes canon; it operationalizes the
-**Signal Behavior Rule** and the **Bookend Rule (Entry = provenance)**.
+tested** in `@publiclogic/golden-path`. **Step 1 — the Signal object + signal
+Record Receipt — is now built** (`golden-path/signal.js`, 20 tests; see §7). The
+MCP-backed connectors above it are still **proposed**, with one real precedent
+already shipping (`@publiclogic/kpl-casespace`, the official Airbnb iCal feed).
+Nothing here changes canon; it operationalizes the **Signal Behavior Rule** and the
+**Bookend Rule (Entry = provenance)**.
 
 ---
 
@@ -168,18 +170,38 @@ the work a spine.
 
 ---
 
-## 7. Build order (proposed)
+## 7. Build order
 
-1. **Define the Signal object + signal Record Receipt** in `golden-path` (canonical
-   object with a `source` provenance block; reuse `makeReceipt`). *Small, pure,
-   testable — the natural next core step.*
+1. ✅ **Define the Signal object + signal Record Receipt** in `golden-path` —
+   **Shipped** (`golden-path/signal.js`). A canonical, content-addressed (idempotent)
+   `SIGNAL` with a `source` provenance block (connector, source_ref, fetched_at,
+   connector_type), `ingestSignal` (normalize → canonical object → Record Receipt),
+   and `verifySignal`. The receipt commits to **both the artifact and its provenance**,
+   so altering either after intake fails verification — the Entry guarantee, in code.
+   20 adversarial tests (idempotency, key-order independence, source-vs-content
+   identity, payload/provenance tamper). This is to ingestion what Canonical Form v1
+   is to sealing: the deterministic core.
 2. **Generalize KPL into a connector interface** (`Signal in → canonical object +
-   receipt out`), with the iCal feed as the first conformant adapter.
+   receipt out`), with the iCal feed as the first conformant adapter. *Next.*
 3. **Add one MCP-backed adapter** (Files & Docs, e.g. Drive) behind that interface,
    reading over MCP, config/env only.
 4. **Wire signals to FORM / PRR** so a signal either opens a CaseSpace or appends to
-   one — closing the loop into the verified spine already on `/recordstream` and
-   `/muni`.
+   one — closing the loop into the verified spine already on `/recordstream`, `/muni`,
+   and `/cemetery`.
 
-Step 1 is the honest next move: it is to ingestion what Canonical Form v1 was to
-sealing — the small deterministic core everything else stands on.
+### Step 1 surface (`@publiclogic/golden-path`)
+
+```js
+import { ingestSignal, verifySignal, sourceKey } from "@publiclogic/golden-path";
+
+const { signal, receipt } = await ingestSignal({
+  kind: "file",                       // SIGNAL_KINDS
+  payload: { name: "I-9 Form.pdf", bytes_sha: "…", size: 18234 },
+  connector: "mcp:google-drive",      // which MCP server delivered it
+  connector_type: "files",            // CONNECTOR_TYPES (the 5 server types)
+  source_ref: "drive:file/9z",        // stable id in the source system
+}, { timestamp: fetchedAtIso });
+
+await verifySignal(signal, receipt);  // true; false if artifact OR source altered
+sourceKey(signal);                    // "mcp:google-drive:drive:file/9z" — dedupe by source
+```
