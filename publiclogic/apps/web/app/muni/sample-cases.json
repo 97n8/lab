@@ -1,0 +1,63 @@
+{
+  "org": { "name": "Town of Example", "domain": "townofexample.gov" },
+  "cases": [
+    {
+      "id": "MUNI-HR-ONB-JS-2024",
+      "kind": "onboarding",
+      "person": { "name": "Jane Smith", "role": "Administrative Assistant" },
+      "status": "Onboarding",
+      "key_date": { "label": "Start Date", "value": "2024-05-20" },
+      "next_step": { "label": "IT Setup", "due": "2024-05-14" },
+      "owner": "HR Generalist",
+      "opened_at": "2024-05-06T09:00:00Z",
+      "intake": {
+        "problem": "New hire starts May 20 and needs to be fully onboarded across HR, Payroll, IT, and Benefits.",
+        "desired_outcome": "Every required document, acknowledgment, and access is in place before the start date."
+      },
+      "tasks": [
+        { "key": "offer", "label": "Employment Offer", "done": true, "file": "Offer Letter.pdf" },
+        { "key": "i9", "label": "I-9 Verification", "done": true, "file": "I-9 Form.pdf" },
+        { "key": "w4", "label": "W-4 Completed", "done": true, "file": "W-4 Form.pdf" },
+        { "key": "policy", "label": "Policy Acknowledgment", "done": false, "file": "Handbook Ack.pdf" },
+        { "key": "it", "label": "IT Setup", "done": false },
+        { "key": "orientation", "label": "Orientation Scheduled", "done": false }
+      ],
+      "files": ["Offer Letter.pdf", "I-9 Form.pdf", "W-4 Form.pdf", "Handbook Ack.pdf", "Direct Deposit.pdf"],
+      "deadlines": [
+        { "date": "2024-05-10", "label": "I-9 Verification" },
+        { "date": "2024-05-12", "label": "W-4 Completed" },
+        { "date": "2024-05-14", "label": "IT Setup" },
+        { "date": "2024-05-16", "label": "Orientation" }
+      ]
+    },
+    {
+      "id": "MUNI-HR-OFF-MJ-2024",
+      "kind": "offboarding",
+      "person": { "name": "Mark Johnson", "role": "Public Works Technician" },
+      "status": "Offboarding",
+      "key_date": { "label": "Last Day", "value": "2024-05-24" },
+      "next_step": { "label": "Final Payroll", "due": "2024-05-24" },
+      "owner": "HR Generalist",
+      "opened_at": "2024-05-17T09:00:00Z",
+      "intake": {
+        "problem": "Employee's last day is May 24. Access, equipment, payroll, and benefits must all be closed out without anything lingering.",
+        "desired_outcome": "A complete, documented offboarding — access revoked, equipment returned, final pay and benefits handled."
+      },
+      "tasks": [
+        { "key": "exit", "label": "Exit Interview", "done": true, "file": "Exit Interview.pdf" },
+        { "key": "equipment", "label": "Return Equipment", "done": true, "file": "Asset Return Form.pdf" },
+        { "key": "access", "label": "System Access Revoked", "done": true, "file": "Resignation Letter.pdf" },
+        { "key": "payroll", "label": "Final Payroll", "done": false, "file": "Final Pay Stub.pdf" },
+        { "key": "benefits", "label": "Benefits Termination", "done": false, "file": "COBRA Notice.pdf" },
+        { "key": "pension", "label": "Pension Notification", "done": false }
+      ],
+      "files": ["Exit Interview.pdf", "Asset Return Form.pdf", "Resignation Letter.pdf", "COBRA Notice.pdf", "Final Pay Stub.pdf"],
+      "deadlines": [
+        { "date": "2024-05-22", "label": "System Access" },
+        { "date": "2024-05-22", "label": "Return Equipment" },
+        { "date": "2024-05-24", "label": "Final Payroll" },
+        { "date": "2024-05-24", "label": "Benefits Termination" }
+      ]
+    }
+  ]
+}

@@ -671,6 +671,58 @@ h2 { font-size: clamp(2.2rem, 6vw, 4rem); }
 .seal-proof-note { margin: .15rem 0 0; color: var(--ink); font-size: .82rem; }
 @media (max-width: 850px) { .seal-grid { grid-template-columns: repeat(2, minmax(0,1fr)); } }
 
+/* ---------- MUNI · onboarding / offboarding ---------- */
+.muni-switch { display: flex; gap: .6rem; margin-bottom: 1rem; }
+.muni-switch-btn { flex: 1; display: grid; gap: .15rem; text-align: left; background: #fbfaf6; border: 1px solid var(--line); border-radius: 14px; padding: .75rem 1rem; cursor: pointer; transition: border-color .15s, background .15s; }
+.muni-switch-btn.active { border-color: var(--green); background: rgba(0,69,62,.05); }
+.muni-switch-kind { color: var(--muted); font-size: .72rem; text-transform: uppercase; letter-spacing: .05em; font-weight: 800; }
+.muni-switch-name { color: var(--ink); font-weight: 700; }
+.muni-switch-btn.active .muni-switch-name { color: var(--green); }
+
+.muni-case { padding: 0; overflow: hidden; }
+.muni-tabs { display: flex; flex-wrap: wrap; gap: .25rem; background: var(--green); padding: .6rem .9rem; }
+.muni-tab { color: #cbe9df; font-size: .8rem; font-weight: 600; padding: .3rem .65rem; border-radius: 8px; }
+.muni-tab.active { background: rgba(255,255,255,.16); color: #fff; }
+
+.muni-head { display: flex; justify-content: space-between; gap: 1.25rem; flex-wrap: wrap; padding: 1.4rem 1.6rem 1rem; border-bottom: 1px solid var(--line); }
+.muni-person { display: flex; gap: 1rem; align-items: flex-start; }
+.muni-avatar { width: 52px; height: 52px; flex: none; border-radius: 50%; background: var(--green); color: #eafff7; display: grid; place-items: center; font-weight: 800; font-size: 1.05rem; }
+.muni-person h3 { margin: 0; color: var(--ink); }
+.muni-person p { margin: .1rem 0 .4rem; color: var(--muted); }
+.muni-badge { display: inline-block; font-size: .72rem; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; padding: .2rem .55rem; border-radius: 999px; margin-right: .6rem; }
+.muni-badge.onboarding { background: rgba(0,69,62,.1); color: var(--green); }
+.muni-badge.offboarding { background: rgba(197,155,75,.16); color: #7a5a14; }
+.muni-keydate { color: var(--muted); font-size: .85rem; }
+.muni-next { background: #fbfaf6; border: 1px solid var(--line); border-radius: 12px; padding: .7rem .9rem; display: grid; gap: .15rem; align-content: start; min-width: 160px; }
+.muni-next-label { color: var(--muted); font-size: .7rem; text-transform: uppercase; letter-spacing: .05em; font-weight: 800; }
+.muni-next-step { color: var(--green); font-weight: 800; }
+.muni-next-due { color: var(--muted); font-size: .82rem; }
+
+.muni-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 1.4rem; padding: 1.2rem 1.6rem; }
+.muni-col h4 { margin: 0 0 .6rem; color: var(--green); font-size: .9rem; }
+.muni-tasklist, .muni-filelist, .muni-deadlines { list-style: none; margin: 0; padding: 0; display: grid; gap: .45rem; }
+.muni-tasklist li { display: flex; gap: .5rem; align-items: baseline; color: var(--ink); font-size: .9rem; }
+.muni-tasklist li.done { color: var(--muted); }
+.muni-check { color: var(--green); }
+.muni-filelist li { display: flex; gap: .5rem; align-items: baseline; color: var(--ink); font-size: .88rem; }
+.muni-fileicon { color: #b03a2e; }
+.muni-deadlines li { display: flex; gap: .6rem; align-items: baseline; color: var(--ink); font-size: .88rem; }
+.muni-date { color: var(--muted); font-variant-numeric: tabular-nums; min-width: 3.4rem; }
+
+.muni-foot { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; padding: 1rem 1.6rem 1.4rem; border-top: 1px solid var(--line); }
+.muni-foot strong { color: var(--ink); }
+.muni-progress { display: flex; align-items: center; gap: .7rem; color: var(--muted); font-size: .85rem; }
+.muni-bar { width: 160px; height: 8px; background: var(--line); border-radius: 999px; overflow: hidden; }
+.muni-bar-fill { height: 100%; background: var(--green); border-radius: 999px; }
+
+.muni-spine-note { margin: 1.4rem 0 .75rem; color: var(--ink); line-height: 1.6; }
+.muni-spine-note code { background: rgba(0,69,62,.08); padding: .05rem .3rem; border-radius: 5px; color: var(--green); font-size: .85em; }
+
+@media (max-width: 850px) {
+  .muni-grid { grid-template-columns: 1fr; }
+  .muni-switch { flex-direction: column; }
+}
+
 /* ---------- BIZ · Living Job Folder ---------- */
 .today-strip { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 1rem; margin-top: .75rem; }
 .today-job { background: #fbfaf6; border: 1px solid var(--line); border-radius: 16px; padding: 1rem 1.15rem; display: grid; gap: .25rem; }

@@ -6,6 +6,7 @@ const links = [
   { href: "/pj", label: "PJ" },
   { href: "/vault", label: "VAULT" },
   { href: "/stay", label: "STAY" },
+  { href: "/muni", label: "MUNI" },
   { href: "/contact", label: "Contact" },
 ];
 

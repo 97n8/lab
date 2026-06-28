@@ -4,9 +4,9 @@ import { useMemo, useState } from "react";
 import {
   compileSeed, openRuntime,
   requestEvidence, provideEvidence, logDecision, runCAL, runPRM,
-  buildPacket, verifyPacket, hashCanonical,
-  type Runtime, type Packet, type Verdict,
+  type Runtime,
 } from "@publiclogic/golden-path";
+import { SealVerify } from "../../components/SealVerify";
 
 const EVIDENCE_ITEMS = ["Vendor invoice", "Before/after photos", "Cleaner sign-off", "Damage receipt"];
 const DECISIONS = ["Approve emergency vendor", "Waive one night’s cleaning fee", "Hold checkout until repair confirmed"];
@@ -31,64 +31,14 @@ export function RecordStream() {
   const [rt, setRt] = useState<Runtime>(() => openRuntime(identity, ANSWERS, { timestamp: nowIso() }));
   const [evIdx, setEvIdx] = useState(0);
   const [dcIdx, setDcIdx] = useState(0);
-
-  // Seal state: null = unsealed; otherwise a sealed packet + its current verdict.
-  const [packet, setPacket] = useState<Packet | null>(null);
-  const [verdict, setVerdict] = useState<Verdict | null>(null);
-  const [tampered, setTampered] = useState(false);
-  // The cryptographic proof of the catch: the sealed receipt hash vs the hash
-  // re-derived from the altered bytes. Different values = the packet caught it.
-  const [proof, setProof] = useState<{ seq: number; sealed: string; recomputed: string } | null>(null);
+  // Once sealed, new events would invalidate the seal — so we lock the stream.
+  const [sealed, setSealed] = useState(false);
 
   const outstanding = rt.evidence.find((e) => e.status === "requested");
   const lastPrm = [...rt.checks].reverse().find((c) => c.object === "PRM");
   const cs = rt.casespace as Record<string, unknown>;
 
-  // Once sealed, new events would invalidate the seal — so we lock the stream.
-  const sealed = packet !== null;
   const act = (fn: () => Runtime) => { if (!sealed) setRt(fn()); };
-
-  async function seal() {
-    const caseRef = { id: cs.id, lane: cs.lane, owner: cs.owner };
-    const p = await buildPacket(caseRef, rt.prr, { closed_at: nowIso(), closed_by: String(cs.owner ?? "owner") });
-    setPacket(p);
-    setVerdict(await verifyPacket(p));
-    setTampered(false);
-    setProof(null);
-  }
-
-  // Tamper OUTSIDE the database. The sealed packet is frozen, so we build a NEW
-  // packet with one record's bytes altered, then re-verify it offline. The
-  // verdict comes entirely from verifyPacket re-deriving hashes — not from the
-  // UI noticing an edit.
-  async function tamper() {
-    if (!packet) return;
-    const target = Math.min(3, packet.items.length - 1); // record #004 if present
-    const next: Packet = {
-      ...packet,
-      items: packet.items.map((it, i) =>
-        i === target ? { ...it, record: { ...it.record, event: it.record.event + " (edited)" } } : it,
-      ),
-    };
-    // Show the actual hashes: sealed receipt vs. the hash of the altered bytes.
-    const recomputed = await hashCanonical(next.items[target].record);
-    setProof({ seq: next.items[target].seq, sealed: packet.items[target].receipt.object_hash, recomputed });
-    setPacket(next);
-    setVerdict(await verifyPacket(next));
-    setTampered(true);
-  }
-
-  function reset() {
-    setPacket(null);
-    setVerdict(null);
-    setTampered(false);
-    setProof(null);
-  }
-
-  const failedItem = packet && verdict && !verdict.ok
-    ? packet.items.find((it) => verdict.failures.some((f) => f.includes(`seq ${it.seq}`)))
-    : undefined;
-  const shortRoot = (h?: string) => (h ? h.slice(0, 16) + "…" + h.slice(-8) : "—");
 
   return (
     <div className="seed-wrap">
@@ -123,71 +73,12 @@ export function RecordStream() {
         </div>
       </div>
 
-      {/* The seal — proof made visible. Unsealed → Sealed → Verification Failed. */}
-      <div className={`panel seal-panel${sealed ? (verdict?.ok ? " seal-ok" : " seal-fail") : ""}`}>
-        <div className="section-head">
-          <h3>Seal &amp; verify</h3>
-          <span className="pill-soft">
-            {!sealed ? "Unsealed" : verdict?.ok ? "Sealed · verified" : "Verification failed"}
-          </span>
-        </div>
-
-        {!sealed && (
-          <div className="seal-body">
-            <p className="seal-line">
-              <strong>{rt.prr.length} events captured</strong><br />
-              Recordstream open.<br />
-              Events are still accumulating.
-            </p>
-            <button className="button primary" onClick={seal}>Seal recordstream</button>
-          </div>
-        )}
-
-        {sealed && (
-          <div className="seal-body">
-            <dl className="seal-grid">
-              <div><dt>Events sealed</dt><dd>{packet!.case_receipt.record_count}</dd></div>
-              <div><dt>CaseReceipt</dt><dd>committed</dd></div>
-              <div><dt>Merkle root</dt><dd><code>{shortRoot(packet!.case_receipt.merkle_root)}</code></dd></div>
-              <div><dt>Canonical form</dt><dd><code>{packet!.canonical_form_version}</code></dd></div>
-            </dl>
-
-            {verdict?.ok ? (
-              <p className="seal-verdict ok">
-                <strong>Offline packet verified</strong> — no PublicLogic server in the loop.
-              </p>
-            ) : (
-              <div className="seal-verdict fail">
-                <p><strong>Verification failed</strong></p>
-                {failedItem && (
-                  <p className="seal-failed-item">
-                    Record #{String(failedItem.seq).padStart(3, "0")} no longer matches its sealed receipt.
-                  </p>
-                )}
-                <p className="seal-detail-label">Failure detail:</p>
-                <ul className="seal-failures">{verdict?.failures.map((f) => <li key={f}>{f}</li>)}</ul>
-
-                {/* The cryptographic proof: the packet caught it, not the editor.
-                    Sealed receipt hash vs. the hash re-derived from the new bytes. */}
-                {proof && (
-                  <dl className="seal-proof">
-                    <div><dt>Sealed receipt (record #{String(proof.seq).padStart(3, "0")})</dt><dd><code>{proof.sealed}</code></dd></div>
-                    <div><dt>Recomputed from current bytes</dt><dd><code className="hash-bad">{proof.recomputed}</code></dd></div>
-                    <p className="seal-proof-note">Two different hashes — re-derived offline. The seal exposes the change without trusting the editor or a server.</p>
-                  </dl>
-                )}
-              </div>
-            )}
-
-            <div className="rs-actions">
-              {!tampered && verdict?.ok && (
-                <button className="button secondary" onClick={tamper}>Tamper with record #004</button>
-              )}
-              <button className="button secondary" onClick={reset}>Reset</button>
-            </div>
-          </div>
-        )}
-      </div>
+      <SealVerify
+        records={rt.prr}
+        caseRef={{ id: cs.id, lane: cs.lane, owner: cs.owner }}
+        closedBy={String(cs.owner ?? "owner")}
+        onSealedChange={setSealed}
+      />
 
       <div className="rs-grid">
         {/* The append-only stream */}
