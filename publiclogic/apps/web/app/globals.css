@@ -607,3 +607,28 @@ h2 { font-size: clamp(2.2rem, 6vw, 4rem); }
 .opened-prr { background: rgba(255,255,255,.1); border-radius: 10px; padding: .55rem .8rem; color: #eafff7; font-weight: 700; font-size: .88rem; margin: .25rem 0 0; }
 
 @media (max-width: 700px) { .form-grid, .opened-grid { grid-template-columns: 1fr; } }
+
+/* ---------- GP-004 Recordstream ---------- */
+.rs-head { display: grid; gap: .5rem; }
+.rs-actions { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1rem; }
+.rs-actions .button { min-height: 42px; padding: .55rem 1rem; font-size: .9rem; }
+.rs-actions .button[disabled] { opacity: .45; cursor: not-allowed; transform: none; }
+.rs-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 1.25rem; align-items: start; }
+.rs-aside { display: grid; gap: 1.25rem; }
+.rs-aside .panel { padding: 1.5rem; }
+.rs-aside h3 { margin: 0 0 .6rem; color: var(--green); }
+
+.prr-list { list-style: none; padding: 0; margin: .75rem 0 0; display: grid; gap: .5rem; }
+.prr-entry { display: flex; align-items: center; gap: .75rem; background: #fbfaf6; border: 1px solid var(--line); border-radius: 12px; padding: .6rem .85rem; }
+.prr-seq { color: var(--muted); font-weight: 800; font-size: .8rem; width: 2.2rem; flex: none; }
+.prr-body { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex: 1; min-width: 0; }
+.prr-event { color: var(--ink); font-weight: 600; }
+.prr-by { color: var(--muted); font-size: .82rem; white-space: nowrap; }
+
+.rs-obj-list { list-style: none; padding: 0; margin: 0; display: grid; gap: .5rem; }
+.rs-obj-list li { display: flex; justify-content: space-between; gap: .75rem; align-items: center; color: var(--ink); }
+.rs-ready { color: var(--green); font-weight: 800; margin: 0; }
+.rs-blocked { color: #97331f; font-weight: 800; margin: 0 0 .25rem; }
+.rs-missing { margin: 0; padding-left: 1.1rem; color: #97331f; }
+
+@media (max-width: 850px) { .rs-grid { grid-template-columns: 1fr; } }

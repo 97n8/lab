@@ -9,3 +9,13 @@ export {
   PIPELINE,
 } from "./compile.js";
 export { openForm, deriveFormDefaults, FORM_FIELDS, LOCKED_LANES } from "./form.js";
+export {
+  PRR_KINDS,
+  appendPRR,
+  openRuntime,
+  requestEvidence,
+  provideEvidence,
+  logDecision,
+  runCAL,
+  runPRM,
+} from "./prr.js";

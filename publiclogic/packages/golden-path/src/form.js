@@ -91,7 +91,7 @@ export function openForm(identity, answers = {}, opts = {}) {
   };
 
   const prr = valid
-    ? [{ seq: 1, at: ts, event: "FORM submitted — CaseSpace opened", by: owner }]
+    ? [{ seq: 1, at: ts, kind: "FORM", event: "FORM submitted — CaseSpace opened", by: owner, ref: form_entry.id }]
     : [];
 
   return { valid, missing, form_entry, casespace, prr };

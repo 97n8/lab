@@ -40,4 +40,24 @@ declare module "@publiclogic/golden-path" {
     casespace: Record<string, unknown> & { tabs_content: Record<string, unknown> };
     prr: { seq: number; at: string | null; event: string; by: string }[];
   };
+
+  // GP-004 — PRR recordstream
+  export const PRR_KINDS: string[];
+  export type PrrEntry = { seq: number; at: string | null; kind: string; event: string; by: string; ref: string | null };
+  export type Evidence = { id: string; item: string; owner: string; status: string };
+  export type Runtime = {
+    casespace: Record<string, unknown>;
+    form_entry: Record<string, unknown>;
+    prr: PrrEntry[];
+    evidence: Evidence[];
+    decisions: { id: string; decision: string; basis: string; by: string }[];
+    checks: { object: string; ready?: boolean; missing?: string[]; allowed?: boolean }[];
+  };
+  export function appendPRR(stream: PrrEntry[], entry: Partial<PrrEntry>, opts?: { timestamp?: string }): PrrEntry[];
+  export function openRuntime(identity: unknown, answers?: Record<string, string>, opts?: { timestamp?: string }): Runtime;
+  export function requestEvidence(rt: Runtime, p: { item: string; owner?: string; by?: string }, opts?: { timestamp?: string }): Runtime;
+  export function provideEvidence(rt: Runtime, p: { evidenceId: string; by?: string }, opts?: { timestamp?: string }): Runtime;
+  export function logDecision(rt: Runtime, p: { decision: string; basis?: string; by?: string }, opts?: { timestamp?: string }): Runtime;
+  export function runCAL(rt: Runtime, p: { action: string; actor: string; allowed: boolean; reason?: string }, opts?: { timestamp?: string }): Runtime;
+  export function runPRM(rt: Runtime, p?: { milestone?: string; by?: string }, opts?: { timestamp?: string }): Runtime;
 }

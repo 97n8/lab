@@ -149,8 +149,11 @@ function OpenedCaseSpace({ result }: { result: ReturnType<typeof openForm> }) {
         PRR #{result.prr[0].seq}: {result.prr[0].event} — by {result.prr[0].by}
       </p>
       <p className="obj-note obj-note-dark">
-        FORM {String(result.form_entry.id)} · attaches to {String(cs.source_profile_id)} · GP-004 will append every change to PRR.
+        FORM {String(result.form_entry.id)} · attaches to {String(cs.source_profile_id)}.
       </p>
+      <div className="cta-row">
+        <a className="button secondary" href="/recordstream">Watch it record (GP-004) →</a>
+      </div>
     </div>
   );
 }
