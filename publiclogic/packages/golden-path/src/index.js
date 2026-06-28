@@ -21,3 +21,11 @@ export {
   recordNote,
 } from "./prr.js";
 export { punch, computeHours, PUNCH_LABELS } from "./clock.js";
+export {
+  CANONICAL_FORM_VERSION,
+  canonicalize,
+  sha256Hex,
+  hashCanonical,
+  makeReceipt,
+  verifyReceipt,
+} from "./canonical.js";
