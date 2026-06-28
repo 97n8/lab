@@ -193,6 +193,14 @@ the work a spine.
    connectors (gmail / airbnb / file) with fixtures prove it end to end — the Airbnb one mirrors
    the KPL reservation shape (*KPL today*). 14 tests. The real KPL feed wiring through this
    interface is the next proof; the contract is ready for it.
+2A. ✅ **Human review resolution loop** — **Shipped** (`golden-path/review.js`). The decision now
+   carries `confidence`, `matchEvidence[]`, and `missingEvidence[]`, so a held signal *names what
+   it couldn't prove*. `needs_review` preserves the signal as a `ReviewItem` + a `flagged_for_review`
+   receipt; `resolveReviewItem` lets a human append/open/ignore and emits a **second receipt linked
+   via `priorReceiptId`** (`human_appended_to_casespace`, etc.) with `resolvedBy`. Nothing is
+   overwritten; an item can't be resolved twice. This is the moat: PJ does not pretend scattered
+   information is connected unless it has evidence — and when it doesn't, a person decides and the
+   decision is preserved. 9 tests.
 3. **Add one MCP-backed adapter** (Files & Docs, e.g. Drive) behind that interface,
    reading over MCP, config/env only.
 4. **Wire signals to FORM / PRR** so a signal either opens a CaseSpace or appends to

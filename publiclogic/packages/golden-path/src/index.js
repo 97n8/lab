@@ -48,3 +48,4 @@ export {
   emitReceipt,
   defineConnector,
 } from "./connector.js";
+export { createReviewItem, resolveReviewItem, createReviewQueue } from "./review.js";

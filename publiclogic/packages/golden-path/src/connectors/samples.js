@@ -27,7 +27,14 @@ export const gmailConnector = defineConnector({
       relatedPeople: [signal.actor],
       suggestedCaseSpace: signal.payload.threadHint ?? null,
       confidence: 0.9,
-      metadata: { source: "gmail", signalType: signal.signalType },
+      metadata: {
+        source: "gmail",
+        signalType: signal.signalType,
+        // A guest email alone carries no strong identifiers — it can SAY who it's
+        // from, but not prove which stay it belongs to.
+        evidence: { guest_email: signal.actor },
+        expects: ["reservation_id", "guest_email_match", "stay_date_match"],
+      },
     });
   },
 });
@@ -55,7 +62,13 @@ export const airbnbConnector = defineConnector({
       relatedDates: [checkIn, checkout],
       suggestedCaseSpace: `stay:${listing}:${checkIn}`,
       confidence: 0.96,
-      metadata: { source: "airbnb", signalType: signal.signalType, status: signal.payload.status },
+      metadata: {
+        source: "airbnb",
+        signalType: signal.signalType,
+        status: signal.payload.status,
+        evidence: { reservation_id: signal.sourceId, guest_email_match: signal.actor, stay_date_match: [checkIn, checkout] },
+        expects: ["reservation_id", "guest_email_match", "stay_date_match"],
+      },
     });
   },
 });
@@ -81,7 +94,14 @@ export const fileConnector = defineConnector({
       relatedPeople: signal.actor ? [signal.actor] : [],
       suggestedCaseSpace: signal.payload.caseHint ?? null,
       confidence: 0.72,
-      metadata: { source: "drive", signalType: signal.signalType, mime: signal.payload.mime, size: signal.payload.size },
+      metadata: {
+        source: "drive",
+        signalType: signal.signalType,
+        mime: signal.payload.mime,
+        size: signal.payload.size,
+        evidence: { folder_path: signal.payload.caseHint },
+        expects: ["folder_path", "reservation_name", "stay_date_match"],
+      },
     });
   },
 });

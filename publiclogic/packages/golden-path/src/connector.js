@@ -13,6 +13,7 @@
 
 import { shortHash } from "./seed.js";
 import { canonicalize, hashCanonical } from "./canonical.js";
+import { createReviewItem } from "./review.js";
 
 /** A raw inbound event from a source, before PJ understands it. */
 /**
@@ -41,13 +42,16 @@ import { canonicalize, hashCanonical } from "./canonical.js";
  * @property {Record<string, unknown>} metadata
  */
 
-/** The placement decision: where the object goes. Source-agnostic. */
+/** The placement decision: where the object goes, with the evidence behind it. */
 /**
  * @typedef {Object} CaseSpaceAction
  * @property {"open"|"append"|"ignore"|"needs_review"} action
  * @property {string} [caseSpaceId]
  * @property {string} [caseSpaceType]
+ * @property {number} confidence       - 0..1, derived from match evidence
  * @property {string} reason
+ * @property {string[]} matchEvidence   - the evidence that supported the decision
+ * @property {string[]} [missingEvidence] - the evidence a confident match would have needed
  */
 
 /** The immutable proof that the signal was seen, understood, and placed. */
@@ -132,35 +136,100 @@ export function toPJObject(partial = {}) {
   });
 }
 
+const round2 = (n) => Math.round(n * 100) / 100;
+const clamp = (n, lo, hi) => Math.max(lo, Math.min(hi, n));
+
+// Does one evidence value match another? Arrays match on any overlap.
+function dimMatches(a, b) {
+  if (a === undefined || b === undefined) return false;
+  if (Array.isArray(a) || Array.isArray(b)) {
+    const aa = [].concat(a);
+    const bb = [].concat(b);
+    return aa.some((x) => bb.includes(x));
+  }
+  return a === b;
+}
+
+// Which of the object's declared evidence dimensions match a candidate CaseSpace's keys.
+function matchedDims(object, cs) {
+  const have = (object.metadata && object.metadata.evidence) || {};
+  const keys = (cs && cs.keys) || {};
+  return Object.keys(have).filter((dim) => dimMatches(have[dim], keys[dim]));
+}
+
 /**
  * The source-agnostic resolver. Decides where a PJObject goes from the object
- * alone — never from where it came from. Order: an explicit ignore hint wins,
- * then low confidence routes to review, then a CaseSpace match appends, then a
- * suggestion with no match opens, else it needs review.
+ * alone — never from where it came from — and reports the evidence behind it.
+ *
+ * Doctrine: PJ does not pretend scattered information is connected unless it has
+ * evidence. Order: an explicit ignore hint wins; a normalizer that wasn't
+ * confident is held; a CaseSpace-key (or strong evidence) match appends; a
+ * suggestion with no match opens; nothing to connect to is held for a human.
+ *
  * @param {PJObject} object
- * @param {{ existing?: {id:string,key?:string,type?:string}[], match?: (o:PJObject, cs:any)=>boolean }} [ctx]
+ * @param {{ existing?: {id:string,key?:string,type?:string,keys?:Record<string,unknown>}[], match?: (o:PJObject, cs:any)=>boolean }} [ctx]
  * @returns {CaseSpaceAction}
  */
 export function resolveCaseSpace(object, ctx = {}) {
+  const expects = (object.metadata && object.metadata.expects) || [];
+  const sourceTag = `source:${(object.metadata && object.metadata.source) || object.objectType.split(".")[0]}`;
+
   if (object.metadata && object.metadata.disposition === "ignore") {
-    return { action: "ignore", reason: "Normalizer marked this signal as ignorable noise." };
+    return { action: "ignore", confidence: 0.99, reason: "Normalizer marked this signal as ignorable noise.", matchEvidence: [], missingEvidence: [] };
   }
   if (object.confidence != null && object.confidence < REVIEW_THRESHOLD) {
-    return { action: "needs_review", reason: `Confidence ${object.confidence} below ${REVIEW_THRESHOLD} — hold for a human.` };
+    return {
+      action: "needs_review",
+      confidence: round2(object.confidence),
+      reason: `Normalizer confidence ${object.confidence} below ${REVIEW_THRESHOLD} — hold for a human.`,
+      matchEvidence: [sourceTag],
+      missingEvidence: expects,
+    };
   }
 
   const sc = object.suggestedCaseSpace;
+  const existing = ctx.existing ?? [];
+  const keyMatch = ctx.match ?? ((o, cs) => cs.id === sc || cs.key === sc);
+
+  // Best candidate: prefer a direct CaseSpace-key match, else the most evidence.
+  let best = null;
+  let bestMatched = [];
   if (sc) {
-    const existing = ctx.existing ?? [];
-    const match = ctx.match ?? ((o, cs) => cs.id === sc || cs.key === sc);
-    const hit = existing.find((cs) => match(object, cs));
-    if (hit) {
-      return { action: "append", caseSpaceId: hit.id, reason: `Matched existing CaseSpace ${hit.id}.` };
+    const keyed = existing.find((cs) => keyMatch(object, cs));
+    if (keyed) {
+      best = keyed;
+      bestMatched = ["casespace_key", ...matchedDims(object, keyed)];
     }
-    return { action: "open", caseSpaceType: object.objectType.split(".")[0], reason: `No matching active CaseSpace for "${sc}".` };
+  }
+  if (!best) {
+    for (const cs of existing) {
+      const m = matchedDims(object, cs);
+      if (m.length > bestMatched.length) {
+        best = cs;
+        bestMatched = m;
+      }
+    }
   }
 
-  return { action: "needs_review", reason: "No CaseSpace suggestion to resolve — hold for a human." };
+  const matchedExpected = expects.filter((d) => bestMatched.includes(d));
+  const missingEvidence = expects.filter((d) => !bestMatched.includes(d));
+  const ratio = expects.length ? matchedExpected.length / expects.length : 0;
+  const matchEvidence = bestMatched.length ? bestMatched : [sourceTag];
+
+  const hasKey = bestMatched.includes("casespace_key");
+  let confidence;
+  if (hasKey) confidence = round2(clamp(0.8 + 0.19 * ratio, 0, 0.99));
+  else if (best) confidence = round2(clamp(0.5 + 0.4 * ratio, 0, 0.99));
+  else if (sc) confidence = 0.7; // a suggestion, but nothing to match → open new
+  else confidence = 0.4; // nothing to connect to → hold
+
+  if (best && (hasKey || confidence >= REVIEW_THRESHOLD)) {
+    return { action: "append", caseSpaceId: best.id, confidence, reason: `Matched existing CaseSpace ${best.id} on ${bestMatched.join(", ")}.`, matchEvidence, missingEvidence };
+  }
+  if (sc) {
+    return { action: "open", caseSpaceType: object.objectType.split(".")[0], confidence, reason: `No matching active CaseSpace for "${sc}".`, matchEvidence, missingEvidence };
+  }
+  return { action: "needs_review", confidence, reason: "No thread hint, key, people, or date match found — hold for a human.", matchEvidence, missingEvidence };
 }
 
 /**
@@ -211,7 +280,14 @@ export function defineConnector({ source, receive, normalize, resolve, receipt }
       const object = await normalize(signal);
       const action = await _resolve(object, opts);
       const receiptObj = await _receipt({ signal, object, action }, opts);
-      return { signal, object, action, receipt: receiptObj };
+      const result = { signal, object, action, receipt: receiptObj };
+      // Held signals are preserved as a reviewable item — never dropped, never guessed.
+      if (action.action === "needs_review") {
+        const review = createReviewItem({ signal, object, decision: action, receipt: receiptObj }, opts);
+        result.review = review;
+        if (opts.review && typeof opts.review.flag === "function") opts.review.flag(review);
+      }
+      return result;
     },
   };
 }
