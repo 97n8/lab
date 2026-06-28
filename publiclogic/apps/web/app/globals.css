@@ -193,6 +193,42 @@ h2 { font-size: clamp(2.2rem, 6vw, 4rem); }
 
 .cta-panel { display: grid; gap: .25rem; }
 
+/* ---------- Homepage: Moat / How / Pilots / Why / Proof ---------- */
+.moat-flow { margin: 1rem 0 1.5rem; }
+
+.how-grid { display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: 1rem; margin: 1.25rem 0 1rem; }
+.how-step { background: #fbfaf6; border: 1px solid var(--line); border-radius: 14px; padding: 1.1rem 1rem; }
+.how-num { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--green); color: #eafff7; font-weight: 800; font-size: .9rem; margin-bottom: .6rem; }
+.how-step h3 { margin: 0 0 .2rem; color: var(--ink); font-size: 1rem; }
+.how-step p { margin: 0; color: var(--muted); font-size: .85rem; }
+.how-line { color: var(--ink); font-size: 1.05rem; margin: .5rem 0 1rem; }
+.how-line strong { color: var(--green); }
+.how-details summary { color: var(--muted); cursor: pointer; font-size: .9rem; font-weight: 600; }
+.how-details[open] summary { margin-bottom: .8rem; }
+
+.pilot-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 1.1rem; margin-top: 1.25rem; }
+.pilot-card { display: grid; gap: .35rem; align-content: start; background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 1.4rem; text-decoration: none; transition: border-color .15s, transform .15s, box-shadow .15s; }
+.pilot-card:hover { border-color: var(--green); transform: translateY(-2px); box-shadow: 0 12px 30px rgba(0,69,62,.1); }
+.pilot-tag { color: var(--green); font-weight: 800; font-size: 1.1rem; }
+.pilot-sub { color: var(--muted); font-size: .8rem; text-transform: uppercase; letter-spacing: .04em; font-weight: 700; }
+.pilot-card p { color: var(--ink); margin: .4rem 0 .6rem; line-height: 1.55; font-size: .92rem; }
+.pilot-stat { color: #7a5a14; font-weight: 800; font-size: 1.05rem; }
+.pilot-note { color: var(--muted); font-size: .76rem; font-style: italic; }
+.pilot-cta { color: var(--green); font-weight: 700; font-size: .9rem; margin-top: .5rem; }
+
+.why-grid { list-style: none; margin: 1.25rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 1rem; }
+.why-grid li { display: flex; gap: .6rem; align-items: baseline; background: #fbfaf6; border: 1px solid var(--line); border-radius: 14px; padding: 1.1rem 1.2rem; color: var(--ink); font-weight: 600; }
+.why-check { color: var(--green); font-weight: 800; }
+
+.proof-strip { list-style: none; margin: 1.5rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; }
+.proof-strip li { display: flex; gap: .5rem; align-items: center; color: var(--muted); font-size: .9rem; font-weight: 600; }
+.proof-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold); flex: none; }
+
+@media (max-width: 850px) {
+  .how-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .pilot-grid, .why-grid { grid-template-columns: 1fr; }
+}
+
 /* ---------- Split + lists ---------- */
 .split {
   display: grid;
