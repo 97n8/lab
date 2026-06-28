@@ -1,912 +1,366 @@
-<!-- =====================================================================
-     PHILLIPSTON TOWN FORMS
-     CivicPlus-ready static HTML
-     No JavaScript. No external hosting.
-     Accessibility, mobile, print, and resident-use improvements included.
-     ===================================================================== -->
+<!-- PHILLIPSTON FORMS & APPLICATIONS | CivicPlus-ready static HTML | No JS / no external assets -->
 
-<div class="pl-forms-wrap" id="forms-top" style="font-family:Arial,sans-serif;color:#1f2933;line-height:1.5;max-width:1120px;margin:0 auto;">
-
+<div class="pl-forms" id="forms-top" style="font-family:Arial,sans-serif;color:#1f2933;line-height:1.5;max-width:1100px;margin:0 auto;">
   <style>
-    .pl-forms-wrap * {
-      box-sizing: border-box;
-    }
-
-    .pl-forms-wrap a:focus {
-      outline: 3px solid #C1923C;
-      outline-offset: 3px;
-    }
-
-    .pl-hero {
-      border: 1px solid #E4DECC;
-      background: #FBFAF6;
-      border-radius: 14px;
-      padding: 24px 26px;
-      margin-bottom: 18px;
-    }
-
-    .pl-eyebrow {
-      color: #6B7280;
-      font-size: 12px;
-      font-weight: bold;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      margin: 0 0 7px;
-    }
-
-    .pl-hero h1 {
-      font-family: Georgia, serif;
-      color: #163A6F;
-      font-size: 32px;
-      line-height: 1.15;
-      margin: 0 0 8px;
-    }
-
-    .pl-hero p {
-      margin: 0;
-      font-size: 15px;
-      color: #374151;
-      max-width: 880px;
-    }
-
-    .pl-info-grid,
-    .pl-feature-grid,
-    .pl-grid {
-      display: table;
-      width: 100%;
-      border-collapse: separate;
-      border-spacing: 10px;
-      margin-left: -10px;
-      margin-right: -10px;
-    }
-
-    .pl-info-row,
-    .pl-feature-row,
-    .pl-row {
-      display: table-row;
-    }
-
-    .pl-info-cell,
-    .pl-feature-cell,
-    .pl-cell {
-      display: table-cell;
-      vertical-align: top;
-    }
-
-    .pl-info-cell {
-      width: 50%;
-    }
-
-    .pl-feature-cell {
-      width: 20%;
-    }
-
-    .pl-cell {
-      width: 50%;
-    }
-
-    .pl-note,
-    .pl-feature,
-    .pl-card {
-      border: 1px solid #E4DECC;
-      border-radius: 12px;
-      background: #ffffff;
-    }
-
-    .pl-note {
-      padding: 15px 16px;
-      min-height: 132px;
-    }
-
-    .pl-note h2 {
-      font-family: Georgia, serif;
-      color: #163A6F;
-      font-size: 18px;
-      line-height: 1.25;
-      margin: 0 0 7px;
-      border: 0;
-      padding: 0;
-    }
-
-    .pl-note p {
-      color: #4b5563;
-      font-size: 13.5px;
-      margin: 0 0 8px;
-    }
-
-    .pl-note ul {
-      margin: 7px 0 0 19px;
-      padding: 0;
-      color: #4b5563;
-      font-size: 13.5px;
-    }
-
-    .pl-note li {
-      margin: 4px 0;
-    }
-
-    .pl-quick {
-      border: 1px solid #E4DECC;
-      border-radius: 12px;
-      padding: 15px 16px;
-      margin: 10px 0 26px;
-      background: #ffffff;
-    }
-
-    .pl-quick-title,
-    .pl-subhead {
-      font-weight: bold;
-      color: #374151;
-      text-transform: uppercase;
-      letter-spacing: .04em;
-    }
-
-    .pl-quick-title {
-      color: #163A6F;
-      margin-bottom: 10px;
-      font-size: 14px;
-    }
-
-    .pl-quick a {
-      display: inline-block;
-      margin: 4px 6px 4px 0;
-      padding: 8px 12px;
-      border: 1px solid #E4DECC;
-      border-radius: 999px;
-      color: #163A6F;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 13px;
-      background: #FBFAF6;
-    }
-
-    .pl-quick a:hover,
-    .pl-feature a:hover,
-    .pl-help:hover,
-    .pl-btn:hover,
-    .pl-top-link:hover {
-      text-decoration: underline;
-    }
-
-    .pl-feature {
-      padding: 13px 13px 14px;
-      min-height: 114px;
-      background: #FBFAF6;
-    }
-
-    .pl-feature h2 {
-      font-family: Georgia, serif;
-      color: #163A6F;
-      font-size: 16px;
-      line-height: 1.25;
-      margin: 0 0 6px;
-      border: 0;
-      padding: 0;
-    }
-
-    .pl-feature p {
-      color: #4b5563;
-      font-size: 12.5px;
-      margin: 0 0 8px;
-    }
-
-    .pl-feature a {
-      color: #163A6F;
-      font-weight: bold;
-      font-size: 12.5px;
-      text-decoration: none;
-      border-bottom: 1px solid #C1923C;
-    }
-
-    .pl-section {
-      margin: 34px 0 12px;
-      scroll-margin-top: 20px;
-    }
-
-    .pl-section h2 {
-      font-family: Georgia, serif;
-      color: #163A6F;
-      font-size: 23px;
-      border-bottom: 2px solid #E4DECC;
-      padding-bottom: 7px;
-      margin: 0 0 14px;
-    }
-
-    .pl-subhead {
-      font-size: 14px;
-      margin: 19px 0 8px;
-    }
-
-    .pl-card {
-      padding: 16px 17px;
-      min-height: 142px;
-    }
-
-    .pl-card h3 {
-      font-family: Georgia, serif;
-      color: #163A6F;
-      font-size: 17px;
-      line-height: 1.25;
-      margin: 0 0 5px;
-    }
-
-    .pl-card p {
-      margin: 0 0 12px;
-      color: #4b5563;
-      font-size: 13.5px;
-    }
-
-    .pl-card-meta {
-      color: #6B7280;
-      font-size: 12px;
-      margin: 0 0 9px;
-    }
-
-    .pl-actions {
-      margin-top: 10px;
-    }
-
-    .pl-btn {
-      display: inline-block;
-      background: #C1923C;
-      color: #1a1a1a;
-      font-weight: bold;
-      font-size: 13px;
-      text-decoration: none;
-      border-radius: 8px;
-      padding: 8px 13px;
-      margin: 0 8px 8px 0;
-    }
-
-    .pl-help,
-    .pl-top-link {
-      display: inline-block;
-      color: #163A6F;
-      font-weight: bold;
-      font-size: 12.5px;
-      text-decoration: none;
-      border-bottom: 1px solid #C1923C;
-      padding-bottom: 1px;
-      margin-bottom: 8px;
-    }
-
-    .pl-section-footer {
-      margin: 10px 0 0;
-      text-align: right;
-    }
-
-    .pl-footer {
-      color: #6B7280;
-      font-size: 12.5px;
-      border-top: 1px solid #E4DECC;
-      margin-top: 32px;
-      padding-top: 13px;
-    }
-
-    .pl-footer strong {
-      color: #374151;
-    }
-
-    @media only screen and (max-width: 760px) {
-      .pl-info-grid,
-      .pl-info-row,
-      .pl-info-cell,
-      .pl-feature-grid,
-      .pl-feature-row,
-      .pl-feature-cell,
-      .pl-grid,
-      .pl-row,
-      .pl-cell {
-        display: block;
-        width: 100%;
-      }
-
-      .pl-info-grid,
-      .pl-feature-grid,
-      .pl-grid {
-        border-spacing: 0;
-        margin: 0;
-      }
-
-      .pl-info-cell,
-      .pl-feature-cell,
-      .pl-cell {
-        margin-bottom: 10px;
-      }
-
-      .pl-hero {
-        padding: 20px;
-      }
-
-      .pl-hero h1 {
-        font-size: 27px;
-      }
-
-      .pl-btn,
-      .pl-help {
-        display: block;
-        width: 100%;
-        text-align: center;
-      }
-
-      .pl-section-footer {
-        text-align: left;
-      }
-    }
-
-    @media print {
-      .pl-quick,
-      .pl-actions,
-      .pl-section-footer {
-        display: none;
-      }
-
-      .pl-card,
-      .pl-note,
-      .pl-feature,
-      .pl-hero {
-        border: 1px solid #999999;
-      }
-
-      .pl-section {
-        page-break-inside: avoid;
-      }
-    }
+    .pl-forms *{box-sizing:border-box;}
+    .pl-forms a:focus{outline:3px solid #C1923C;outline-offset:3px;}
+    .pl-hero,.pl-note,.pl-card,.pl-jump{border:1px solid #E4DECC;border-radius:12px;background:#fff;}
+    .pl-hero{background:#FBFAF6;padding:22px 24px;margin-bottom:14px;}
+    .pl-eyebrow{margin:0 0 6px;color:#6B7280;font-size:12px;font-weight:bold;letter-spacing:.08em;text-transform:uppercase;}
+    .pl-hero h1,.pl-section h2,.pl-note h2,.pl-card h3{font-family:Georgia,serif;color:#163A6F;line-height:1.2;}
+    .pl-hero h1{font-size:31px;margin:0 0 8px;}
+    .pl-hero p,.pl-note p,.pl-note li,.pl-card p{color:#4b5563;font-size:13.5px;}
+    .pl-hero p{margin:0;max-width:850px;font-size:15px;color:#374151;}
+    .pl-note{padding:14px 16px;margin-bottom:16px;}
+    .pl-note h2{font-size:18px;margin:0 0 6px;}
+    .pl-note ul{margin:7px 0 0 19px;padding:0;}
+    .pl-note p,.pl-note li{margin:4px 0;}
+    .pl-jump{padding:14px 16px;margin-bottom:24px;}
+    .pl-jump-title,.pl-subhead{font-size:13px;font-weight:bold;color:#374151;letter-spacing:.04em;text-transform:uppercase;}
+    .pl-jump-title{color:#163A6F;margin-bottom:9px;}
+    .pl-jump a{display:inline-block;margin:4px 6px 4px 0;padding:7px 11px;border:1px solid #E4DECC;border-radius:999px;background:#FBFAF6;color:#163A6F;text-decoration:none;font-size:13px;font-weight:bold;}
+    .pl-section{margin:30px 0 10px;scroll-margin-top:20px;}
+    .pl-section h2{font-size:23px;margin:0 0 14px;padding-bottom:7px;border-bottom:2px solid #E4DECC;}
+    .pl-subhead{margin:18px 0 8px;}
+    .pl-grid{display:flex;flex-wrap:wrap;gap:10px;}
+    .pl-card{flex:1 1 390px;padding:15px 16px;min-height:124px;}
+    .pl-card h3{font-size:17px;margin:0 0 6px;}
+    .pl-card p{margin:0 0 11px;}
+    .pl-actions{margin-top:8px;}
+    .pl-btn{display:inline-block;margin:0 8px 8px 0;padding:8px 12px;border-radius:8px;background:#C1923C;color:#1a1a1a;font-size:13px;font-weight:bold;text-decoration:none;}
+    .pl-help,.pl-top{display:inline-block;margin-bottom:8px;padding-bottom:1px;border-bottom:1px solid #C1923C;color:#163A6F;font-size:12.5px;font-weight:bold;text-decoration:none;}
+    .pl-btn:hover,.pl-help:hover,.pl-top:hover,.pl-jump a:hover{text-decoration:underline;}
+    .pl-back{text-align:right;margin-top:8px;}
+    .pl-footer{margin-top:30px;padding-top:12px;border-top:1px solid #E4DECC;color:#6B7280;font-size:12.5px;}
+    .pl-footer strong{color:#374151;}
+    @media only screen and (max-width:700px){.pl-hero{padding:20px;}.pl-hero h1{font-size:27px;}.pl-grid{display:block;}.pl-card{margin-bottom:10px;}.pl-btn,.pl-help{display:block;width:100%;text-align:center;}.pl-back{text-align:left;}}
+    @media print{.pl-jump,.pl-actions,.pl-back{display:none;}.pl-hero,.pl-note,.pl-card{border:1px solid #999;}.pl-section{page-break-inside:avoid;}}
   </style>
 
   <div class="pl-hero">
     <p class="pl-eyebrow">Town of Phillipston, Massachusetts</p>
     <h1>Forms &amp; Applications</h1>
-    <p>Use this page to find common Town forms by department. Download the form, review the instructions, and submit it with any required signatures, fees, plans, or supporting materials.</p>
+    <p>Find common Town forms by department. Download the form, review the instructions, and submit it with any required signatures, fees, plans, or supporting materials.</p>
   </div>
 
-  <div class="pl-info-grid">
-    <div class="pl-info-row">
-      <div class="pl-info-cell">
-        <div class="pl-note">
-          <h2>How to Submit a Form</h2>
-          <ul>
-            <li>Follow the instructions printed on the form.</li>
-            <li>Some applications require original signatures, fees, plans, inspections, or board review.</li>
-            <li>Contact the department before submitting if you are unsure which form applies.</li>
-          </ul>
-        </div>
-      </div>
-      <div class="pl-info-cell">
-        <div class="pl-note">
-          <h2>Before You Start</h2>
-          <p>Forms may be updated from time to time. These links open the Town Document Center so residents can access the current posted version.</p>
-          <p><strong>Town Offices:</strong> 50 The Common, Phillipston, MA 01331 &middot; (978) 249-6828</p>
-        </div>
-      </div>
-    </div>
+  <div class="pl-note">
+    <h2>Before You Submit</h2>
+    <ul>
+      <li>Use the instructions printed on the form.</li>
+      <li>Some applications require original signatures, fees, plans, inspections, or board review.</li>
+      <li>Forms may be updated. Links open the current posted version in the Town Document Center.</li>
+    </ul>
   </div>
 
-  <div class="pl-quick" role="navigation" aria-label="Jump to a department">
-    <div class="pl-quick-title">Jump to a Department</div>
-    <a href="#building">Building Department</a>
+  <div class="pl-jump" role="navigation" aria-label="Jump to a department">
+    <div class="pl-jump-title">Jump to a Department</div>
+    <a href="#building">Building</a>
     <a href="#health">Board of Health</a>
-    <a href="#assessors">Board of Assessors</a>
+    <a href="#assessors">Assessors</a>
     <a href="#clerk">Town Clerk</a>
-    <a href="#highway">Highway Department</a>
+    <a href="#highway">Highway</a>
     <a href="#planning">Planning &amp; Zoning</a>
-    <a href="#conservation">Conservation Commission</a>
+    <a href="#conservation">Conservation</a>
   </div>
-
-  <div class="pl-feature-grid" aria-label="Commonly requested forms">
-    <div class="pl-feature-row">
-      <div class="pl-feature-cell">
-        <div class="pl-feature">
-          <h2>Building Permit</h2>
-          <p>Construction, additions, renovations, and structural work.</p>
-          <a href="#building">Go to Building forms</a>
-        </div>
-      </div>
-      <div class="pl-feature-cell">
-        <div class="pl-feature">
-          <h2>Septic / Well</h2>
-          <p>Health applications for septic systems, wells, and perc tests.</p>
-          <a href="#health">Go to Health forms</a>
-        </div>
-      </div>
-      <div class="pl-feature-cell">
-        <div class="pl-feature">
-          <h2>Tax Relief</h2>
-          <p>Abatement, exemption, and chapter land applications.</p>
-          <a href="#assessors">Go to Assessors forms</a>
-        </div>
-      </div>
-      <div class="pl-feature-cell">
-        <div class="pl-feature">
-          <h2>Dog License</h2>
-          <p>License your dog through the Town Clerk.</p>
-          <a href="#clerk">Go to Clerk forms</a>
-        </div>
-      </div>
-      <div class="pl-feature-cell">
-        <div class="pl-feature">
-          <h2>Driveway Permit</h2>
-          <p>Driveway permit review and approval.</p>
-          <a href="#highway">Go to Highway forms</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- BUILDING -->
 
   <div class="pl-section" id="building">
     <h2>Building Department &amp; Inspectors</h2>
-
     <div class="pl-subhead">Construction</div>
-
     <div class="pl-grid">
-      <div class="pl-row">
-        <div class="pl-cell">
-          <div class="pl-card">
-            <h3>Building Permit Application</h3>
-            <div class="pl-card-meta">Building Department</div>
-            <p>For new construction, additions, renovations, and structural alterations.</p>
-            <div class="pl-actions">
-              <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/368" target="_blank" rel="noopener" aria-label="Download Building Permit Application">Download Building Permit Application</a>
-              <a class="pl-help" href="mailto:building@phillipston-ma.gov?subject=Building%20Permit%20Application" aria-label="Email the Building Department about the Building Permit Application">Contact Building Department</a>
-            </div>
-          </div>
-        </div>
-        <div class="pl-cell">
-          <div class="pl-card">
-            <h3>Building Permit Application Packet</h3>
-            <div class="pl-card-meta">Building Department</div>
-            <p>Supporting materials and requirements for building permit submissions.</p>
-            <div class="pl-actions">
-              <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/369" target="_blank" rel="noopener" aria-label="Download Building Permit Application Packet">Download Permit Packet</a>
-              <a class="pl-help" href="mailto:building@phillipston-ma.gov?subject=Building%20Permit%20Application%20Packet" aria-label="Email the Building Department about the Building Permit Application Packet">Contact Building Department</a>
-            </div>
-          </div>
+      <div class="pl-card">
+        <h3>Building Permit Application</h3>
+        <p>For new construction, additions, renovations, and structural alterations.</p>
+        <div class="pl-actions">
+          <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/368" target="_blank" rel="noopener">Download Building Permit</a>
+          <a class="pl-help" href="mailto:building@phillipston-ma.gov?subject=Building%20Permit%20Application">Contact Building</a>
         </div>
       </div>
-
-      <div class="pl-row">
-        <div class="pl-cell">
-          <div class="pl-card">
-            <h3>Demolition Permit Sign-Off</h3>
-            <div class="pl-card-meta">Building Department</div>
-            <p>Required sign-off form for demolition-related work.</p>
-            <div class="pl-actions">
-              <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/364" target="_blank" rel="noopener" aria-label="Download Demolition Permit Sign-Off form">Download Demolition Sign-Off</a>
-              <a class="pl-help" href="mailto:building@phillipston-ma.gov?subject=Demolition%20Permit%20Sign-Off" aria-label="Email the Building Department about the Demolition Permit Sign-Off">Contact Building Department</a>
-            </div>
-          </div>
+      <div class="pl-card">
+        <h3>Building Permit Application Packet</h3>
+        <p>Supporting materials and requirements for building permit submissions.</p>
+        <div class="pl-actions">
+          <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/369" target="_blank" rel="noopener">Download Permit Packet</a>
+          <a class="pl-help" href="mailto:building@phillipston-ma.gov?subject=Building%20Permit%20Application%20Packet">Contact Building</a>
         </div>
-        <div class="pl-cell">
-          <div class="pl-card">
-            <h3>Debris Disposal Affidavit</h3>
-            <div class="pl-card-meta">Building Department</div>
-            <p>Affidavit documenting construction or demolition debris disposal.</p>
-            <div class="pl-actions">
-              <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/370" target="_blank" rel="noopener" aria-label="Download Debris Disposal Affidavit">Download Debris Affidavit</a>
-              <a class="pl-help" href="mailto:building@phillipston-ma.gov?subject=Debris%20Disposal%20Affidavit" aria-label="Email the Building Department about the Debris Disposal Affidavit">Contact Building Department</a>
-            </div>
-          </div>
+      </div>
+      <div class="pl-card">
+        <h3>Demolition Permit Sign-Off</h3>
+        <p>Required sign-off form for demolition-related work.</p>
+        <div class="pl-actions">
+          <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/364" target="_blank" rel="noopener">Download Demolition Sign-Off</a>
+          <a class="pl-help" href="mailto:building@phillipston-ma.gov?subject=Demolition%20Permit%20Sign-Off">Contact Building</a>
+        </div>
+      </div>
+      <div class="pl-card">
+        <h3>Debris Disposal Affidavit</h3>
+        <p>Affidavit documenting construction or demolition debris disposal.</p>
+        <div class="pl-actions">
+          <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/370" target="_blank" rel="noopener">Download Debris Affidavit</a>
+          <a class="pl-help" href="mailto:building@phillipston-ma.gov?subject=Debris%20Disposal%20Affidavit">Contact Building</a>
         </div>
       </div>
     </div>
 
     <div class="pl-subhead">Mechanical &amp; Property Improvements</div>
-
     <div class="pl-grid">
-      <div class="pl-row">
-        <div class="pl-cell">
-          <div class="pl-card">
-            <h3>Sheet Metal Permit Application</h3>
-            <div class="pl-card-meta">Building Department</div>
-            <p>For sheet metal work requiring permit review.</p>
-            <div class="pl-actions">
-              <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/362" target="_blank" rel="noopener" aria-label="Download Sheet Metal Permit Application">Download Sheet Metal Application</a>
-              <a class="pl-help" href="mailto:building@phillipston-ma.gov?subject=Sheet%20Metal%20Permit%20Application" aria-label="Email the Building Department about the Sheet Metal Permit Application">Contact Building Department</a>
-            </div>
-          </div>
-        </div>
-        <div class="pl-cell">
-          <div class="pl-card">
-            <h3>Stove Installation Application</h3>
-            <div class="pl-card-meta">Building Department</div>
-            <p>For stove installation review and approval.</p>
-            <div class="pl-actions">
-              <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/363" target="_blank" rel="noopener" aria-label="Download Stove Installation Application">Download Stove Application</a>
-              <a class="pl-help" href="mailto:building@phillipston-ma.gov?subject=Stove%20Installation%20Application" aria-label="Email the Building Department about the Stove Installation Application">Contact Building Department</a>
-            </div>
-          </div>
+      <div class="pl-card">
+        <h3>Sheet Metal Permit Application</h3>
+        <p>For sheet metal work requiring permit review.</p>
+        <div class="pl-actions">
+          <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/362" target="_blank" rel="noopener">Download Sheet Metal Application</a>
+          <a class="pl-help" href="mailto:building@phillipston-ma.gov?subject=Sheet%20Metal%20Permit%20Application">Contact Building</a>
         </div>
       </div>
-
-      <div class="pl-row">
-        <div class="pl-cell">
-          <div class="pl-card">
-            <h3>Pool / Spa / Hot Tub Installation Application</h3>
-            <div class="pl-card-meta">Building Department</div>
-            <p>For pools, spas, and hot tubs requiring local approval.</p>
-            <div class="pl-actions">
-              <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/366" target="_blank" rel="noopener" aria-label="Download Pool Spa Hot Tub Installation Application">Download Pool / Spa / Hot Tub Application</a>
-              <a class="pl-help" href="mailto:building@phillipston-ma.gov?subject=Pool%20Spa%20Hot%20Tub%20Installation%20Application" aria-label="Email the Building Department about the Pool Spa Hot Tub Installation Application">Contact Building Department</a>
-            </div>
-          </div>
+      <div class="pl-card">
+        <h3>Stove Installation Application</h3>
+        <p>For stove installation review and approval.</p>
+        <div class="pl-actions">
+          <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/363" target="_blank" rel="noopener">Download Stove Application</a>
+          <a class="pl-help" href="mailto:building@phillipston-ma.gov?subject=Stove%20Installation%20Application">Contact Building</a>
         </div>
-        <div class="pl-cell">&nbsp;</div>
+      </div>
+      <div class="pl-card">
+        <h3>Pool / Spa / Hot Tub Installation Application</h3>
+        <p>For pools, spas, and hot tubs requiring local approval.</p>
+        <div class="pl-actions">
+          <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/366" target="_blank" rel="noopener">Download Pool / Spa / Hot Tub Application</a>
+          <a class="pl-help" href="mailto:building@phillipston-ma.gov?subject=Pool%20Spa%20Hot%20Tub%20Installation%20Application">Contact Building</a>
+        </div>
       </div>
     </div>
-
-    <div class="pl-section-footer"><a class="pl-top-link" href="#forms-top">Back to top</a></div>
+    <div class="pl-back"><a class="pl-top" href="#forms-top">Back to top</a></div>
   </div>
-
-  <!-- HEALTH -->
 
   <div class="pl-section" id="health">
     <h2>Board of Health</h2>
-
     <div class="pl-subhead">Septic, Wells &amp; Sanitary Systems</div>
-
     <div class="pl-grid">
-      <div class="pl-row">
-        <div class="pl-cell">
-          <div class="pl-card">
-            <h3>Septic Construction Permit Application</h3>
-            <div class="pl-card-meta">Board of Health</div>
-            <p>For disposal system construction and related septic work.</p>
-            <div class="pl-actions">
-              <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/354" target="_blank" rel="noopener" aria-label="Download Septic Construction Permit Application">Download Septic Construction Application</a>
-              <a class="pl-help" href="mailto:health@phillipston-ma.gov?subject=Septic%20Construction%20Permit%20Application" aria-label="Email the Board of Health about the Septic Construction Permit Application">Contact Board of Health</a>
-            </div>
-          </div>
-        </div>
-        <div class="pl-cell">
-          <div class="pl-card">
-            <h3>Percolation Test Application</h3>
-            <div class="pl-card-meta">Board of Health</div>
-            <p>For requesting or documenting a perc test.</p>
-            <div class="pl-actions">
-              <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/357" target="_blank" rel="noopener" aria-label="Download Percolation Test Application">Download Perc Test Application</a>
-              <a class="pl-help" href="mailto:health@phillipston-ma.gov?subject=Percolation%20Test%20Application" aria-label="Email the Board of Health about the Percolation Test Application">Contact Board of Health</a>
-            </div>
-          </div>
+      <div class="pl-card">
+        <h3>Septic Construction Permit Application</h3>
+        <p>For disposal system construction and related septic work.</p>
+        <div class="pl-actions">
+          <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/354" target="_blank" rel="noopener">Download Septic Construction Application</a>
+          <a class="pl-help" href="mailto:health@phillipston-ma.gov?subject=Septic%20Construction%20Permit%20Application">Contact Health</a>
         </div>
       </div>
-
-      <div class="pl-row">
-        <div class="pl-cell">
-          <div class="pl-card">
-            <h3>Well Application</h3>
-            <div class="pl-card-meta">Board of Health</div>
-            <p>For well-related applications and local health review.</p>
-            <div class="pl-actions">
-              <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/348" target="_blank" rel="noopener" aria-label="Download Well Application">Download Well Application</a>
-              <a class="pl-help" href="mailto:health@phillipston-ma.gov?subject=Well%20Application" aria-label="Email the Board of Health about the Well Application">Contact Board of Health</a>
-            </div>
-          </div>
+      <div class="pl-card">
+        <h3>Percolation Test Application</h3>
+        <p>For requesting or documenting a perc test.</p>
+        <div class="pl-actions">
+          <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/357" target="_blank" rel="noopener">Download Perc Test Application</a>
+          <a class="pl-help" href="mailto:health@phillipston-ma.gov?subject=Percolation%20Test%20Application">Contact Health</a>
         </div>
-        <div class="pl-cell">
-          <div class="pl-card">
-            <h3>Tight Tank Application</h3>
-            <div class="pl-card-meta">Board of Health</div>
-            <p>For tight tank applications and approval review.</p>
-            <div class="pl-actions">
-              <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/352" target="_blank" rel="noopener" aria-label="Download Tight Tank Application">Download Tight Tank Application</a>
-              <a class="pl-help" href="mailto:health@phillipston-ma.gov?subject=Tight%20Tank%20Application" aria-label="Email the Board of Health about the Tight Tank Application">Contact Board of Health</a>
-            </div>
-          </div>
+      </div>
+      <div class="pl-card">
+        <h3>Well Application</h3>
+        <p>For well-related applications and local health review.</p>
+        <div class="pl-actions">
+          <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/348" target="_blank" rel="noopener">Download Well Application</a>
+          <a class="pl-help" href="mailto:health@phillipston-ma.gov?subject=Well%20Application">Contact Health</a>
+        </div>
+      </div>
+      <div class="pl-card">
+        <h3>Tight Tank Application</h3>
+        <p>For tight tank applications and approval review.</p>
+        <div class="pl-actions">
+          <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/352" target="_blank" rel="noopener">Download Tight Tank Application</a>
+          <a class="pl-help" href="mailto:health@phillipston-ma.gov?subject=Tight%20Tank%20Application">Contact Health</a>
         </div>
       </div>
     </div>
 
     <div class="pl-subhead">Permits, Haulers &amp; Complaints</div>
-
     <div class="pl-grid">
-      <div class="pl-row">
-        <div class="pl-cell">
-          <div class="pl-card">
-            <h3>Food Permit Application</h3>
-            <div class="pl-card-meta">Board of Health</div>
-            <p>For food service or food-related permit review.</p>
-            <div class="pl-actions">
-              <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/356" target="_blank" rel="noopener" aria-label="Download Food Permit Application">Download Food Permit Application</a>
-              <a class="pl-help" href="mailto:health@phillipston-ma.gov?subject=Food%20Permit%20Application" aria-label="Email the Board of Health about the Food Permit Application">Contact Board of Health</a>
-            </div>
-          </div>
-        </div>
-        <div class="pl-cell">
-          <div class="pl-card">
-            <h3>Tobacco Permit Application</h3>
-            <div class="pl-card-meta">Board of Health</div>
-            <p>For tobacco permit applications and renewals.</p>
-            <div class="pl-actions">
-              <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/347" target="_blank" rel="noopener" aria-label="Download Tobacco Permit Application">Download Tobacco Permit Application</a>
-              <a class="pl-help" href="mailto:health@phillipston-ma.gov?subject=Tobacco%20Permit%20Application" aria-label="Email the Board of Health about the Tobacco Permit Application">Contact Board of Health</a>
-            </div>
-          </div>
+      <div class="pl-card">
+        <h3>Food Permit Application</h3>
+        <p>For food service or food-related permit review.</p>
+        <div class="pl-actions">
+          <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/356" target="_blank" rel="noopener">Download Food Permit Application</a>
+          <a class="pl-help" href="mailto:health@phillipston-ma.gov?subject=Food%20Permit%20Application">Contact Health</a>
         </div>
       </div>
-
-      <div class="pl-row">
-        <div class="pl-cell">
-          <div class="pl-card">
-            <h3>Beach Permit Application</h3>
-            <div class="pl-card-meta">Board of Health</div>
-            <p>For beach-related permit review.</p>
-            <div class="pl-actions">
-              <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/351" target="_blank" rel="noopener" aria-label="Download Beach Permit Application">Download Beach Permit Application</a>
-              <a class="pl-help" href="mailto:health@phillipston-ma.gov?subject=Beach%20Permit%20Application" aria-label="Email the Board of Health about the Beach Permit Application">Contact Board of Health</a>
-            </div>
-          </div>
-        </div>
-        <div class="pl-cell">
-          <div class="pl-card">
-            <h3>Septage Hauler Permit Application</h3>
-            <div class="pl-card-meta">Board of Health</div>
-            <p>For septage hauling permit applications.</p>
-            <div class="pl-actions">
-              <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/349" target="_blank" rel="noopener" aria-label="Download Septage Hauler Permit Application">Download Septage Hauler Application</a>
-              <a class="pl-help" href="mailto:health@phillipston-ma.gov?subject=Septage%20Hauler%20Permit%20Application" aria-label="Email the Board of Health about the Septage Hauler Permit Application">Contact Board of Health</a>
-            </div>
-          </div>
+      <div class="pl-card">
+        <h3>Tobacco Permit Application</h3>
+        <p>For tobacco permit applications and renewals.</p>
+        <div class="pl-actions">
+          <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/347" target="_blank" rel="noopener">Download Tobacco Permit Application</a>
+          <a class="pl-help" href="mailto:health@phillipston-ma.gov?subject=Tobacco%20Permit%20Application">Contact Health</a>
         </div>
       </div>
-
-      <div class="pl-row">
-        <div class="pl-cell">
-          <div class="pl-card">
-            <h3>Solid Waste Hauler Application</h3>
-            <div class="pl-card-meta">Board of Health</div>
-            <p>For solid waste hauler permitting.</p>
-            <div class="pl-actions">
-              <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/350" target="_blank" rel="noopener" aria-label="Download Solid Waste Hauler Application">Download Solid Waste Hauler Application</a>
-              <a class="pl-help" href="mailto:health@phillipston-ma.gov?subject=Solid%20Waste%20Hauler%20Application" aria-label="Email the Board of Health about the Solid Waste Hauler Application">Contact Board of Health</a>
-            </div>
-          </div>
-        </div>
-        <div class="pl-cell">
-          <div class="pl-card">
-            <h3>Portable Toilet Application</h3>
-            <div class="pl-card-meta">Board of Health</div>
-            <p>For portable toilet placement or service approval.</p>
-            <div class="pl-actions">
-              <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/358" target="_blank" rel="noopener" aria-label="Download Portable Toilet Application">Download Portable Toilet Application</a>
-              <a class="pl-help" href="mailto:health@phillipston-ma.gov?subject=Portable%20Toilet%20Application" aria-label="Email the Board of Health about the Portable Toilet Application">Contact Board of Health</a>
-            </div>
-          </div>
+      <div class="pl-card">
+        <h3>Beach Permit Application</h3>
+        <p>For beach-related permit review.</p>
+        <div class="pl-actions">
+          <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/351" target="_blank" rel="noopener">Download Beach Permit Application</a>
+          <a class="pl-help" href="mailto:health@phillipston-ma.gov?subject=Beach%20Permit%20Application">Contact Health</a>
         </div>
       </div>
-
-      <div class="pl-row">
-        <div class="pl-cell">
-          <div class="pl-card">
-            <h3>Health Complaint Report</h3>
-            <div class="pl-card-meta">Board of Health</div>
-            <p>For submitting a health-related complaint or concern.</p>
-            <div class="pl-actions">
-              <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/341" target="_blank" rel="noopener" aria-label="Download Health Complaint Report">Download Health Complaint Report</a>
-              <a class="pl-help" href="mailto:health@phillipston-ma.gov?subject=Health%20Complaint%20Report" aria-label="Email the Board of Health about the Health Complaint Report">Contact Board of Health</a>
-            </div>
-          </div>
+      <div class="pl-card">
+        <h3>Septage Hauler Permit Application</h3>
+        <p>For septage hauling permit applications.</p>
+        <div class="pl-actions">
+          <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/349" target="_blank" rel="noopener">Download Septage Hauler Application</a>
+          <a class="pl-help" href="mailto:health@phillipston-ma.gov?subject=Septage%20Hauler%20Permit%20Application">Contact Health</a>
         </div>
-        <div class="pl-cell">&nbsp;</div>
+      </div>
+      <div class="pl-card">
+        <h3>Solid Waste Hauler Application</h3>
+        <p>For solid waste hauler permitting.</p>
+        <div class="pl-actions">
+          <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/350" target="_blank" rel="noopener">Download Solid Waste Hauler Application</a>
+          <a class="pl-help" href="mailto:health@phillipston-ma.gov?subject=Solid%20Waste%20Hauler%20Application">Contact Health</a>
+        </div>
+      </div>
+      <div class="pl-card">
+        <h3>Portable Toilet Application</h3>
+        <p>For portable toilet placement or service approval.</p>
+        <div class="pl-actions">
+          <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/358" target="_blank" rel="noopener">Download Portable Toilet Application</a>
+          <a class="pl-help" href="mailto:health@phillipston-ma.gov?subject=Portable%20Toilet%20Application">Contact Health</a>
+        </div>
+      </div>
+      <div class="pl-card">
+        <h3>Health Complaint Report</h3>
+        <p>For submitting a health-related complaint or concern.</p>
+        <div class="pl-actions">
+          <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/341" target="_blank" rel="noopener">Download Health Complaint Report</a>
+          <a class="pl-help" href="mailto:health@phillipston-ma.gov?subject=Health%20Complaint%20Report">Contact Health</a>
+        </div>
       </div>
     </div>
-
-    <div class="pl-section-footer"><a class="pl-top-link" href="#forms-top">Back to top</a></div>
+    <div class="pl-back"><a class="pl-top" href="#forms-top">Back to top</a></div>
   </div>
-
-  <!-- ASSESSORS -->
 
   <div class="pl-section" id="assessors">
     <h2>Board of Assessors</h2>
-
     <div class="pl-grid">
-      <div class="pl-row">
-        <div class="pl-cell">
-          <div class="pl-card">
-            <h3>Real Estate &amp; Personal Property Abatement Application</h3>
-            <div class="pl-card-meta">Board of Assessors</div>
-            <p>For real estate or personal property abatement requests. Filing deadlines may apply.</p>
-            <div class="pl-actions">
-              <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/332" target="_blank" rel="noopener" aria-label="Download Real Estate and Personal Property Abatement Application">Download Abatement Application</a>
-              <a class="pl-help" href="mailto:assessors@phillipston-ma.gov?subject=Real%20Estate%20and%20Personal%20Property%20Abatement%20Application" aria-label="Email the Board of Assessors about the Real Estate and Personal Property Abatement Application">Contact Board of Assessors</a>
-            </div>
-          </div>
-        </div>
-        <div class="pl-cell">
-          <div class="pl-card">
-            <h3>Veterans Exemption Application</h3>
-            <div class="pl-card-meta">Board of Assessors</div>
-            <p>For veterans property tax exemption requests. Eligibility and filing deadlines may apply.</p>
-            <div class="pl-actions">
-              <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/339" target="_blank" rel="noopener" aria-label="Download Veterans Exemption Application">Download Veterans Exemption Application</a>
-              <a class="pl-help" href="mailto:assessors@phillipston-ma.gov?subject=Veterans%20Exemption%20Application" aria-label="Email the Board of Assessors about the Veterans Exemption Application">Contact Board of Assessors</a>
-            </div>
-          </div>
+      <div class="pl-card">
+        <h3>Real Estate &amp; Personal Property Abatement Application</h3>
+        <p>For real estate or personal property abatement requests. Filing deadlines may apply.</p>
+        <div class="pl-actions">
+          <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/332" target="_blank" rel="noopener">Download Abatement Application</a>
+          <a class="pl-help" href="mailto:assessors@phillipston-ma.gov?subject=Real%20Estate%20and%20Personal%20Property%20Abatement%20Application">Contact Assessors</a>
         </div>
       </div>
-
-      <div class="pl-row">
-        <div class="pl-cell">
-          <div class="pl-card">
-            <h3>Blind Exemption Application</h3>
-            <div class="pl-card-meta">Board of Assessors</div>
-            <p>For blind exemption applications. Eligibility and filing deadlines may apply.</p>
-            <div class="pl-actions">
-              <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/340" target="_blank" rel="noopener" aria-label="Download Blind Exemption Application">Download Blind Exemption Application</a>
-              <a class="pl-help" href="mailto:assessors@phillipston-ma.gov?subject=Blind%20Exemption%20Application" aria-label="Email the Board of Assessors about the Blind Exemption Application">Contact Board of Assessors</a>
-            </div>
-          </div>
-        </div>
-        <div class="pl-cell">
-          <div class="pl-card">
-            <h3>Senior Exemption Application</h3>
-            <div class="pl-card-meta">Board of Assessors</div>
-            <p>For senior exemption applications. Eligibility and filing deadlines may apply.</p>
-            <div class="pl-actions">
-              <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/333" target="_blank" rel="noopener" aria-label="Download Senior Exemption Application">Download Senior Exemption Application</a>
-              <a class="pl-help" href="mailto:assessors@phillipston-ma.gov?subject=Senior%20Exemption%20Application" aria-label="Email the Board of Assessors about the Senior Exemption Application">Contact Board of Assessors</a>
-            </div>
-          </div>
+      <div class="pl-card">
+        <h3>Veterans Exemption Application</h3>
+        <p>For veterans property tax exemption requests. Eligibility and deadlines may apply.</p>
+        <div class="pl-actions">
+          <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/339" target="_blank" rel="noopener">Download Veterans Exemption</a>
+          <a class="pl-help" href="mailto:assessors@phillipston-ma.gov?subject=Veterans%20Exemption%20Application">Contact Assessors</a>
         </div>
       </div>
-
-      <div class="pl-row">
-        <div class="pl-cell">
-          <div class="pl-card">
-            <h3>Chapter Land Classification Application</h3>
-            <div class="pl-card-meta">Board of Assessors</div>
-            <p>For chapter land classification applications.</p>
-            <div class="pl-actions">
-              <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/335" target="_blank" rel="noopener" aria-label="Download Chapter Land Classification Application">Download Chapter Land Application</a>
-              <a class="pl-help" href="mailto:assessors@phillipston-ma.gov?subject=Chapter%20Land%20Classification%20Application" aria-label="Email the Board of Assessors about the Chapter Land Classification Application">Contact Board of Assessors</a>
-            </div>
-          </div>
+      <div class="pl-card">
+        <h3>Blind Exemption Application</h3>
+        <p>For blind exemption requests. Eligibility and deadlines may apply.</p>
+        <div class="pl-actions">
+          <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/340" target="_blank" rel="noopener">Download Blind Exemption</a>
+          <a class="pl-help" href="mailto:assessors@phillipston-ma.gov?subject=Blind%20Exemption%20Application">Contact Assessors</a>
         </div>
-        <div class="pl-cell">
-          <div class="pl-card">
-            <h3>Mailing Address Change Form</h3>
-            <div class="pl-card-meta">Board of Assessors</div>
-            <p>Use this form to update your mailing address with the Assessors.</p>
-            <div class="pl-actions">
-              <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/336" target="_blank" rel="noopener" aria-label="Download Mailing Address Change Form">Download Address Change Form</a>
-              <a class="pl-help" href="mailto:assessors@phillipston-ma.gov?subject=Mailing%20Address%20Change%20Form" aria-label="Email the Board of Assessors about the Mailing Address Change Form">Contact Board of Assessors</a>
-            </div>
-          </div>
+      </div>
+      <div class="pl-card">
+        <h3>Senior Exemption Application</h3>
+        <p>For senior exemption requests. Eligibility and deadlines may apply.</p>
+        <div class="pl-actions">
+          <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/333" target="_blank" rel="noopener">Download Senior Exemption</a>
+          <a class="pl-help" href="mailto:assessors@phillipston-ma.gov?subject=Senior%20Exemption%20Application">Contact Assessors</a>
+        </div>
+      </div>
+      <div class="pl-card">
+        <h3>Chapter Land Classification Application</h3>
+        <p>For chapter land classification applications.</p>
+        <div class="pl-actions">
+          <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/335" target="_blank" rel="noopener">Download Chapter Land Application</a>
+          <a class="pl-help" href="mailto:assessors@phillipston-ma.gov?subject=Chapter%20Land%20Classification%20Application">Contact Assessors</a>
+        </div>
+      </div>
+      <div class="pl-card">
+        <h3>Mailing Address Change Form</h3>
+        <p>Use this form to update your mailing address with the Assessors.</p>
+        <div class="pl-actions">
+          <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/336" target="_blank" rel="noopener">Download Address Change Form</a>
+          <a class="pl-help" href="mailto:assessors@phillipston-ma.gov?subject=Mailing%20Address%20Change%20Form">Contact Assessors</a>
         </div>
       </div>
     </div>
-
-    <div class="pl-section-footer"><a class="pl-top-link" href="#forms-top">Back to top</a></div>
+    <div class="pl-back"><a class="pl-top" href="#forms-top">Back to top</a></div>
   </div>
-
-  <!-- TOWN CLERK -->
 
   <div class="pl-section" id="clerk">
     <h2>Town Clerk</h2>
-
     <div class="pl-grid">
-      <div class="pl-row">
-        <div class="pl-cell">
-          <div class="pl-card">
-            <h3>Dog License Application</h3>
-            <div class="pl-card-meta">Town Clerk</div>
-            <p>For licensing a dog with the Town Clerk.</p>
-            <div class="pl-actions">
-              <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/373" target="_blank" rel="noopener" aria-label="Download Dog License Application">Download Dog License Application</a>
-              <a class="pl-help" href="mailto:townclerk@phillipston-ma.gov?subject=Dog%20License%20Application" aria-label="Email the Town Clerk about the Dog License Application">Contact Town Clerk</a>
-            </div>
-          </div>
-        </div>
-        <div class="pl-cell">
-          <div class="pl-card">
-            <h3>Workers Comp Affidavit — Contractors</h3>
-            <div class="pl-card-meta">Town Clerk</div>
-            <p>Workers compensation affidavit for contractors.</p>
-            <div class="pl-actions">
-              <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/376" target="_blank" rel="noopener" aria-label="Download Workers Comp Affidavit for Contractors">Download Contractor Affidavit</a>
-              <a class="pl-help" href="mailto:townclerk@phillipston-ma.gov?subject=Workers%20Comp%20Affidavit%20Contractors" aria-label="Email the Town Clerk about the Workers Comp Affidavit for Contractors">Contact Town Clerk</a>
-            </div>
-          </div>
+      <div class="pl-card">
+        <h3>Dog License Application</h3>
+        <p>For licensing a dog with the Town Clerk.</p>
+        <div class="pl-actions">
+          <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/373" target="_blank" rel="noopener">Download Dog License Application</a>
+          <a class="pl-help" href="mailto:townclerk@phillipston-ma.gov?subject=Dog%20License%20Application">Contact Town Clerk</a>
         </div>
       </div>
-
-      <div class="pl-row">
-        <div class="pl-cell">
-          <div class="pl-card">
-            <h3>Workers Comp Affidavit — General</h3>
-            <div class="pl-card-meta">Town Clerk</div>
-            <p>General workers compensation affidavit.</p>
-            <div class="pl-actions">
-              <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/375" target="_blank" rel="noopener" aria-label="Download General Workers Comp Affidavit">Download General Affidavit</a>
-              <a class="pl-help" href="mailto:townclerk@phillipston-ma.gov?subject=Workers%20Comp%20Affidavit%20General" aria-label="Email the Town Clerk about the General Workers Comp Affidavit">Contact Town Clerk</a>
-            </div>
-          </div>
+      <div class="pl-card">
+        <h3>Workers Comp Affidavit — Contractors</h3>
+        <p>Workers compensation affidavit for contractors.</p>
+        <div class="pl-actions">
+          <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/376" target="_blank" rel="noopener">Download Contractor Affidavit</a>
+          <a class="pl-help" href="mailto:townclerk@phillipston-ma.gov?subject=Workers%20Comp%20Affidavit%20Contractors">Contact Town Clerk</a>
         </div>
-        <div class="pl-cell">&nbsp;</div>
+      </div>
+      <div class="pl-card">
+        <h3>Workers Comp Affidavit — General</h3>
+        <p>General workers compensation affidavit.</p>
+        <div class="pl-actions">
+          <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/375" target="_blank" rel="noopener">Download General Affidavit</a>
+          <a class="pl-help" href="mailto:townclerk@phillipston-ma.gov?subject=Workers%20Comp%20Affidavit%20General">Contact Town Clerk</a>
+        </div>
       </div>
     </div>
-
-    <div class="pl-section-footer"><a class="pl-top-link" href="#forms-top">Back to top</a></div>
+    <div class="pl-back"><a class="pl-top" href="#forms-top">Back to top</a></div>
   </div>
-
-  <!-- HIGHWAY -->
 
   <div class="pl-section" id="highway">
     <h2>Highway Department</h2>
-
     <div class="pl-grid">
-      <div class="pl-row">
-        <div class="pl-cell">
-          <div class="pl-card">
-            <h3>Driveway Permit Form</h3>
-            <div class="pl-card-meta">Highway Department</div>
-            <p>For driveway permit review and approval.</p>
-            <div class="pl-actions">
-              <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/981" target="_blank" rel="noopener" aria-label="Download Driveway Permit Form">Download Driveway Permit Form</a>
-              <a class="pl-help" href="mailto:selectman@phillipston-ma.gov?subject=Driveway%20Permit%20Form" aria-label="Email the Town about the Driveway Permit Form">Contact Highway Department</a>
-            </div>
-          </div>
+      <div class="pl-card">
+        <h3>Driveway Permit Form</h3>
+        <p>For driveway permit review and approval.</p>
+        <div class="pl-actions">
+          <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/981" target="_blank" rel="noopener">Download Driveway Permit Form</a>
+          <a class="pl-help" href="mailto:selectman@phillipston-ma.gov?subject=Driveway%20Permit%20Form">Contact Highway</a>
         </div>
-        <div class="pl-cell">&nbsp;</div>
       </div>
     </div>
-
-    <div class="pl-section-footer"><a class="pl-top-link" href="#forms-top">Back to top</a></div>
+    <div class="pl-back"><a class="pl-top" href="#forms-top">Back to top</a></div>
   </div>
-
-  <!-- PLANNING -->
 
   <div class="pl-section" id="planning">
     <h2>Planning Board / Zoning Board of Appeals</h2>
-
     <div class="pl-grid">
-      <div class="pl-row">
-        <div class="pl-cell">
-          <div class="pl-card">
-            <h3>Application for Zoning Board Hearing</h3>
-            <div class="pl-card-meta">Planning Board / Zoning Board of Appeals</div>
-            <p>For requests requiring a Zoning Board hearing.</p>
-            <div class="pl-actions">
-              <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/367" target="_blank" rel="noopener" aria-label="Download Application for Zoning Board Hearing">Download Zoning Board Application</a>
-              <a class="pl-help" href="mailto:selectman@phillipston-ma.gov?subject=Application%20for%20Zoning%20Board%20Hearing" aria-label="Email the Town about the Application for Zoning Board Hearing">Contact Planning &amp; Zoning</a>
-            </div>
-          </div>
+      <div class="pl-card">
+        <h3>Application for Zoning Board Hearing</h3>
+        <p>For requests requiring a Zoning Board hearing.</p>
+        <div class="pl-actions">
+          <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/367" target="_blank" rel="noopener">Download Zoning Board Application</a>
+          <a class="pl-help" href="mailto:selectman@phillipston-ma.gov?subject=Application%20for%20Zoning%20Board%20Hearing">Contact Planning &amp; Zoning</a>
         </div>
-        <div class="pl-cell">&nbsp;</div>
       </div>
     </div>
-
-    <div class="pl-section-footer"><a class="pl-top-link" href="#forms-top">Back to top</a></div>
+    <div class="pl-back"><a class="pl-top" href="#forms-top">Back to top</a></div>
   </div>
-
-  <!-- CONSERVATION -->
 
   <div class="pl-section" id="conservation">
     <h2>Conservation Commission</h2>
-
     <div class="pl-grid">
-      <div class="pl-row">
-        <div class="pl-cell">
-          <div class="pl-card">
-            <h3>Wetland Protection Act Forms</h3>
-            <div class="pl-card-meta">Conservation Commission</div>
-            <p>For wetlands-related filings and Conservation Commission review.</p>
-            <div class="pl-actions">
-              <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/328" target="_blank" rel="noopener" aria-label="Download Wetland Protection Act Forms">Download Wetland Protection Forms</a>
-              <a class="pl-help" href="mailto:selectman@phillipston-ma.gov?subject=Wetland%20Protection%20Act%20Forms" aria-label="Email the Town about Wetland Protection Act Forms">Contact Conservation Commission</a>
-            </div>
-          </div>
+      <div class="pl-card">
+        <h3>Wetland Protection Act Forms</h3>
+        <p>For wetlands-related filings and Conservation Commission review.</p>
+        <div class="pl-actions">
+          <a class="pl-btn" href="https://www.phillipston-ma.gov/DocumentCenter/View/328" target="_blank" rel="noopener">Download Wetland Protection Forms</a>
+          <a class="pl-help" href="mailto:selectman@phillipston-ma.gov?subject=Wetland%20Protection%20Act%20Forms">Contact Conservation</a>
         </div>
-        <div class="pl-cell">&nbsp;</div>
       </div>
     </div>
-
-    <div class="pl-section-footer"><a class="pl-top-link" href="#forms-top">Back to top</a></div>
+    <div class="pl-back"><a class="pl-top" href="#forms-top">Back to top</a></div>
   </div>
 
-  <p class="pl-footer">
-    <strong>Town of Phillipston, Massachusetts</strong> &middot; 50 The Common, Phillipston, MA 01331 &middot; (978) 249-6828 &middot; Forms link to the Town Document Center. If a link does not open, contact the appropriate department for assistance.
-  </p>
-
+  <p class="pl-footer"><strong>Town of Phillipston, Massachusetts</strong> &middot; 50 The Common, Phillipston, MA 01331 &middot; (978) 249-6828 &middot; Forms link to the Town Document Center. If a link does not open, contact the appropriate department.</p>
 </div>
