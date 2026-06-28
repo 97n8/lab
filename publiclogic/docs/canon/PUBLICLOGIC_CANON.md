@@ -1,4 +1,4 @@
-# PUBLICLOGIC_CANON.md — Series 1, **V1.3 (Reconciled + Bookend + Signal-Behavior + Locked Lanes)**
+# PUBLICLOGIC_CANON.md — Series 1, **V1.4 (… + Verifiable Record)**
 
 The PuddleJumper Product Ecosystem — Build Reference
 
@@ -27,6 +27,9 @@ Companion to the Series 1 Final Workbook (v2) — the control system. This is th
 >
 > ### Addendum (V1.2 → V1.3 — locked lanes, go-forward)
 > 13. **Public lanes locked to four — STAY · MUNI · PROJECT · BIZ** (CORE is the internal runtime, not a public lane). **GRANT folds into PROJECT** as a module family; LIVE/HOME/PEOPLE/FINANCE/OPS/PROPERTY become module families or entry modes, not standalone public lanes (per the locked go-forward workbook, decisions D-001/D-002). See §1 "Public lanes." The Series 1 template families (§5–§6) remain the architecture reference — they are now module families under the four lanes.
+>
+> ### Addendum (V1.3 → V1.4 — Verifiable Record, no-custody trust)
+> 14. **Verifiable Record doctrine** added to §1 (decisions D-009…D-013). Immutability is redefined as **tamper-evidence across custody boundaries** (alteration is exposed, not custody-prevented) — the Bookend Repository guarantee is updated accordingly. Adds **Record Receipt vs closing CaseReceipt** (object integrity vs set completeness), **Canonical Form v1** (deterministic bytes; build blocker before signatures), **offline verification as the invariant**, **separated keys** (runtime/org/closure; dual attestation default for MUNI/PROJECT) **+ trust anchors**, and **ARCHIEVE = a manifest-backed verifiable bundle**, not a PDF. The Golden Path is renumbered GP-001→014 (Canonical Object + Record Receipt inserted before FORM; CaseReceipt + Trust Anchor at the seal).
 
 ---
 
@@ -139,7 +142,7 @@ CAL and Manifest/PRM are a *gate* and a *precondition*, not hand-off stages.
 **PuddleJumper owns the two guarantees.**
 
 - **Entry Surface** — the point where work becomes a CaseSpace (received → logged). The guarantee here is **provenance**.
-- **Repository** — the point where work becomes a sealed, append-only record. The guarantee here is **immutability**. The three are typed, not a state chain: PRR ends at `closed` (a **state**) → ARCHIEVE seals the leaf (an **operation**) → the parent renders it as rollup (a **view**, per the Seals-into-parent = Rollup View ruling).
+- **Repository** — the point where work becomes a sealed, append-only record. The guarantee here is **immutability — redefined (V1.4) as tamper-evidence across custody boundaries**: alteration and omission are *exposed* by receipts and a closing CaseReceipt, not prevented by PJ holding every copy (your tools can keep the files). The three are typed, not a state chain: PRR ends at `closed` (a **state**) → ARCHIEVE seals the leaf (an **operation**, now producing a manifest-backed verifiable bundle) → the parent renders it as rollup (a **view**, per the Seals-into-parent = Rollup View ruling).
 
 Everything between those two contracts belongs to the operator. PublicLogic does not require a specific workflow, database, CRM, permitting system, PMS, ERP, file store, or vendor. Those remain the operator's choice. **The middle is therefore content-agnostic, not unconstrained.**
 
@@ -220,13 +223,34 @@ VAULT = **V**erification · **A**uthority · **U**tility · **L**egitimacy · **
 
 | Letter | Principle | Enforcing mechanism | Status |
 |---|---|---|---|
-| V | Verification | ARCHIEVE seal + chain | ratified |
+| V | Verification | Canonical object hash + Record Receipt signature (V1.4) | ratified |
 | A | Authority | CAL role gate | ratified |
 | U | Utility | *Proposed:* skin-defined required fields + structured FORM intake make the record complete and retrievable, with the `missing_evidence` CAL conflict blocking close until the usable record is whole. | ◻ proposed — not yet ratified |
-| L | Legitimacy | Propose-then-ratify + audit | ratified |
-| T | Transfer | ARCHIEVE seal + chain | ratified |
+| L | Legitimacy | Propose-then-ratify + audit + key registry | ratified |
+| T | Transfer | ARCHIEVE manifest-backed bundle + closing CaseReceipt + offline verifier (V1.4) | ratified |
 
 > The Utility (U) mechanism is fenced like an illustrative proposal: the **principle** is canon; the **mechanism** is a proposed mapping routed through propose-then-ratify before it becomes locked. Until ratified, treat U's mechanism as TBD, not settled.
+
+### The Verifiable Record — no-custody trust *(V1.4, go-forward sheets 12–18)*
+
+Trust moves from a *place* to an *object*: PJ does not need custody of the store if the record carries proof that exposes alteration **and** omission. *Your tools can hold the files; PuddleJumper proves the record.*
+
+| Level | Guarantee | Primitive |
+|---|---|---|
+| Identity | The object can be named and linked across tools | stable IDs (`receipt_id`, `case_id`, `object_id`, …) |
+| Provenance | Origin, actor, time, retrieval method, source hash, consent are captured | provenance clamp in the Record Receipt |
+| Integrity | Any alteration changes the hash/signature | canonical object hash + signature |
+| Completeness | Omission/addition after close changes the set root | **closing CaseReceipt** manifest (ordered/Merkle root over all member receipts) |
+
+Locked rules:
+
+- **Canonical Form v1** is a build blocker before signatures — deterministic bytes (UTF-8, NFC, LF, RFC3339-Z, lexically-sorted JSON keys, no insignificant whitespace, fixed numbers, base64url). Two honest verifiers must derive the same hash, and the packet carries the canonical objects themselves.
+- **Record Receipt vs closing CaseReceipt** — the receipt stops *alteration* of an object; the CaseReceipt stops *silent omission* by committing to the complete receipt set at close.
+- **Offline verification is the invariant** — packet + receipts + public keys verify without PublicLogic servers; any verification URL is convenience only.
+- **Separated keys** — runtime (PJ assembled this), organization (official/accepted record), closure (I close this in this role). Dual/triple attestation is the default for MUNI/PROJECT; optional for low-stakes STAY/BIZ. A key registry tracks valid/retired/revoked.
+- **Trust anchors** — high-trust seals publish/preserve an external root so omission, replacement, and key-compromise can be evaluated after the fact.
+- **ARCHIEVE** binds canonical objects + member receipts + CaseReceipt + signatures + optional anchor into a sealed, independently-verifiable bundle — **not** a PDF export.
+- **What a receipt does NOT claim:** truth or legal sufficiency. It attests *existence-at-time and stated provenance* — what was in the record, where it came from, and what was sealed. Marketing and legal language must not overclaim.
 
 ---
 
@@ -827,4 +851,4 @@ What was pulled forward, and how each term/role was refactored. **Kept the conce
 
 ---
 
-*End of canon — V1.3 (Reconciled + Bookend + Signal-Behavior + Locked Lanes). Build the Golden Path first (Seed → FORM → CaseSpace → PRR → Evidence → CAL/PRM → Digest → Packet → ARCHIEVE) before any lane depth; run the build from the locked go-forward workbook.*
+*End of canon — V1.4 (… + Verifiable Record). Build the Golden Path first — now GP-001→014: Seed → Canonical Object → Record Receipt → FORM → CaseSpace → PRR (receipts) → Evidence → CAL/PRM → Digest → Packet → CaseReceipt → ARCHIEVE seal + anchor. Canonical Form v1 before signatures; offline verification is the invariant.*

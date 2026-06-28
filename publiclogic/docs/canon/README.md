@@ -4,9 +4,10 @@ Reconciled doctrine + product reference for the PuddleJumper ecosystem.
 
 | File | Role |
 |---|---|
-| `PuddleJumper_Final_Go_Forward_Workbook_BUILD_LOCKED.xlsx` | **🔒 The locked go-forward execution file** (2026-06-28). Run the build from this: Control Panel, Golden Path GP-001→012, 90-day plan, lanes, pricing, scope guards, demo script, decision log, launch locks. Supersedes earlier GTM/lane taxonomy where they differ. |
+| `PuddleJumper_Final_Go_Forward_Workbook_VERIFIABLE_CANON.xlsx` | **🔒 Current go-forward (Verifiable Record edition, 2026-06-28).** The build constitution + the no-custody verifiable trust model (19 sheets): adds Verifiable Record doctrine, Receipt spec, Canonical Form v1, closing CaseReceipt manifest, keys/anchors, offline verifier, canon patch. Golden Path renumbered to GP-001→014 (canonical object + record receipt inserted; CaseReceipt + trust anchor at the seal). **Authoritative.** |
+| `PuddleJumper_Final_Go_Forward_Workbook_BUILD_LOCKED.xlsx` | Prior go-forward snapshot (GP-001→012). **Superseded** by the Verifiable Record edition; kept for history. |
 | `PROOF.md` | The spine — the three foundational principles the rest hangs off. Read first. |
-| `PUBLICLOGIC_CANON.md` | **V1.3 (… + Locked Lanes)** build reference — the understanding layer. Read top to bottom. |
+| `PUBLICLOGIC_CANON.md` | **V1.4 (… + Verifiable Record)** build reference — the understanding layer. Read top to bottom. |
 | `PublicLogic_Series1_Final_Workbook.xlsx` | The control system — Series 1 templates, work packs, lanes, dashboards, governance (27 sheets). |
 | `PublicLogic-Canon.xlsx` | Locked doctrine workbook — runtime line (Tab 02) and VAULT (Tab 12) that the markdown reconciles to. |
 
@@ -41,3 +42,28 @@ architecture reference.
 Everything else (category = Governed Work Runtime; thesis = Proof is the product; five-tab
 client edge; "your tools can stay messy, the record cannot") is consistent across the site,
 the canon, and the go-forward file.
+
+## Verifiable Record upgrade (2026-06-28)
+
+The Verifiable Record edition turns "proof is the product" into literally verifiable proof —
+a **no-custody trust model** (decisions D-009…D-013):
+
+- **Immutability is redefined as tamper-evidence across custody boundaries** — alteration is
+  *exposed*, not prevented by PJ holding every copy. Your tools can hold the files; PJ proves
+  the record. (Updates the Bookend Repository guarantee.)
+- **Record Receipt vs closing CaseReceipt** — a Record Receipt proves object integrity +
+  provenance; the closing CaseReceipt commits to the *full receipt set* (ordered/Merkle root)
+  so silent omission is exposed, not just alteration.
+- **Canonical Form v1** is a build blocker before signatures (deterministic UTF-8/NFC/LF/
+  RFC3339/sorted-keys bytes; two honest verifiers derive the same hash).
+- **Offline verification is the invariant** — packet + receipts + public keys verify without
+  PublicLogic servers; any verification URL is convenience only.
+- **Keys & anchors** — separate runtime / organization / closure signatures (dual attestation
+  default for MUNI/PROJECT); high-trust seals publish an external root.
+- **ARCHIEVE** = a sealed, manifest-backed, independently-verifiable bundle (canonical objects +
+  receipts + CaseReceipt + signatures + optional anchor), not a PDF export.
+
+**Golden Path renumber:** the runtime gains Canonical Object (GP-002) and Record Receipt
+(GP-003) before FORM (now GP-004), and CaseReceipt Manifest (GP-013) + ARCHIEVE Seal/Anchor
+(GP-014) at close. The built demo routes map: `/seed` = GP-001, `/form` = GP-004, `/recordstream`
+= GP-006 (each event now earns a receipt).
