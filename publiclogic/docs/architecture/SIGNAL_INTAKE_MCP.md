@@ -2,12 +2,11 @@
 
 **Status:** Architecture / design. The verified spine it plugs into (canonical
 form → Record Receipt → PRR → CaseReceipt → offline verification) is **built and
-tested** in `@publiclogic/golden-path`. **Steps 1 and 2 are built** — the Signal
-object + signal Record Receipt (`signal.js`), and the source-agnostic connector
-interface `receive → normalize → resolve → receipt` (`connector.js`) with three
-sample connectors (see §7). The MCP-backed network adapter and FORM/PRR wiring are
-still **proposed**; one real precedent already ships (`@publiclogic/kpl-casespace`,
-the official Airbnb iCal feed) and is the next thing to route through the interface.
+tested** in `@publiclogic/golden-path`. **Steps 1, 2, 2A, and 3 are built** — the
+Signal object + receipt (`signal.js`), the source-agnostic connector interface
+`receive → normalize → resolve → receipt` (`connector.js`), the human review loop
+(`review.js`), and the first network-backed adapter (`@publiclogic/connector-files`,
+env-config Files/Drive surface). Only **Step 4 — FORM/PRR wiring — remains proposed**.
 Nothing here changes canon; it operationalizes the **Signal Behavior Rule** and the
 **Bookend Rule (Entry = provenance)**.
 
@@ -201,11 +200,18 @@ the work a spine.
    overwritten; an item can't be resolved twice. This is the moat: PJ does not pretend scattered
    information is connected unless it has evidence — and when it doesn't, a person decides and the
    decision is preserved. 9 tests.
-3. **Add one MCP-backed adapter** (Files & Docs, e.g. Drive) behind that interface,
-   reading over MCP, config/env only.
+3. ✅ **Add one network-backed adapter** (Files & Docs) behind the interface —
+   **Shipped** (`@publiclogic/connector-files`). An env-configured `FilesPort` reads a
+   Files/Drive surface (an MCP Files HTTP bridge or an official listing endpoint;
+   `PJ_FILES_SOURCE_URL` + optional `PJ_FILES_TOKEN`, **no scraping, no committed keys**),
+   converts each file into the existing `Signal` shape, and runs it through the connector
+   interface. Every file earns a receipt; a file with no folder/hint to connect it is **held
+   as `needs_review`**, not guessed. The core resolver is untouched (`filesConnector.resolve
+   === resolveCaseSpace`). A `mockFilesPort` makes the whole path testable with no network.
+   10 tests. *Stops at the receipt — no FORM/PRR.*
 4. **Wire signals to FORM / PRR** so a signal either opens a CaseSpace or appends to
    one — closing the loop into the verified spine already on `/recordstream`, `/muni`,
-   and `/cemetery`.
+   and `/cemetery`. *Next.*
 
 ### Step 1 surface (`@publiclogic/golden-path`)
 

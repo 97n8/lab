@@ -1,0 +1,14 @@
+{
+  "name": "@publiclogic/connector-files",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Step 3 — the first network-backed PJ connector: read a Files/Drive surface (MCP-style, env-config only) and run each file through the golden-path connector interface (signal → object/decision → receipt).",
+  "type": "module",
+  "main": "src/index.js",
+  "dependencies": {
+    "@publiclogic/golden-path": "*"
+  },
+  "scripts": {
+    "test": "node --test"
+  }
+}
