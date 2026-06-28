@@ -82,11 +82,11 @@ export default function PJPage() {
 
         <section className="section">
           <div className="cta-row">
-            <Link className="button primary" href="/casespaces">
-              Where it lands: CaseSpaces
+            <Link className="button primary" href="/seed">
+              Start the runtime: drop a seed
             </Link>
-            <Link className="button secondary" href="/vault">
-              Where it stays: VAULT
+            <Link className="button secondary" href="/casespaces">
+              Where it lands: CaseSpaces
             </Link>
           </div>
         </section>

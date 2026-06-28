@@ -13,6 +13,7 @@
     "lint": "npm --workspace apps/web run lint",
     "kpl:sync": "npm --workspace @publiclogic/kpl-casespace run sync --",
     "kpl:dashboard": "npm --workspace @publiclogic/kpl-casespace run dashboard --",
-    "kpl:test": "npm --workspace @publiclogic/kpl-casespace run test"
+    "kpl:test": "npm --workspace @publiclogic/kpl-casespace run test",
+    "gp:test": "npm --workspace @publiclogic/golden-path run test"
   }
 }
