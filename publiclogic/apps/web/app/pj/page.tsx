@@ -10,11 +10,14 @@ export const metadata: Metadata = {
     "The guided action layer: capture first, route later. Intake, triage, next step, evidence, owner, review, and archive.",
 };
 
-const flow = ["Home", "Capture", "Start", "CaseSpace", "RecordStream", "Retention", "VAULT"];
+const flow = [
+  "Seed", "Form", "CaseSpace", "Recordstream", "Evidence",
+  "Gate", "Check", "Digest", "Packet", "Seal",
+];
 
 const daily = [
   "Capture raw notes, tasks, files, scans, screenshots, voice, and links.",
-  "Drop unclear files into DocDump / Incoming.",
+  "Drop unclear files into an Incoming inbox to sort later.",
   "Start CaseSpaces only when something needs a live container.",
   "Record important transitions in RecordStream.",
   "Move completed or stale material through Retention.",
@@ -51,8 +54,8 @@ export default function PJPage() {
 
         <section className="section">
           <div className="panel">
-            <p className="eyebrow">Primary flow</p>
-            <h2>From capture to continuity.</h2>
+            <p className="eyebrow">The moat is the discipline</p>
+            <h2>Seed to seal. Every time.</h2>
             <div className="flow-chips">
               {flow.map((stage, i) => (
                 <span key={stage} className="chip">
@@ -66,13 +69,13 @@ export default function PJPage() {
 
         <section className="section">
           <div className="panel">
-            <p className="eyebrow">Runtime spine</p>
+            <p className="eyebrow">Runtime line</p>
             <h2>What runs underneath.</h2>
             <p className="flow">
-              Org Manager → CaseSpace → FormKey → DocDump → CloudSync → Automations → Vault
+              FORM opens → CaseSpace owns → CAL gates → Manifest / PRM checks → PRR records → VAULT governs → ARCHIEVE seals
             </p>
             <p className="muted-note">
-              This is the personal-first version that proves the behavior before the product gets built.
+              PJ governs the movement of the case — not the tools you use. Your tools can stay messy; the record cannot.
             </p>
           </div>
         </section>

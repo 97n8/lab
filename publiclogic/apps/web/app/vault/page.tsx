@@ -7,7 +7,7 @@ import { PageIntro } from "../../components/PageIntro";
 export const metadata: Metadata = {
   title: "VAULT | PublicLogic",
   description:
-    "The continuity spine for decisions, documents, audit trails, and institutional memory.",
+    "Proof is the product: decisions, documents, audit trails, and the sealed packet that proves what happened.",
 };
 
 const pillars = [
@@ -24,8 +24,8 @@ export default function VaultPage() {
       <main>
         <PageIntro
           eyebrow="VAULT"
-          title="The continuity spine."
-          lede="VAULT is where finished work goes to stay. Decisions, documents, audit trails, and institutional memory — preserved and findable."
+          title="Proof is the product."
+          lede="VAULT is where the record is proved. Decisions, documents, audit trails, and the sealed packet that shows what happened, who decided, and what closed it — preserved and findable."
         />
 
         <section className="section">
@@ -47,7 +47,7 @@ export default function VaultPage() {
               Material moves into VAULT through retention — completed or stale work gets reviewed,
               kept, or closed deliberately. The record stays clean because the system tends it.
             </p>
-            <p className="muted-note">The system holds, not people.</p>
+            <p className="muted-note">What closes the record? What packet proves it? VAULT answers.</p>
           </div>
           <ul className="list">
             <li>

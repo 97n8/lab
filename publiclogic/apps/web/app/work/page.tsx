@@ -7,7 +7,7 @@ import { PageIntro } from "../../components/PageIntro";
 export const metadata: Metadata = {
   title: "Work | PublicLogic",
   description:
-    "Institutional readiness, governed automation, and continuity systems for public-sector operations.",
+    "We govern what your tools already produce: institutional readiness, governed records, and sealed handoffs for public work and complex projects.",
 };
 
 const lanes = [
@@ -44,7 +44,7 @@ export default function WorkPage() {
         <PageIntro
           eyebrow="The work"
           title="Work that holds up."
-          lede="Institutional readiness, governed automation, and continuity systems for public-sector operations and complex projects."
+          lede="We don’t replace your tools — we govern what they produce. Institutional readiness, governed records, and sealed handoffs, proven on the work that keeps slipping."
         />
 
         <section className="section">
@@ -75,10 +75,11 @@ export default function WorkPage() {
 
         <section className="section">
           <div className="panel cta-panel">
-            <p className="eyebrow">Start with one lane</p>
+            <p className="eyebrow">Proof is the product</p>
             <h2>Pick the work that keeps slipping.</h2>
             <p className="lede">
               We start narrow, prove the system on real work, and grow it only when the pattern holds.
+              You get a clean path, a live record, and a sealed handoff — everything else is packaging.
             </p>
             <div className="actions">
               <Link className="button primary" href="/contact">

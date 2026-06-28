@@ -49,13 +49,14 @@ export default function CaseSpacesPage() {
 
         <section className="section">
           <div className="panel">
-            <p className="eyebrow">Runtime spine</p>
+            <p className="eyebrow">The governed object</p>
             <h2>Where CaseSpace sits.</h2>
             <p className="lede">
-              CaseSpace is the working-memory layer between capture and the long-term record.
+              Every request is one of three things: a source PJ can pull from, a governed object PJ can
+              track, or an output PJ can seal. The CaseSpace is the governed object.
             </p>
             <p className="flow">
-              Org Manager → <strong>CaseSpace</strong> → FormKey → DocDump → CloudSync → Automations → Vault
+              FORM opens → <strong>CaseSpace</strong> owns → CAL gates → Manifest / PRM checks → PRR records → VAULT governs → ARCHIEVE seals
             </p>
           </div>
         </section>
