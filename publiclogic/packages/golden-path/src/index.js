@@ -18,4 +18,6 @@ export {
   logDecision,
   runCAL,
   runPRM,
+  recordNote,
 } from "./prr.js";
+export { punch, computeHours, PUNCH_LABELS } from "./clock.js";

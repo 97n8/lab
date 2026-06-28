@@ -45,6 +45,7 @@ declare module "@publiclogic/golden-path" {
   export const PRR_KINDS: string[];
   export type PrrEntry = { seq: number; at: string | null; kind: string; event: string; by: string; ref: string | null };
   export type Evidence = { id: string; item: string; owner: string; status: string };
+  export type Punch = { type: string; who: string; at: string | null };
   export type Runtime = {
     casespace: Record<string, unknown>;
     form_entry: Record<string, unknown>;
@@ -52,6 +53,7 @@ declare module "@publiclogic/golden-path" {
     evidence: Evidence[];
     decisions: { id: string; decision: string; basis: string; by: string }[];
     checks: { object: string; ready?: boolean; missing?: string[]; allowed?: boolean }[];
+    punches?: Punch[];
   };
   export function appendPRR(stream: PrrEntry[], entry: Partial<PrrEntry>, opts?: { timestamp?: string }): PrrEntry[];
   export function openRuntime(identity: unknown, answers?: Record<string, string>, opts?: { timestamp?: string }): Runtime;
@@ -60,4 +62,8 @@ declare module "@publiclogic/golden-path" {
   export function logDecision(rt: Runtime, p: { decision: string; basis?: string; by?: string }, opts?: { timestamp?: string }): Runtime;
   export function runCAL(rt: Runtime, p: { action: string; actor: string; allowed: boolean; reason?: string }, opts?: { timestamp?: string }): Runtime;
   export function runPRM(rt: Runtime, p?: { milestone?: string; by?: string }, opts?: { timestamp?: string }): Runtime;
+  export function recordNote(rt: Runtime, p: { event: string; by?: string }, opts?: { timestamp?: string }): Runtime;
+  export const PUNCH_LABELS: Record<string, string>;
+  export function punch(rt: Runtime, p: { type: string; who?: string; at?: string }, opts?: { timestamp?: string }): Runtime;
+  export function computeHours(punches: { type: string; at: string | null }[]): number;
 }

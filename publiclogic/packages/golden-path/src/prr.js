@@ -4,7 +4,7 @@
 import { shortHash } from "./seed.js";
 import { openForm } from "./form.js";
 
-export const PRR_KINDS = ["FORM", "EVIDENCE", "DECISION", "CAL", "PRM", "NOTE", "SEAL"];
+export const PRR_KINDS = ["FORM", "EVIDENCE", "DECISION", "CAL", "PRM", "TIME", "NOTE", "SEAL"];
 
 /**
  * Append one entry to the recordstream. Never mutates the input; assigns a
@@ -71,6 +71,12 @@ export function runCAL(rt, { action, actor, allowed, reason = "" }, opts = {}) {
   const event = allowed ? `CAL cleared: ${actor} → ${action}` : `CAL blocked: ${actor} → ${action}`;
   const prr = appendPRR(rt.prr, { kind: "CAL", event, by: actor, ref: c.id }, opts);
   return { ...rt, checks: [...rt.checks, c], prr };
+}
+
+/** A free-form note that still writes to the record (materials, photos, etc.). */
+export function recordNote(rt, { event, by = "operator" }, opts = {}) {
+  const prr = appendPRR(rt.prr, { kind: "NOTE", event, by }, opts);
+  return { ...rt, prr };
 }
 
 /** PRM surfaces missing proof: any evidence not yet provided blocks readiness. */
