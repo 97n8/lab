@@ -73,7 +73,7 @@ export const CASE_ACTIONS = ["open", "append", "ignore", "needs_review"];
 // Below this, the object isn't trusted enough to place automatically.
 export const REVIEW_THRESHOLD = 0.6;
 
-const RECEIPT_VERB = {
+export const RECEIPT_VERB = {
   open: "opened_casespace",
   append: "appended_to_casespace",
   needs_review: "flagged_for_review",

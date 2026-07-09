@@ -1,0 +1,26 @@
+name: canon
+
+# The workbook must not assert what the code says. It must be told.
+# Fails if packages/golden-path and canon/*.xlsx disagree about any vocabulary.
+
+on:
+  push: { paths: ['publiclogic/packages/golden-path/src/**', 'publiclogic/canon/**'] }
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  canon-check:
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: publiclogic } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22' }
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - run: pip install --quiet openpyxl
+      - name: Canon registry matches source
+        run: >
+          python3 scripts/validate_canon_registry.py --check
+          packages/golden-path
+          canon/PublicLogic_PuddleJumper_Runtime.xlsx

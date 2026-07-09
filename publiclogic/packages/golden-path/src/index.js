@@ -41,6 +41,7 @@ export {
 } from "./signal.js";
 export {
   CASE_ACTIONS,
+  RECEIPT_VERB,
   REVIEW_THRESHOLD,
   toSignal,
   toPJObject,
@@ -48,4 +49,4 @@ export {
   emitReceipt,
   defineConnector,
 } from "./connector.js";
-export { createReviewItem, resolveReviewItem, createReviewQueue } from "./review.js";
+export { HUMAN_VERB, createReviewItem, resolveReviewItem, createReviewQueue } from "./review.js";

@@ -8,7 +8,7 @@
 import { shortHash } from "./seed.js";
 import { hashCanonical } from "./canonical.js";
 
-const HUMAN_VERB = {
+export const HUMAN_VERB = {
   append: "human_appended_to_casespace",
   open: "human_opened_casespace",
   ignore: "human_ignored_signal",
