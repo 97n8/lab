@@ -131,14 +131,42 @@ gate between. All three are **code-owned in `puddlejumper`** and absent from `go
 | **Retention** (Retention Catalog) | `apps/puddlejumper/src/archieve/retention.ts`; `ArchieveStore.{get,list}RetentionSchedule(s)` (`api/mcp.ts`); `RetentionRule` (`engine/connectors.ts`) | not present |
 | **Capture** | `apps/logicos/app/components/CaptureView.tsx` — a live surface named by `@gpr/logicos`, **a brand canon lists retired** | not present |
 
-### The ruling that gates all of this
+### The ruling that gates all of this — DECIDED 2026-07-09 (the Bookend Rule)
 
-`golden-path` **or** `packages/core` — **which owns the family list?** `packages/core`
-declares `AuditEventFamily` (and `CanonicalAction`, `IdentityKind`, `IntegrationStack`)
-today. `Event Type`, `FormKey`, `Retention`, and `Capture` all queue behind that single
-unanswered question: which repo is authoritative for each vocabulary. Until it is answered,
-the per-repo `canon.json` (§4) cannot be designed, and the registry stays incomplete by
-exactly these rows.
+**`golden-path` owns the family list. `packages/core` stops declaring `AuditEventFamily`
+and imports it.**
+
+The decision is not "which repo is more product." It is the **Bookend Rule**: a closing
+seal must validate the *family* of every record it commits — that is a Repository
+guarantee, and **the thing that seals must be the thing that enumerates.** `packages/core`
+is a shared package *consumed by* apps; an app-layer dependency cannot own a constraint the
+seal's correctness depends on, or the seal ends up defined by its own callers. So the closed
+family set lives in `golden-path` (the runtime that seals); `core` defers to it.
+
+The split, precisely:
+
+| Concern | Owner | Gated? |
+|---|---|---|
+| **Family list** (`process/transition/role/auth/divergence/system`) — closed set | **`golden-path`** | yes — closed, verifiable in-repo |
+| **`AuditEventSubtype`** — 135 today, unbounded | **`packages/core`** (keeps it) | **no** — the gate never checks the subtype *list* |
+| **subtype → family mapping** | published by `puddlejumper`, checked by **its own CI** | yes — every subtype must map to a *known* family |
+
+The gate checks only that **every subtype maps to a known family** — never the subtype list.
+That catches the failure that matters (an app inventing a family the runtime cannot seal) and
+ignores the thing that is not a failure (an app adding events). This also **re-frames the
+`UNVERIFIABLE Event Type` red** (§7.3): the lab gate was never supposed to match 135
+subtypes; it owns the closed *family* list, which is verifiable inside `lab`. The honest path
+to green is this family/subtype split — **not** a vendored 135-member snapshot, and **not**
+weakening the check.
+
+`canon.json` handshake, now designable: `golden-path` publishes the **closed families**;
+`puddlejumper` publishes **subtypes keyed by family**, verified by its own CI. `FormKey`,
+`Retention`, and `Capture` sort by one test — **does the seal need to know it?** Retention
+almost certainly **yes** (the seal must honor a retention family); Capture almost certainly
+**no** (an app surface the seal never commits against).
+
+(Note: this **overrides** an interim "packages/core owns it" answer collected earlier in the
+same session — the Bookend Rule is the authoritative ruling.)
 
 (Also observed, same run: `apps/puddlejumper/src/engine/`, `packages/pipeline/src/output.ts`
 "FormKey output **engine**" — further "engine" usages beyond §2. Recorded, not actioned.)
@@ -218,6 +246,8 @@ All three from §6 verified against full source (`main`, identical on the others
 - **Capture** — `apps/logicos/app/components/CaptureView.tsx` — a live surface under
   `@gpr/logicos`, a brand canon lists **retired**. Still shipping on every branch.
 
-The §6 ruling is unchanged and now unblocked to *decide*, not just to *observe*: with the
-source in hand, the only thing still missing is the owner's answer to **which repo owns the
-family list** (`golden-path` or `packages/core`). That is a decision, not a recon gap.
+The §6 ruling is now **made** (2026-07-09, the Bookend Rule): `golden-path` owns the closed
+family list, `core` keeps subtypes, the gate checks subtype→family mapping. By that test,
+**Retention** sorts as seal-relevant (likely gated) and **Capture** as not (an app surface
+the seal never commits against) — FormKey pending the same question. This clears the last
+recon gap; what remains is implementation of the `canon.json` handshake, not a decision.
