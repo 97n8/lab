@@ -8,11 +8,15 @@
 import { shortHash } from "./seed.js";
 import { hashCanonical } from "./canonical.js";
 
-export const HUMAN_VERB = {
-  append: "human_appended_to_casespace",
-  open: "human_opened_casespace",
-  ignore: "human_ignored_signal",
-};
+// Canon: the human resolution actions and their verbs, as EXPLICIT ordered arrays
+// — canon is never derived from a map's key order (Object.keys order is stable
+// only until someone alphabetizes the literal). The runtime lookup (action ->
+// verb) is derived by zipping these two, so it cannot drift from canon.
+export const RESOLUTION_ACTIONS = ["append", "open", "ignore"];
+export const HUMAN_VERBS = ["human_appended_to_casespace", "human_opened_casespace", "human_ignored_signal"];
+const HUMAN_VERB = Object.freeze(
+  Object.fromEntries(RESOLUTION_ACTIONS.map((a, i) => [a, HUMAN_VERBS[i]])),
+);
 
 function deepFreeze(v) {
   if (v && typeof v === "object") {

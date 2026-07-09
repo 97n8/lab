@@ -39,19 +39,24 @@ BOOK = pathlib.Path(sys.argv[3] if len(sys.argv) > 3 else "canon/PublicLogic_Pud
 HERE = pathlib.Path(__file__).parent
 
 # Vocabularies the WORKBOOK is the source of truth for — code does not enforce
-# them, so the gate does not compare them against source.
+# them, so the gate does not compare them against source. Per the workbook's own
+# rule (Control!A58): code is canon for vocabularies enforced at runtime; the
+# workbook is canon for governance vocabularies code does not enforce.
+#
+# Sensitivity is workbook-owned: nothing in golden-path reads, validates, or
+# rejects a sensitivity_level. It came from a superseded LogicOS SQL schema and
+# was mis-registered as code-owned. Reclassifying it applies the A58 rule — it is
+# not removing a check (the workbook's own Validation gate still enforces it on
+# every artifact); it stops it claiming a source it never had.
 WORKBOOK_OWNED = {
     "Lifecycle", "Artifact Family", "Event Type", "Nature", "Significance",
-    "Status", "Risk", "Claim Status", "Object Type",
+    "Status", "Risk", "Claim Status", "Object Type", "Sensitivity",
 }
 
-# Registered code-owned, but the owning source is not in this repo. The gate
-# fails on these BY DESIGN until the owner moves them into source or reclassifies
-# them workbook-owned. Do not "fix" this by deleting the row.
-UNVERIFIABLE = {
-    "Sensitivity": "sensitivity_level is not in this repo. It exists only in the superseded LogicOS Build Spec, "
-                   "or in 97n8/puddlejumper (private). Move it into source, or reclassify it workbook-owned.",
-}
+# Registered code-owned, but the owning source is not in this repo. The mechanism
+# stays for the general case (a future row claiming a source that isn't here); it
+# fails BY DESIGN. Do not "fix" it by deleting the row.
+UNVERIFIABLE = {}
 
 # --- read the source, by executing the runtime -----------------------------------
 proc = subprocess.run(
@@ -66,7 +71,7 @@ src = canon["vocabularies"]
 
 wb = load_workbook(BOOK)
 cr = wb["Canon Registry"]
-problems, drift_rows, wrote = [], set(), 0
+problems, wrote = [], 0
 
 # Registry rows begin at 5 and run until the "DERIVED VIEWS" sentinel or a blank
 # name — scanning dynamically so an appended rogue row is still seen (UNMAPPED).
@@ -113,18 +118,19 @@ for r, name in registry_rows():
         wrote += 1
         continue
 
-    # DRIFT — members, ordered and case-sensitive.
     have = [s.strip() for s in str(cr.cell(r, 9).value or "").split(";") if s.strip()]
+
+    # DRIFT — the workbook's members vs source (ordered, case-sensitive).
     if have != ismembers:
-        drift_rows.add(r)
         problems.append(
             f"DRIFT         {name}\n              source ({entry['from']}): {'; '.join(ismembers)}\n"
             f"              workbook: {'; '.join(have)}"
         )
-    # COUNT — only when members still match; a member change is reported as DRIFT,
-    # not doubled up as COUNT. COUNT catches the count literal edited on its own.
-    if r not in drift_rows and cr.cell(r, 6).value != len(ismembers):
-        problems.append(f"COUNT         {name}: workbook says {cr.cell(r, 6).value}, source has {len(ismembers)}.")
+    # COUNT — the F literal vs the row's OWN member list. Orthogonal to DRIFT and
+    # NOT suppressed by it: a row can be both drifted and mis-counted, and both
+    # must surface (masking one behind the other would let a partial --write pass).
+    if cr.cell(r, 6).value != len(have):
+        problems.append(f"COUNT         {name}: count cell says {cr.cell(r, 6).value}, the row lists {len(have)} members.")
 
 # CONSTANT — REVIEW_THRESHOLD, held at Control!B55.
 thr = canon["constants"]["REVIEW_THRESHOLD"]

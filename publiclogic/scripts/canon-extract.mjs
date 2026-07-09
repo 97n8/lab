@@ -25,9 +25,11 @@ const MANIFEST = [
   { name: "Signal Kind", file: "signal.js", exp: "SIGNAL_KINDS", read: "list" },
   { name: "Connector Type", file: "signal.js", exp: "CONNECTOR_TYPES", read: "list" },
   { name: "Decision", file: "connector.js", exp: "CASE_ACTIONS", read: "list" },
-  { name: "Receipt Verb", file: "connector.js", exp: "RECEIPT_VERB", read: "values" },
-  { name: "Human Verb", file: "review.js", exp: "HUMAN_VERB", read: "values" },
-  { name: "Resolution", file: "review.js", exp: "HUMAN_VERB", read: "keys" },
+  // Verb vocabularies are explicit exported arrays (not derived from map order),
+  // so canon does not depend on Object.keys/values ordering.
+  { name: "Receipt Verb", file: "connector.js", exp: "RECEIPT_VERBS", read: "list" },
+  { name: "Human Verb", file: "review.js", exp: "HUMAN_VERBS", read: "list" },
+  { name: "Resolution", file: "review.js", exp: "RESOLUTION_ACTIONS", read: "list" },
   { name: "PRR Kind", file: "prr.js", exp: "PRR_KINDS", read: "list" },
 ];
 

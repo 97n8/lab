@@ -73,12 +73,15 @@ export const CASE_ACTIONS = ["open", "append", "ignore", "needs_review"];
 // Below this, the object isn't trusted enough to place automatically.
 export const REVIEW_THRESHOLD = 0.6;
 
-export const RECEIPT_VERB = {
-  open: "opened_casespace",
-  append: "appended_to_casespace",
-  needs_review: "flagged_for_review",
-  ignore: "ignored",
-};
+// Canon: the receipt verbs in their governed order, as an EXPLICIT array — not
+// derived from a map's key/value order, so a refactor of the literal below cannot
+// silently reorder canon. The runtime lookup (decision -> verb) is derived from
+// this array, so the two cannot drift.
+export const RECEIPT_VERBS = ["opened_casespace", "appended_to_casespace", "flagged_for_review", "ignored"];
+const RECEIPT_DECISIONS = ["open", "append", "needs_review", "ignore"];
+const RECEIPT_VERB = Object.freeze(
+  Object.fromEntries(RECEIPT_DECISIONS.map((d, i) => [d, RECEIPT_VERBS[i]])),
+);
 
 function deepFreeze(v) {
   if (v && typeof v === "object") {
