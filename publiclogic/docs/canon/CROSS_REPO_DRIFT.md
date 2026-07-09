@@ -84,3 +84,57 @@ than left green on a stale snapshot. The durable shape (design, not built): `gol
 and `packages/core` each emit a `canon.json`; the gate consumes both. That needs a ruling
 on which repo owns which vocabulary before it is written. **Not** cross-repo imports —
 those produce a build that cannot run.
+
+---
+
+## 5. The drift class: **token-preservation drift**
+
+The string survives; the referent moves; **no diff shows it**. This is not "UI drift" or a
+typo — it is a distinct failure class, and naming it lets a reader go find it elsewhere.
+
+| Token | Reads as (canon) | Became | State |
+|---|---|---|---|
+| `gpr` | **Governance** Process Runtime | **Government** Process Runtime | drifted |
+| `PRR` | PuddleJumper **Runtime Recordstream** | **Public Records Request** | drifted |
+| `ARCHIEVE` | archive + achieve | — | **held** |
+
+Two of three drifted. **`ARCHIEVE` survived because it is misspelled.** Nobody can
+autocomplete it; every developer who meets it has to ask. The deliberate error is a
+tripwire. `gpr` and `PRR` are frictionless abbreviations of full forms nobody types, so
+they rot silently: **an acronym whose expansion is never written is not a term — it is a
+token awaiting reinterpretation.** And "Public Records Request" is the overwhelmingly
+likelier expansion for anyone who has worked in a town hall — i.e. the whole market. The
+drift is not a mistake; it is gravity.
+
+**Rule.** Do not *reserve* a drifted token — reserving preserves the trap. Retire it as a
+public label and use the full form: `PRR` → **Recordstream** (user-facing), and if a short
+internal form is needed, spell it in the constant (`RUNTIME_RECORDSTREAM`), never `PRR`.
+The `PRR = Public Records Request` instance was found live in a PuddleJumper `EmptyState`
+surface (`label: "PRR"`, request lifecycle `received → … → responded → closed`) coexisting
+with a separate, correct `Recordstream` surface. It is not a future risk — the surface
+exists, and it already teaches the wrong expansion.
+
+`gpr` is the same class; the §2 entry is one instance of it.
+
+## 6. Three vocabularies enforced in `puddlejumper`, unknown to the registry
+
+Each is the `Event Type` shape (§1): canon or UI in one place, enforcement in another, no
+gate between. All three are **code-owned in `puddlejumper`** and absent from `golden-path`:
+
+| Vocabulary | Enforced at (`puddlejumper` @ `7b05c5e`) | In `golden-path` |
+|---|---|---|
+| **FormKey** | `packages/pipeline/src/stages.ts` — `FORMKEY_INTAKE`, `FORMKEY_OUTPUT` stages; `packages/pipeline/src/output.ts` | not present — `golden-path` has `form_entry.id` (`FM-…`), no `FormKey` |
+| **Retention** (Retention Catalog) | `apps/puddlejumper/src/archieve/retention.ts`; `ArchieveStore.{get,list}RetentionSchedule(s)` (`api/mcp.ts`); `RetentionRule` (`engine/connectors.ts`) | not present |
+| **Capture** | `apps/logicos/app/components/CaptureView.tsx` — a live surface named by `@gpr/logicos`, **a brand canon lists retired** | not present |
+
+### The ruling that gates all of this
+
+`golden-path` **or** `packages/core` — **which owns the family list?** `packages/core`
+declares `AuditEventFamily` (and `CanonicalAction`, `IdentityKind`, `IntegrationStack`)
+today. `Event Type`, `FormKey`, `Retention`, and `Capture` all queue behind that single
+unanswered question: which repo is authoritative for each vocabulary. Until it is answered,
+the per-repo `canon.json` (§4) cannot be designed, and the registry stays incomplete by
+exactly these rows.
+
+(Also observed, same run: `apps/puddlejumper/src/engine/`, `packages/pipeline/src/output.ts`
+"FormKey output **engine**" — further "engine" usages beyond §2. Recorded, not actioned.)
