@@ -60,9 +60,12 @@ WORKBOOK_OWNED = {
 UNVERIFIABLE = {
     "Event Type": "code-owned in another repo the gate cannot read: "
                   "puddlejumper/apps/puddlejumper/src/archieve/event-catalog.ts "
-                  "(ArchieveEventType, ~135 members). The registry's 15-member snapshot is stale. "
-                  "Resolve by publishing puddlejumper's canon.json for the gate to consume; "
-                  "see docs/canon/CROSS_REPO_DRIFT.md.",
+                  "(ArchieveEventType, exactly 135 members — confirmed identical across 4 branches "
+                  "on 2026-07-09; see docs/canon/CROSS_REPO_DRIFT.md §7). The registry's 15-member "
+                  "snapshot is a stale ~11% partial. Reading the source out-of-band made the count "
+                  "exact but does NOT make it verifiable in CI, and does NOT license vendoring a "
+                  "135-member snapshot into lab (that re-creates the drift trap this gate exists to "
+                  "close). Resolve only by publishing puddlejumper's canon.json for the gate to consume.",
 }
 
 # --- read the source, by executing the runtime -----------------------------------
