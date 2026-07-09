@@ -65,12 +65,24 @@ row claiming a code const that isn't exported fails, rather than being scraped.
 
 Per the workbook's own rule (`Control!A58`): **code is canon for vocabularies
 enforced at runtime; the workbook is canon for governance vocabularies code does not
-enforce.** `Sensitivity` is **workbook-owned**: nothing in `golden-path` reads,
-validates, or rejects a `sensitivity_level` (it came from a superseded SQL schema).
-It stays a required facet with its own Validation gate in the workbook; it just stops
-claiming a source it never had. Reclassifying it applied the rule — it did not remove
-a check. A clean repo is therefore **green**, so `canon-check` can be a required check
-and the next red will mean something.
+enforce.** Classify by *does code enforce it?* — never by where the vocabulary's
+document came from. Two rows were mis-classified that way and are now corrected (see
+`docs/canon/CROSS_REPO_DRIFT.md`):
+
+- **`Sensitivity` → workbook-owned.** `sensitivity_level` is absent from all code in
+  both `lab` and `puddlejumper`; nothing enforces it (it came from a superseded SQL
+  schema). It keeps its own Validation gate in the workbook; it just stops claiming a
+  source it never had.
+- **`Event Type` → code-owned, `UNVERIFIABLE`.** It is enforced in code — but in
+  `puddlejumper` (`apps/puddlejumper/src/archieve/event-catalog.ts`, `ArchieveEventType`,
+  ~135 members), which this gate cannot read. The registry's 15-member snapshot is
+  stale. It is marked `UNVERIFIABLE` so the gate is **honestly red** rather than green
+  on a wrong snapshot — until `puddlejumper` publishes a `canon.json` the gate consumes.
+
+So a clean repo currently fails with `UNVERIFIABLE Event Type` by design. That is the
+gate refusing to certify a vocabulary it cannot verify — not a bug. Making
+`canon-check` a required check is still fine; it will stay red until the cross-repo
+canon question is resolved, and that red means something.
 
 ## Known open
 

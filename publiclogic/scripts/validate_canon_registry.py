@@ -49,14 +49,21 @@ HERE = pathlib.Path(__file__).parent
 # not removing a check (the workbook's own Validation gate still enforces it on
 # every artifact); it stops it claiming a source it never had.
 WORKBOOK_OWNED = {
-    "Lifecycle", "Artifact Family", "Event Type", "Nature", "Significance",
+    "Lifecycle", "Artifact Family", "Nature", "Significance",
     "Status", "Risk", "Claim Status", "Object Type", "Sensitivity",
 }
 
-# Registered code-owned, but the owning source is not in this repo. The mechanism
-# stays for the general case (a future row claiming a source that isn't here); it
-# fails BY DESIGN. Do not "fix" it by deleting the row.
-UNVERIFIABLE = {}
+# Registered code-owned, but the owning source is not in a repo this gate can read.
+# It fails BY DESIGN (honestly red) rather than sitting green on a stale snapshot.
+# Do not "fix" it by deleting the row or reclassifying it workbook-owned — the whole
+# point is that the workbook does NOT own it; code does, in a repo the gate can't see.
+UNVERIFIABLE = {
+    "Event Type": "code-owned in another repo the gate cannot read: "
+                  "puddlejumper/apps/puddlejumper/src/archieve/event-catalog.ts "
+                  "(ArchieveEventType, ~135 members). The registry's 15-member snapshot is stale. "
+                  "Resolve by publishing puddlejumper's canon.json for the gate to consume; "
+                  "see docs/canon/CROSS_REPO_DRIFT.md.",
+}
 
 # --- read the source, by executing the runtime -----------------------------------
 proc = subprocess.run(
