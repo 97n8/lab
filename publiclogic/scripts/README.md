@@ -55,24 +55,30 @@ additions are the bypass this exists to prevent.
 the runtime modules and emits JSON; Python reads that JSON and the workbook.
 `LOCKED_LANES` is read by **executing** `form.js`, not by grepping it — a regex
 would pass on a commented-out constant. **There is no regex read of any
-vocabulary.** `RECEIPT_VERB` / `HUMAN_VERB` are read as exports (see below); if a
-registered const is not exported, it fails `UNEXPORTED` rather than being scraped.
+vocabulary.** The verb vocabularies (Receipt Verb / Human Verb / Resolution) are
+read from **explicit exported arrays** (`RECEIPT_VERBS`, `HUMAN_VERBS`,
+`RESOLUTION_ACTIONS`) — never from a map's key/value order, so canon does not shift
+if someone reorders a literal. `UNEXPORTED` remains for the general case: a registry
+row claiming a code const that isn't exported fails, rather than being scraped.
 
-## Known open — the owner decides, the gate does not
+## Classification — code-owned vs workbook-owned
 
-- **`Sensitivity`** — `sensitivity_level` (`public`/`internal`/`restricted`/`confidential`)
-  is in **no code in this repo**. It appears only in the superseded LogicOS Build
-  Spec, or in `97n8/puddlejumper` (private, never read here). The check fails on it
-  **by design** with `UNVERIFIABLE`. Resolve by moving it into source, or
-  reclassifying the row workbook-owned. **Do not delete the row to make CI green** —
-  removing the check is the exact defect this system prevents.
-- **`RECEIPT_VERB` / `HUMAN_VERB`** — resolved by **exporting** them from
-  `golden-path` (they already existed as internal consts; exporting lets the gate
-  read them by execution, per the doctrine). The alternative was to drop the
-  Receipt Verb / Human Verb / Resolution rows from the registry. Export was chosen
-  because it keeps three real runtime vocabularies under governance.
+Per the workbook's own rule (`Control!A58`): **code is canon for vocabularies
+enforced at runtime; the workbook is canon for governance vocabularies code does not
+enforce.** `Sensitivity` is **workbook-owned**: nothing in `golden-path` reads,
+validates, or rejects a `sensitivity_level` (it came from a superseded SQL schema).
+It stays a required facet with its own Validation gate in the workbook; it just stops
+claiming a source it never had. Reclassifying it applied the rule — it did not remove
+a check. A clean repo is therefore **green**, so `canon-check` can be a required check
+and the next red will mean something.
+
+## Known open
+
 - **`97n8/puddlejumper`** is private and defines vocabularies (SYNCHRON8). Until it
-  is read, this registry is incomplete; a collision there would not be caught.
+  is read, this registry is incomplete; a collision there would not be caught here.
+- **Four `docs/canon/*.xlsx`** restate vocabularies (e.g. the lanes, in
+  `01_Final_Lanes`) but are **not** under this gate — they can drift from code
+  silently. Only `canon/PublicLogic_PuddleJumper_Runtime.xlsx` is guarded.
 
 ## The ceiling
 
