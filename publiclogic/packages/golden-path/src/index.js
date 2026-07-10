@@ -50,3 +50,4 @@ export {
   defineConnector,
 } from "./connector.js";
 export { RESOLUTION_ACTIONS, HUMAN_VERBS, createReviewItem, resolveReviewItem, createReviewQueue } from "./review.js";
+export { AUDIT_EVENT_FAMILIES, isKnownFamily } from "./audit.js";

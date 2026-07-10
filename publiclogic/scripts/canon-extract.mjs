@@ -31,6 +31,10 @@ const MANIFEST = [
   { name: "Human Verb", file: "review.js", exp: "HUMAN_VERBS", read: "list" },
   { name: "Resolution", file: "review.js", exp: "RESOLUTION_ACTIONS", read: "list" },
   { name: "PRR Kind", file: "prr.js", exp: "PRR_KINDS", read: "list" },
+  // The closed audit-event FAMILY list (the Bookend Rule): golden-path owns it,
+  // packages/core imports it. This is the family list the seal commits; subtypes
+  // are NOT here (open, unbounded, checked subtype->family in puddlejumper's CI).
+  { name: "Event Family", file: "audit.js", exp: "AUDIT_EVENT_FAMILIES", read: "list" },
 ];
 
 // Load each referenced module once (importing executes it — the point).
