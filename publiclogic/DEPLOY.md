@@ -43,3 +43,23 @@ If Vercel's install fails from the app subdirectory, set **Root Directory** to
 - **Output Directory:** `apps/web/.next`
 
 (`publiclogic/package.json` already proxies `build` to the web workspace.)
+
+## Deploying the marketing site (`apps/marketing`)
+
+`publiclogic/apps/marketing` is the standalone public marketing site — it has no
+dependency on `@publiclogic/golden-path` or any other workspace package, so it
+can be deployed as its own Vercel project independent of `apps/web`.
+
+1. Vercel → **Add New… → Project**.
+2. **Import** the GitHub repo `97n8/lab`.
+3. Set **Root Directory** to:
+   ```
+   publiclogic/apps/marketing
+   ```
+4. **Framework Preset:** Next.js (auto-detected).
+5. **Build Command / Install Command:** defaults.
+6. Deploy.
+
+No environment variables are required. The contact form opens the visitor's own
+email client (`mailto:`) instead of calling a backend, so there's nothing to
+configure server-side.

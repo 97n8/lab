@@ -1,0 +1,101 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* PublicLogic brand colors — deep green, gold, cream */
+  --background: #f7f3ea;
+  --foreground: #142321;
+  --card: #ffffff;
+  --card-foreground: #142321;
+  --popover: #ffffff;
+  --popover-foreground: #142321;
+  --primary: #00453e;
+  --primary-foreground: #ffffff;
+  --secondary: #eee8da;
+  --secondary-foreground: #142321;
+  --muted: #eee8da;
+  --muted-foreground: #60726e;
+  --accent: #c59b4b;
+  --accent-foreground: #142321;
+  --destructive: #b3261e;
+  --destructive-foreground: #ffffff;
+  --border: #d9e2de;
+  --input: #d9e2de;
+  --ring: #00453e;
+  --radius: 0.6rem;
+
+  --publiclogic-green: #00453e;
+  --publiclogic-deep: #062f2b;
+  --publiclogic-gold: #c59b4b;
+  --publiclogic-cream: #f7f3ea;
+}
+
+.dark {
+  --background: #0a1614;
+  --foreground: #f7f3ea;
+  --card: #0f201d;
+  --card-foreground: #f7f3ea;
+  --popover: #0f201d;
+  --popover-foreground: #f7f3ea;
+  --primary: #c59b4b;
+  --primary-foreground: #142321;
+  --secondary: #12241f;
+  --secondary-foreground: #f7f3ea;
+  --muted: #12241f;
+  --muted-foreground: #9db3ad;
+  --accent: #c59b4b;
+  --accent-foreground: #142321;
+  --destructive: #e5645a;
+  --destructive-foreground: #142321;
+  --border: #1d332e;
+  --input: #1d332e;
+  --ring: #c59b4b;
+}
+
+@theme inline {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --color-publiclogic-green: var(--publiclogic-green);
+  --color-publiclogic-deep: var(--publiclogic-deep);
+  --color-publiclogic-gold: var(--publiclogic-gold);
+  --color-publiclogic-cream: var(--publiclogic-cream);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
