@@ -145,28 +145,68 @@ family set lives in `golden-path` (the runtime that seals); `core` defers to it.
 
 The split, precisely:
 
-| Concern | Owner | Gated? |
-|---|---|---|
-| **Family list** (`process/transition/role/auth/divergence/system`) — closed set | **`golden-path`** | yes — closed, verifiable in-repo |
-| **`AuditEventSubtype`** — 135 today, unbounded | **`packages/core`** (keeps it) | **no** — the gate never checks the subtype *list* |
-| **subtype → family mapping** | published by `puddlejumper`, checked by **its own CI** | yes — every subtype must map to a *known* family |
+| Concern | What it actually is | Owner | Gated? |
+|---|---|---|---|
+| **Family list** — closed set | `process/transition/role/auth/divergence/system` (6) | **`golden-path`** | yes — closed, verifiable in-repo |
+| **`AuditEventSubtype`** — the ledger's dotted subtype | open union: `process.created`, `transition.fired`, `ai_assist.suggested`, … ending `(string & {})`. **~20 declared, NOT 135, unbounded** | **`packages/core`** (keeps it) | **no** — the gate never checks the subtype *list* |
+| **`ArchieveEventType`** — the executable ARCHIEVE catalog | **135** operational events (`VAULT_RECORD_CREATED`, `S8_*`, …) | **app** (`apps/puddlejumper/src/archieve`) | via the published map, below |
+| **`ArchieveEventTypeValue → AuditEventFamily` map** | which sealable family each ARCHIEVE event belongs to | published by `puddlejumper`, checked by **its own CI** | yes — every value must map to a *known* family |
 
-The gate checks only that **every subtype maps to a known family** — never the subtype list.
-That catches the failure that matters (an app inventing a family the runtime cannot seal) and
-ignores the thing that is not a failure (an app adding events). This also **re-frames the
-`UNVERIFIABLE Event Type` red** (§7.3): the lab gate was never supposed to match 135
-subtypes; it owns the closed *family* list, which is verifiable inside `lab`. The honest path
-to green is this family/subtype split — **not** a vendored 135-member snapshot, and **not**
-weakening the check.
+> **CORRECTION (2026-07-09, later same day).** An earlier version of this table wrote
+> "`AuditEventSubtype` — 135 today." That conflated two distinct event vocabularies that §3
+> and §7.3 of this same document correctly kept apart. **The 135 is `ArchieveEventType`, not
+> `AuditEventSubtype`.** `AuditEventSubtype` is the open dotted union above (~20 declared).
+> The conflation, left unfixed, would have made the CI check unpassable and would have
+> *changed the runtime's audit-event contract* by deriving one model from the other. The
+> family ownership ruling is unaffected; only the subtype *referent* is corrected.
 
-`canon.json` handshake, now designable: `golden-path` publishes the **closed families**;
-`puddlejumper` publishes **subtypes keyed by family**, verified by its own CI. `FormKey`,
-`Retention`, and `Capture` sort by one test — **does the seal need to know it?** Retention
-almost certainly **yes** (the seal must honor a retention family); Capture almost certainly
-**no** (an app surface the seal never commits against).
+The gate checks only that **every published ARCHIEVE value maps to a known family** — never a
+subtype *list*. That catches the failure that matters (an event assigned a family the runtime
+cannot seal) and ignores the non-failure (an app adding events). This **re-frames the
+`UNVERIFIABLE Event Type` red** (§7.3): the lab gate was never supposed to match 135 anything;
+it owns the closed *family* list, verifiable inside `lab`. Honest green comes from the
+family/map split — **not** a vendored 135-member snapshot, and **not** weakening the check.
+
+**Recommended resolution — keep the two models separate** (do not unify unless VAULT
+explicitly declares them identical):
+1. `AuditEventSubtype` stays the ledger's extensible dotted subtype (`core`, unchanged).
+2. `ArchieveEventType` stays the executable ARCHIEVE operational-event catalog (app, unchanged).
+3. `canon.json` publishes the map `ArchieveEventTypeValue → AuditEventFamily`.
+4. A `subtype`-bridge check is added **only if** every ARCHIEVE event must become an
+   `audit_events` entry — then the chain is `ArchieveEventTypeValue → AuditEventFamily →
+   AuditEventSubtype`. Until VAULT rules that, no bridge.
+
+**Dependency direction is fixed, not free:** `@publiclogic/puddlejumper` already depends on
+`@publiclogic/core`. `core` must **not** import from `apps/puddlejumper/src/archieve` — that
+reverses the edge and risks a cycle. If VAULT ever unifies the models, the executable const
+moves *down* into `core` (or a lower neutral package) and the app re-exports it; never up.
+
+**The handshake is a pinned artifact, not a live branch read:** `golden-path` export →
+deterministic `families.json` → version/SHA pin → `puddlejumper` CI verification → provenance
+echoed in `canon.json`. "Live" means *execution-derived from the authoritative export*, not
+"whatever is on `main` today" — an unpinned upstream would turn a green PJ commit red with no
+PJ change. Generation must be deterministic: no wall-clock `generated_at` (omit, or
+`SOURCE_DATE_EPOCH`), and provenance by **input blob SHAs** (`event_catalog_blob`,
+`family_map_blob`, `golden_path_revision`), never the containing commit's own SHA (which does
+not exist until after the file is written).
+
+**The 135 family assignments require human authority.** Assigning each ARCHIEVE event to
+`process/transition/role/auth/divergence/system` is a semantic sealing decision. The model may
+*propose* mappings and flag ambiguity; it may **not approve** them. The mapping PR carries a
+review surface — `Subtype | Proposed family | Rationale | Authority | Status` — and only
+approved rows enter the executable map; ambiguous rows **fail publication** rather than
+receive a guessed family.
+
+`FormKey`, `Retention`, and `Capture` still sort by one test — **does the seal need to know
+it?** Retention almost certainly **yes**; Capture almost certainly **no**.
+
+**Required VAULT decision (blocks the publish):** does the Bookend Rule's "subtype" mean
+`ArchieveEventTypeValue`, `AuditEventSubtype`, or a governed bridge between them? Recorded
+here as open; the recommended resolution above assumes *separate models, publish the map*.
 
 (Note: this **overrides** an interim "packages/core owns it" answer collected earlier in the
-same session — the Bookend Rule is the authoritative ruling.)
+same session — the Bookend Rule is the authoritative ruling for *families*. The subtype
+referent above is a correction to the ruling's wording, not a change to family ownership.)
 
 (Also observed, same run: `apps/puddlejumper/src/engine/`, `packages/pipeline/src/output.ts`
 "FormKey output **engine**" — further "engine" usages beyond §2. Recorded, not actioned.)
