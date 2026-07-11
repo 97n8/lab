@@ -1,5 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import { AUDIT_EVENT_FAMILIES, isKnownFamily } from "../src/index.js";
 
 // The closed family list is a promise. These tests are the promise's teeth:
@@ -44,4 +46,16 @@ test("isKnownFamily rejects garbage and near-misses (case-sensitive)", () => {
   assert.equal(isKnownFamily("processes"), false); // no fuzzy match
   assert.equal(isKnownFamily(""), false);
   assert.equal(isKnownFamily(undefined), false);
+});
+
+test("the published families.json artifact matches the export (no silent drift)", () => {
+  // families.json is what puddlejumper pins and verifies. If it drifts from
+  // AUDIT_EVENT_FAMILIES, `node scripts/emit-families.mjs --check` fails
+  // (STALE_ARTIFACT); this test catches the same drift inside the suite.
+  const p = fileURLToPath(new URL("../families.json", import.meta.url));
+  const artifact = JSON.parse(readFileSync(p, "utf8"));
+  assert.deepEqual(artifact.families, AUDIT_EVENT_FAMILIES);
+  assert.equal(artifact.schema, "publiclogic.golden-path.families/1");
+  assert.equal(artifact.provenance.export, "AUDIT_EVENT_FAMILIES");
+  assert.match(artifact.provenance.source_blob, /^[0-9a-f]{40}$/); // a real blob sha
 });

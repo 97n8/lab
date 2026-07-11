@@ -1,0 +1,16 @@
+{
+  "schema": "publiclogic.golden-path.families/1",
+  "families": [
+    "process",
+    "transition",
+    "role",
+    "auth",
+    "divergence",
+    "system"
+  ],
+  "provenance": {
+    "source": "packages/golden-path/src/audit.js",
+    "export": "AUDIT_EVENT_FAMILIES",
+    "source_blob": "c553a75ac1dd4baa9c2aa59e47cbc639c822c47e"
+  }
+}

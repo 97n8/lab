@@ -19,6 +19,11 @@ jobs:
       - uses: actions/setup-python@v5
         with: { python-version: '3.12' }
       - run: pip install --quiet openpyxl
+      # Producer side of the handshake: golden-path's families.json must not drift from
+      # AUDIT_EVENT_FAMILIES. This is in-repo and deterministic, so it is STRICT (blocking),
+      # unlike the cross-repo advisory check below.
+      - name: Family authority artifact is current
+        run: node scripts/emit-families.mjs --check
       # ADVISORY until the puddlejumper canon.json handshake is green on BOTH sides
       # (VAULT Bookend Event Referent, 2026-07-10). The check itself stays STRICT — it
       # exits 1 on the cross-repo `ARCHIEVE Event Family Map` (UNVERIFIABLE) — but the
