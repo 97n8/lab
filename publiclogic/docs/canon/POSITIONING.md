@@ -48,10 +48,49 @@ Same discipline as the naming canon: **do not sell the noun everyone can copy; s
 only we can guarantee.** Selection is not a moat. Fulfillment is. For us, fulfillment is
 governance + the verified record.
 
-## External one-liner
+## The second surface — "it looks like automation"
 
-> **Not the Amazon of templates — the AWS underneath them.** Anyone can sell a form. We're
-> the layer that makes the form hold up in an audit.
+The catalog is one visible surface. **Speed** is the other. In the **Logic Commons**, you pull
+up a form and it already knows — *within your authorization region* — everything the system is
+allowed to know about you. A W-2, an I-9, the forms bound to a module: filled lightning-fast,
+because the org was **set up** so the right data reaches the right field under the right
+authority. Add it all up across an institution and the time saved is enormous.
+
+**The world calls that automation. It isn't.** Automation is doing the same dumb thing faster.
+What actually produced the speed is **covenants, data frameworks, and upstream thinking** — the
+institution architected so it *can* succeed. The time saved is the **receipt** of good upstream
+design, not the goal.
+
+And the speed is only *trustworthy* because of the boundary everyone else skips: the form knows
+**only what you are authorized to know**, scoped by authorization region, and it can **prove**
+it. A form that auto-fills without governed authority is a data leak wearing a convenience
+costume. A form that auto-fills *within a proven authorization region* is the product. (This is
+why the tenancy/attribution boundary is not back-office hygiene — it is the sales story:
+*the form knows what you're allowed to know, and can show its work.*)
+
+## The through-line
+
+Three times now the market has handed us the commodity word and we have kept the *"kinda"*:
+
+| Market names the surface | We own the substrate |
+|---|---|
+| "**Government** software" | **Governance** — governed process, not software *for* governments |
+| "Amazon of **templates**" | the **runtime/fulfillment** that makes any template seal and prove |
+| "**automation**" | **covenants + data frameworks** under a proven authorization region |
+
+Each time the market names the visible epiphenomenon — the output anyone can claim — and each
+time the defensible thing is the governed substrate that produced it. **Templates and automation
+are both the razor. The covenant is the blade.** Sell the verb only we can guarantee, never the
+noun anyone can copy.
+
+## External one-liners
+
+> **Not the Amazon of templates — the AWS underneath them.** Anyone can sell a form. We're the
+> layer that makes the form hold up in an audit.
+
+> **It looks like automation. It's actually your institution set up to succeed** — the form fills
+> itself because the data, the authority, and the proof were governed upstream. Speed is the
+> receipt, not the product.
 
 ## Open decision — the "MM" name
 
