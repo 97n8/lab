@@ -200,9 +200,27 @@ receive a guessed family.
 `FormKey`, `Retention`, and `Capture` still sort by one test — **does the seal need to know
 it?** Retention almost certainly **yes**; Capture almost certainly **no**.
 
-**Required VAULT decision (blocks the publish):** does the Bookend Rule's "subtype" mean
-`ArchieveEventTypeValue`, `AuditEventSubtype`, or a governed bridge between them? Recorded
-here as open; the recommended resolution above assumes *separate models, publish the map*.
+**VAULT decision (DECIDED 2026-07-10) — Bookend Event Referent.** The governed event referent
+is **`ArchieveEventTypeValue`**. PuddleJumper publishes `ArchieveEventTypeValue → AuditEventFamily`.
+The two event models stay **separate**: `AuditEventSubtype` is *not* the 135-member catalog, is
+*not* enumerated by this handshake, and shall *not* derive from `ArchieveEventTypeValue`. **No
+bridge** between them is authorized — its absence is intentional, not incomplete; a bridge
+requires a separate VAULT ruling (one-to-one/conditional/many-to-one, transactionality, retries,
+owning artifact, evidence). Family authority stays in `golden-path`, consumed via a
+deterministic, revision-pinned `families.json` (no unpinned live-branch read, no independent
+authoritative copy). Edge stays `app → core`. Each `ArchieveEventTypeValue → AuditEventFamily`
+assignment is a **human sealing decision** (AI proposes + flags ambiguity, never approves;
+ambiguous rows block publication). Naming: prefer *ARCHIEVE event type* / `ArchieveEventTypeValue`
+/ *ARCHIEVE event-family mapping* — never shorten to "subtype" where it could be confused with
+`AuditEventSubtype`.
+
+Workbook treatment (per the decision): three distinct control-surface rows —
+**Event Family** (6, golden-path-owned, gated, verifiable) · **ARCHIEVE Event Family Map**
+(PuddleJumper-owned, cross-repo `UNVERIFIABLE` until the pinned publication + consumer are
+operational) · **Artifact Event** (the 15-member workbook-owned vocabulary, kept under its own
+identity). The workbook must **not** contain or imply a fixed "Event Subtype (135)" vocabulary.
+The lab workflow stays **advisory** until producer and consumer are both green, then becomes
+required.
 
 (Note: this **overrides** an interim "packages/core owns it" answer collected earlier in the
 same session — the Bookend Rule is the authoritative ruling for *families*. The subtype

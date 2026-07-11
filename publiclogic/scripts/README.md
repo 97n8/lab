@@ -73,16 +73,32 @@ document came from. Two rows were mis-classified that way and are now corrected 
   both `lab` and `puddlejumper`; nothing enforces it (it came from a superseded SQL
   schema). It keeps its own Validation gate in the workbook; it just stops claiming a
   source it never had.
-- **`Event Type` → code-owned, `UNVERIFIABLE`.** It is enforced in code — but in
-  `puddlejumper` (`apps/puddlejumper/src/archieve/event-catalog.ts`, `ArchieveEventType`,
-  ~135 members), which this gate cannot read. The registry's 15-member snapshot is
-  stale. It is marked `UNVERIFIABLE` so the gate is **honestly red** rather than green
-  on a wrong snapshot — until `puddlejumper` publishes a `canon.json` the gate consumes.
 
-So a clean repo currently fails with `UNVERIFIABLE Event Type` by design. That is the
-gate refusing to certify a vocabulary it cannot verify — not a bug. Making
-`canon-check` a required check is still fine; it will stay red until the cross-repo
-canon question is resolved, and that red means something.
+### The three event vocabularies (VAULT Bookend Event Referent, 2026-07-10)
+
+"Event Type" was one row standing in for three distinct vocabularies. The registry now
+names them apart (see `docs/canon/CROSS_REPO_DRIFT.md` §6):
+
+- **`Event Family` → code-owned by `golden-path`, gated, GREEN.** The closed 6-member
+  set the seal commits (`AUDIT_EVENT_FAMILIES` = process, transition, role, auth,
+  divergence, system), verifiable in-repo. The Bookend Rule: the thing that seals is the
+  thing that enumerates.
+- **`ARCHIEVE Event Family Map` → puddlejumper-owned, `UNVERIFIABLE`.** The map
+  `ArchieveEventTypeValue → AuditEventFamily` (which family each of the 135 ARCHIEVE
+  event types belongs to) — a **human sealing decision** made in `puddlejumper`, not
+  enumerable here. Honestly red until puddlejumper publishes a deterministic,
+  revision-pinned `families.json` + map that its own CI verifies. It is **not**
+  `AuditEventSubtype` (the ledger's open dotted union) and must never be vendored in.
+- **`Artifact Event` → workbook-owned.** The 15-member "Closed Event Vocabulary" on the
+  `Event Vocabulary` sheet (`ArtifactCreated … SignalResolved`), enforced by the
+  workbook's own Validation. It was briefly mislabeled as the ARCHIEVE catalog; restored
+  to its true identity.
+
+So a clean repo currently fails with exactly one item — `UNVERIFIABLE ARCHIEVE Event
+Family Map` — by design. The `canon` **workflow is advisory** (`continue-on-error`) until
+the puddlejumper handshake is green on both sides; the check itself stays strict, so the
+red is visible without blocking merges. Flip it to required once the producer and
+consumer are green.
 
 ## Known open
 

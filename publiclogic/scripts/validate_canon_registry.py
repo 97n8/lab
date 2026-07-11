@@ -51,6 +51,12 @@ HERE = pathlib.Path(__file__).parent
 WORKBOOK_OWNED = {
     "Lifecycle", "Artifact Family", "Nature", "Significance",
     "Status", "Risk", "Claim Status", "Object Type", "Sensitivity",
+    # The 15-member Closed Event Vocabulary (ArtifactCreated ... SignalResolved) on the
+    # Event Vocabulary sheet, enforced by the workbook's own Validation, not by code. It was
+    # briefly mislabeled "Event Type" / ArchieveEventType (code-owned); that conflated it with
+    # puddlejumper's 135-member ARCHIEVE catalog. Restored to its true workbook-owned identity
+    # per the VAULT Bookend Event Referent decision (2026-07-10).
+    "Artifact Event",
 }
 
 # Registered code-owned, but the owning source is not in a repo this gate can read.
@@ -58,14 +64,13 @@ WORKBOOK_OWNED = {
 # Do not "fix" it by deleting the row or reclassifying it workbook-owned — the whole
 # point is that the workbook does NOT own it; code does, in a repo the gate can't see.
 UNVERIFIABLE = {
-    "Event Type": "code-owned in another repo the gate cannot read: "
-                  "puddlejumper/apps/puddlejumper/src/archieve/event-catalog.ts "
-                  "(ArchieveEventType, exactly 135 members — confirmed identical across 4 branches "
-                  "on 2026-07-09; see docs/canon/CROSS_REPO_DRIFT.md §7). The registry's 15-member "
-                  "snapshot is a stale ~11% partial. Reading the source out-of-band made the count "
-                  "exact but does NOT make it verifiable in CI, and does NOT license vendoring a "
-                  "135-member snapshot into lab (that re-creates the drift trap this gate exists to "
-                  "close). Resolve only by publishing puddlejumper's canon.json for the gate to consume.",
+    "ARCHIEVE Event Family Map": "the PuddleJumper-owned mapping ArchieveEventTypeValue -> "
+                  "AuditEventFamily (VAULT Bookend Event Referent, 2026-07-10). golden-path owns the "
+                  "6 sealable families (row 'Event Family', gated here); this map says which family "
+                  "each of the 135 ARCHIEVE event types belongs to — a human sealing decision made in "
+                  "puddlejumper, not enumerable in lab. Resolve only when puddlejumper publishes a "
+                  "deterministic, revision-pinned families.json + canon.json handshake that its own CI "
+                  "verifies; see docs/canon/CROSS_REPO_DRIFT.md §6. Do NOT vendor the map into lab.",
 }
 
 # --- read the source, by executing the runtime -----------------------------------
