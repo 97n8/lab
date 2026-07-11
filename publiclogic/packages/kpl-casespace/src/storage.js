@@ -17,6 +17,7 @@ export const fileNames = {
   cases: "cases.json",
   dashboard: "dashboard.json",
   log: "sync-log.jsonl",
+  packet: "packet.json",
 };
 
 async function ensureDir(dir) {
@@ -56,4 +57,12 @@ export async function saveDashboard(dir, dashboard) {
 
 export async function appendLog(dir, entry) {
   await appendJSONL(path.join(dir, fileNames.log), entry);
+}
+
+export async function savePacket(dir, packet) {
+  await writeJSON(path.join(dir, fileNames.packet), packet);
+}
+
+export async function loadPacket(dir) {
+  return readJSON(path.join(dir, fileNames.packet), null);
 }
