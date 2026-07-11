@@ -14,6 +14,8 @@
     "kpl:sync": "npm --workspace @publiclogic/kpl-casespace run sync --",
     "kpl:dashboard": "npm --workspace @publiclogic/kpl-casespace run dashboard --",
     "kpl:test": "npm --workspace @publiclogic/kpl-casespace run test",
+    "stay:dev": "npm --workspace @publiclogic/stay run dev",
+    "stay:build": "npm --workspace @publiclogic/stay run build",
     "gp:test": "npm --workspace @publiclogic/golden-path run test",
     "canon:check": "python3 scripts/validate_canon_registry.py --check packages/golden-path canon/PublicLogic_PuddleJumper_Runtime.xlsx",
     "canon:write": "python3 scripts/validate_canon_registry.py --write packages/golden-path canon/PublicLogic_PuddleJumper_Runtime.xlsx"

@@ -5,11 +5,17 @@ it holds configuration and branding, not business logic.
 
 Current:
 
-- `web/` — marketing site + `/kpl` STAY dashboard preview (Next.js).
+- `web/` — marketing site + `/kpl` and `/stay` dashboard previews (Next.js).
+- `stay/` — standalone STAY operator dashboard (Next.js, port 3001). First
+  property: Kendall Pond Lodge. Reads operational status (bookings, turnovers,
+  calendar) from `@publiclogic/kpl-casespace`'s `data/kpl/dashboard.json`, and
+  financials (guest name, payouts, fees) from a separately-exported Airbnb
+  Transaction History CSV at `data/kpl/transactions.csv` — the iCal feed that
+  drives kpl-casespace carries neither. Falls back to committed sample fixtures
+  when neither live file is present. Run with `npm run stay:dev`.
 
 Planned skins:
 
-- `stay/` — short-term rental ops (first property: Kendall Pond Lodge)
 - `muni/` · `biz/` · `grant/` — domain skins
 - `admin/` — internal operations
 - `docs/` — public docs / marketing (may absorb `web/`)
