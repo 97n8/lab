@@ -7,7 +7,7 @@ Production-oriented monorepo for the PublicLogic website and operating-system fo
 ## Apps
 
 - `apps/web` — PublicLogic website
-- `packages/pj` — PuddleJumper starter logic
+- `packages/pj` — PuddleJumper product-side connectors (file surface → governed signals)
 - `packages/casespace` — CaseSpace schemas
 - `packages/vault` — VAULT continuity/audit stubs
 - `packages/shared` — shared brand/system constants

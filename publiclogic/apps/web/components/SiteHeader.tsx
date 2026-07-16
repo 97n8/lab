@@ -6,6 +6,7 @@ const links = [
   { href: "/pj", label: "PJ" },
   { href: "/vault", label: "VAULT" },
   { href: "/stay", label: "STAY" },
+  { href: "/kpl", label: "KPL" },
   { href: "/muni", label: "MUNI" },
   { href: "/cemetery", label: "Records" },
   { href: "/contact", label: "Contact" },

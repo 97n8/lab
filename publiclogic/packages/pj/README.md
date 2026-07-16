@@ -59,7 +59,7 @@ receipt carries `source`, `signalId`, `objectId`, `action`, `timestamp`,
 ### Usage
 
 ```js
-import { createFileSurfaceAdapter, googleDriveSource } from "@publiclogic/pj/src/connectors/files/index.js";
+import { createFileSurfaceAdapter, googleDriveSource } from "@publiclogic/pj";
 
 const adapter = createFileSurfaceAdapter({ source: googleDriveSource(process.env) });
 const { results, review, summary } = await adapter.pull({ existing: activeCaseSpaces });

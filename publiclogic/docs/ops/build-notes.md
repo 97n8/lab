@@ -9,6 +9,12 @@ This folder is named `publiclogic` so it can become the real repo without renami
 - [x] Header + footer with brand mark and full navigation.
 - [x] Per-page metadata, OpenGraph/Twitter cards, sitemap, and robots.
 - [x] Contact route with email CTA and intake guidance.
+- [x] Dependencies pinned (Next 16 / React 19 / TS 6) — no `latest` specs.
+- [x] ESLint 9 flat config (`eslint .`; `next lint` was removed in Next 16).
+- [x] OG/Twitter social card generated at build via `next/og` (`app/opengraph-image.tsx`).
+- [x] Sitemap covers all public routes; `/kpl` linked from the header nav.
+- [x] CI gate: `.github/workflows/publiclogic.yml` (lint, build, pj/golden-path/kpl tests).
+- [x] `@publiclogic/pj` 1.0.0 — real package entry + `exports` map (dead `PJCase` stub removed).
 
 ## Next steps
 

@@ -1,0 +1,35 @@
+name: publiclogic
+
+# Build + test gate for the PublicLogic site and workspace packages.
+# The canon workbook handshake lives in canon.yml.
+
+on:
+  push:
+    branches: [main]
+    paths: ['publiclogic/**']
+  pull_request:
+    paths: ['publiclogic/**']
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: publiclogic } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: publiclogic/package-lock.json
+      - run: npm ci
+      - name: Lint web
+        run: npm run lint
+      - name: Build web
+        run: npm run build
+      - name: PJ tests
+        run: npm --workspace @publiclogic/pj run test
+      - name: Golden-path tests
+        run: npm run gp:test
+      - name: KPL tests
+        run: npm run kpl:test

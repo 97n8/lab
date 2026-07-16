@@ -1,9 +1,13 @@
 {
   "name": "@publiclogic/pj",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
-  "main": "src/index.ts",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./connectors/files": "./src/connectors/files/index.js"
+  },
   "dependencies": {
     "@publiclogic/golden-path": "*"
   },
