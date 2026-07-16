@@ -22,7 +22,7 @@ export function orderCases(cases) {
 }
 
 /** A standalone Record Receipt for one case — the "verify this booking" primitive. */
-export function receiptForCase(caseObj, meta = {}) {
+export async function receiptForCase(caseObj, meta = {}) {
   return makeReceipt(caseObj, {
     object_type: caseObj.case_type,
     object_id: caseObj.case_id,
@@ -31,7 +31,7 @@ export function receiptForCase(caseObj, meta = {}) {
 }
 
 /** Verify one case against its standalone receipt (re-derives the bytes). */
-export function verifyCaseReceipt(caseObj, receipt) {
+export async function verifyCaseReceipt(caseObj, receipt) {
   return verifyReceipt(caseObj, receipt);
 }
 
