@@ -4,11 +4,13 @@
 import { parseICS } from "./ical.js";
 import { syncCases } from "./cases.js";
 import { buildDashboard } from "./dashboard.js";
+import { sealCases } from "./seal.js";
 import {
   dataDir as resolveDataDir,
   loadCases,
   saveCases,
   saveDashboard,
+  savePacket,
   appendLog,
 } from "./storage.js";
 
@@ -66,9 +68,22 @@ export async function runSync(opts = {}) {
   const { cases, stats } = syncCases({ events, nowDate, existing, timestamp });
   const dashboard = buildDashboard(cases, nowDate, timestamp);
 
+  // Seal the record set into the verified spine: every case earns a receipt and
+  // the ordered set closes under a Merkle root. This is what makes the STAY
+  // record independently verifiable — offline, with no server in the loop.
+  const packet = await sealCases(cases, { at: timestamp });
+
   await saveCases(dir, cases);
   await saveDashboard(dir, dashboard);
-  await appendLog(dir, { ts: timestamp, source, now_date: nowDate, ...stats });
+  await savePacket(dir, packet);
+  await appendLog(dir, {
+    ts: timestamp,
+    source,
+    now_date: nowDate,
+    ...stats,
+    merkle_root: packet.case_receipt.merkle_root,
+    sealed_records: packet.case_receipt.record_count,
+  });
 
-  return { cases, dashboard, stats, source, nowDate };
+  return { cases, dashboard, stats, source, nowDate, packet };
 }

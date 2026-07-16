@@ -12,3 +12,12 @@ export {
 } from "./cases.js";
 export { buildDashboard } from "./dashboard.js";
 export { runSync, loadICSText, nowDateOf } from "./sync.js";
+export {
+  sealCases,
+  verifySeal,
+  receiptForCase,
+  verifyCaseReceipt,
+  orderCases,
+  stayCaseRef,
+  STAY_LISTING,
+} from "./seal.js";
