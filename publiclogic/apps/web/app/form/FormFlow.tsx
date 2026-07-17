@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   SEED_TYPES,
   compileSeed,
@@ -21,13 +21,16 @@ export function FormFlow() {
 
   const [answers, setAnswers] = useState<Answers>(() => deriveFormDefaults(identity));
   const [result, setResult] = useState<SubmitResult | null>(null);
+  const [groundedSpId, setGroundedSpId] = useState(spId);
 
-  // When the identity changes, re-ground the prefilled fields (the "teeth").
-  useEffect(() => {
+  // When the identity changes, re-ground the prefilled fields (the "teeth")
+  // during render — https://react.dev/learn/you-might-not-need-an-effect
+  if (spId !== groundedSpId) {
+    setGroundedSpId(spId);
     const d = deriveFormDefaults(identity);
     setAnswers((a) => ({ ...a, source: d.source, lane: d.lane }));
     setResult(null);
-  }, [spId]); // eslint-disable-line react-hooks/exhaustive-deps
+  }
 
   const set = (k: string, v: string) => setAnswers((a) => ({ ...a, [k]: v }));
   const submit = async () => setResult(await submitForm(identity, answers, { timestamp: new Date().toISOString() }));

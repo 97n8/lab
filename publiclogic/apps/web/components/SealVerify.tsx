@@ -87,9 +87,9 @@ export function SealVerify({
   return (
     <div className={`panel seal-panel${sealed ? (verdict?.ok ? " seal-ok" : " seal-fail") : ""}`}>
       <div className="section-head">
-        <h3>Seal &amp; verify</h3>
+        <h3>Close and check the record</h3>
         <span className="pill-soft">
-          {!sealed ? "Unsealed" : verdict?.ok ? "Sealed · verified" : "Verification failed"}
+          {!sealed ? "Record open" : verdict?.ok ? "Closed · check passed" : "Change detected"}
         </span>
       </div>
 
@@ -104,39 +104,39 @@ export function SealVerify({
               </span>
             ))}
           </p>
-          <button className="button primary" onClick={seal}>Seal recordstream</button>
+          <button className="button primary" onClick={seal}>Close and check record</button>
         </div>
       )}
 
       {sealed && (
         <div className="seal-body">
           <dl className="seal-grid">
-            <div><dt>Events sealed</dt><dd>{packet!.case_receipt.record_count}</dd></div>
-            <div><dt>CaseReceipt</dt><dd>committed</dd></div>
-            <div><dt>Merkle root</dt><dd><code>{shortRoot(packet!.case_receipt.merkle_root)}</code></dd></div>
-            <div><dt>Canonical form</dt><dd><code>{packet!.canonical_form_version}</code></dd></div>
+            <div><dt>Entries closed</dt><dd>{packet!.case_receipt.record_count}</dd></div>
+            <div><dt>Record state</dt><dd>complete</dd></div>
+            <div><dt>Integrity check</dt><dd><code>{shortRoot(packet!.case_receipt.merkle_root)}</code></dd></div>
+            <div><dt>Check result</dt><dd>{verdict?.ok ? "passed" : "review needed"}</dd></div>
           </dl>
 
           {verdict?.ok ? (
             <p className="seal-verdict ok">
-              <strong>Offline packet verified</strong> — no PublicLogic server in the loop.
+              <strong>The record checks out.</strong> This copy can be checked without relying on a PublicLogic server.
             </p>
           ) : (
             <div className="seal-verdict fail">
-              <p><strong>Verification failed</strong></p>
+              <p><strong>This record changed after it was closed.</strong></p>
               {failedItem && (
                 <p className="seal-failed-item">
-                  Record #{String(failedItem.seq).padStart(3, "0")} no longer matches its sealed receipt.
+                  Entry #{String(failedItem.seq).padStart(3, "0")} no longer matches the original check.
                 </p>
               )}
-              <p className="seal-detail-label">Failure detail:</p>
+              <p className="seal-detail-label">What changed:</p>
               <ul className="seal-failures">{verdict?.failures.map((f) => <li key={f}>{f}</li>)}</ul>
 
               {proof && (
                 <dl className="seal-proof">
-                  <div><dt>Sealed receipt (record #{String(proof.seq).padStart(3, "0")})</dt><dd><code>{proof.sealed}</code></dd></div>
-                  <div><dt>Recomputed from current bytes</dt><dd><code className="hash-bad">{proof.recomputed}</code></dd></div>
-                  <p className="seal-proof-note">Two different hashes — re-derived offline. The seal exposes the change without trusting the editor or a server.</p>
+                  <div><dt>Original check (entry #{String(proof.seq).padStart(3, "0")})</dt><dd><code>{proof.sealed}</code></dd></div>
+                  <div><dt>Current check</dt><dd><code className="hash-bad">{proof.recomputed}</code></dd></div>
+                  <p className="seal-proof-note">The checks no longer match, so the later edit is visible.</p>
                 </dl>
               )}
             </div>
@@ -144,7 +144,7 @@ export function SealVerify({
 
           <div className="rs-actions">
             {!tampered && verdict?.ok && (
-              <button className="button secondary" onClick={tamper}>Tamper with record #{String(Math.min(tamperIndex, records.length - 1) + 1).padStart(3, "0")}</button>
+              <button className="button secondary" onClick={tamper}>Show what happens if an entry changes</button>
             )}
             <button className="button secondary" onClick={reset}>Reset</button>
           </div>

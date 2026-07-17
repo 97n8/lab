@@ -4,19 +4,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const base = "https://publiclogic.org";
   const routes = [
     "",
+    "/services",
+    "/method",
     "/work",
-    "/casespaces",
+    "/permit-bridge",
+    "/about",
     "/pj",
-    "/vault",
-    "/kpl",
-    "/stay",
-    "/stay/guestbook",
-    "/muni",
-    "/cemetery",
-    "/job",
-    "/form",
-    "/seed",
-    "/recordstream",
     "/contact",
   ];
   return routes.map((path) => ({

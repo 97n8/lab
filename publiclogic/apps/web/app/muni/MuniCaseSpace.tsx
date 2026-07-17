@@ -39,7 +39,6 @@ export function MuniCaseSpace({ cases, org }: { cases: MuniCase[]; org: { name: 
       </div>
 
       <div className="panel muni-case">
-        {/* Tab rail — the CaseSpace shape, same as STAY */}
         <div className="muni-tabs">
           {TABS.map((t, i) => (
             <span key={t} className={`muni-tab${i === 0 ? " active" : ""}`}>{t}</span>
@@ -104,12 +103,9 @@ export function MuniCaseSpace({ cases, org }: { cases: MuniCase[]; org: { name: 
         </div>
       </div>
 
-      {/* Same governance underneath: the CaseSpace above is presentation; this is
-          the verified spine — the PRR for this case, sealed and verified offline. */}
       <p className="muni-spine-note">
-        Everything above is driven by the <strong>same runtime as STAY</strong>: a <code>.gov</code> seed grounded the
-        MUNI lane, the FORM opened the CaseSpace, and each completed task, attached file, and approval wrote one
-        append-only PRR record. Seal it to prove the record survives the person.
+        Each completed task, attached file, approval, and deadline becomes part of one continuing
+        record. Close it below to see how the town can carry that record forward and detect later changes.
       </p>
       <SealVerify
         records={runtime.prr}

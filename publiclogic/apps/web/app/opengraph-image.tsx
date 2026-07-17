@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "PublicLogic | Systems That Stick";
+export const alt = "PublicLogic | Make the Work Hold Together";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -15,7 +15,7 @@ export default function OpengraphImage() {
           flexDirection: "column",
           justifyContent: "space-between",
           padding: "72px 84px",
-          background: "linear-gradient(135deg, #062f2b 0%, #00453e 60%, #00534a 100%)",
+          background: "linear-gradient(135deg, #0d2541 0%, #0d2541 72%, #1f3f49 100%)",
           color: "#f7f3ea",
           fontFamily: "sans-serif",
         }}
@@ -25,29 +25,29 @@ export default function OpengraphImage() {
             style={{
               width: 64,
               height: 64,
-              borderRadius: 18,
-              background: "#f7f3ea",
+              borderRadius: 0,
+              background: "#d4b66f",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
             }}
           >
-            <div style={{ width: 34, height: 34, borderRadius: 10, background: "#00453e" }} />
+            <div style={{ width: 34, height: 34, borderRadius: 0, background: "#0d2541" }} />
           </div>
           <div style={{ fontSize: 56, fontWeight: 800, letterSpacing: -2 }}>PublicLogic</div>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
           <div style={{ fontSize: 84, fontWeight: 800, letterSpacing: -3, lineHeight: 1.05 }}>
-            Systems That Stick
+            Make the work hold together.
           </div>
           <div style={{ fontSize: 34, color: "#c59b4b", fontWeight: 600 }}>
-            Traceable in. Immutable out.
+            Systems for continuity.
           </div>
         </div>
 
         <div style={{ display: "flex", fontSize: 26, color: "#9fb8b2" }}>
-          Continuity • Data • Stewardship — publiclogic.org
+          Governance · Grants · Permitting · Documentation · Continuity
         </div>
       </div>
     ),

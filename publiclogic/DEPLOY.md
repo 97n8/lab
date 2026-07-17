@@ -18,8 +18,11 @@ app under `publiclogic/apps/web` (an npm-workspaces monorepo). Use these setting
 7. **Output Directory:** leave default (Vercel handles Next.js).
 8. Deploy.
 
-No environment variables are required for the site itself. The `/kpl` page renders
-a committed **sample** snapshot — it does not need the Airbnb URL.
+The contact brief uses a server-side bridge to the PublicLogic Inquiry Gateway in
+Google Forms. Visitors submit only to `/api/contact`; the Google Forms field mapping
+is never sent to the browser. No contact-intake environment variables are required.
+The `/kpl` page renders a committed **sample** snapshot and does not need the Airbnb
+URL.
 
 > Do **not** add `AIRBNB_KPL_ICAL_URL` to the Vercel project. The KPL sync is a
 > local CLI (`npm run kpl:sync`); the Airbnb export URL carries a private token

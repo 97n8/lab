@@ -1,31 +1,41 @@
 import Link from "next/link";
+import { BrandMark } from "./BrandMark";
 
 const links = [
-  { href: "/work", label: "Work" },
-  { href: "/casespaces", label: "CaseSpaces" },
-  { href: "/pj", label: "PJ" },
-  { href: "/vault", label: "VAULT" },
-  { href: "/stay", label: "STAY" },
-  { href: "/kpl", label: "KPL" },
-  { href: "/muni", label: "MUNI" },
-  { href: "/cemetery", label: "Records" },
-  { href: "/contact", label: "Contact" },
+  { href: "/services", label: "Services" },
+  { href: "/method", label: "Method" },
+  { href: "/work", label: "Selected work" },
+  { href: "/proof", label: "Proof" },
+  { href: "/about", label: "About" },
 ];
 
 export function SiteHeader() {
   return (
     <header className="site-header">
       <Link className="brand" href="/" aria-label="PublicLogic home">
-        <span className="brand-mark" aria-hidden="true" />
-        <span>PublicLogic</span>
+        <BrandMark />
       </Link>
-      <nav aria-label="Primary">
-        {links.map((link) => (
-          <Link key={link.href} href={link.href}>
-            {link.label}
-          </Link>
-        ))}
-      </nav>
+      <div className="nav-actions">
+        <nav className="desktop-nav" aria-label="Primary">
+          {links.map((link) => (
+            <Link key={link.href} href={link.href}>
+              {link.label}
+            </Link>
+          ))}
+          <Link className="nav-cta" href="/contact">Start a conversation</Link>
+        </nav>
+        <details className="mobile-nav">
+          <summary>Menu</summary>
+          <nav aria-label="Mobile primary">
+            {links.map((link) => (
+              <Link key={link.href} href={link.href}>
+                {link.label}
+              </Link>
+            ))}
+            <Link href="/contact">Start a conversation</Link>
+          </nav>
+        </details>
+      </div>
     </header>
   );
 }

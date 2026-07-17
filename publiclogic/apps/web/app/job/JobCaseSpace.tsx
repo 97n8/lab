@@ -77,11 +77,10 @@ export function JobCaseSpace() {
         </div>
       </div>
 
-      {/* The job folder that fills itself */}
       <div className="panel job-head">
-        <div className="obj-head"><h2>Smith Residence</h2><code>{String(rt.casespace.id)}</code></div>
+        <div className="obj-head"><h2>Smith Residence</h2></div>
         <p className="ident-known">
-          <strong>Customer:</strong> A. Smith · <strong>Crew:</strong> Joe + Mike · <strong>Lane:</strong> BIZ ·{" "}
+          <strong>Customer:</strong> A. Smith · <strong>Crew:</strong> Joe + Mike ·{" "}
           <strong>Status:</strong> {dayDone ? "work complete" : "open"}
         </p>
         <div className="rs-actions">
@@ -111,7 +110,7 @@ export function JobCaseSpace() {
         <JobCard title="Materials" filled={materials.length > 0}>
           {materials.length ? (
             <ul className="rs-obj-list">{materials.map((m) => <li key={m}><span>✔ {m}</span><span className="tag tag-green">receipt</span></li>)}</ul>
-          ) : <Empty>Who bought the wire? PJ will already know.</Empty>}
+          ) : <Empty>Who bought the wire? Keep the receipt with the job.</Empty>}
         </JobCard>
 
         <JobCard title="Change orders" filled={changeOrder}>
@@ -134,9 +133,8 @@ export function JobCaseSpace() {
         </JobCard>
       </div>
 
-      {/* It's all on the record */}
       <div className="panel">
-        <div className="section-head"><h3>On the record (PRR)</h3><span className="pill-soft">{rt.prr.length} entries · append-only</span></div>
+        <div className="section-head"><h3>Job history</h3><span className="pill-soft">{rt.prr.length} entries captured</span></div>
         <ul className="prr-list">
           {[...rt.prr].reverse().slice(0, 7).map((e) => (
             <li key={e.seq} className="prr-entry">

@@ -7,9 +7,9 @@ import data from "./sample-cases.json";
 import type { MuniCase } from "./buildMuniRuntime";
 
 export const metadata: Metadata = {
-  title: "MUNI · People come and go. The record should stay. | PublicLogic",
+  title: "Municipal Staff Continuity",
   description:
-    "Municipal onboarding and offboarding as governed CaseSpaces on the same verified runtime as STAY — one accountable record that survives turnover.",
+    "A working example of municipal onboarding and offboarding with tasks, files, approvals, deadlines, and ownership in one place.",
 };
 
 export default function MuniPage() {
@@ -19,9 +19,9 @@ export default function MuniPage() {
       <SiteHeader />
       <main>
         <PageIntro
-          eyebrow="MUNI · onboarding & offboarding"
+          eyebrow="Working example · municipal operations"
           title="People come and go. The record should stay."
-          lede="Keep Gmail, Drive, Excel, the HRIS — PJ connects them into one accountable operating record. Each person becomes one CaseSpace: tasks, files, approvals, deadlines, and ownership in one place. When someone leaves, the record stays with the Town, not the person."
+          lede="A town can keep Gmail, Drive, Excel, and its HR system while bringing the whole staff transition into one accountable record. Tasks, files, approvals, deadlines, and ownership stay visible. When someone leaves, the record stays with the town."
         />
         <section className="section">
           <MuniCaseSpace cases={cases} org={data.org} />

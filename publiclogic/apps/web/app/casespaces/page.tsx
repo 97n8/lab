@@ -5,70 +5,59 @@ import { SiteFooter } from "../../components/SiteFooter";
 import { PageIntro } from "../../components/PageIntro";
 
 export const metadata: Metadata = {
-  title: "CaseSpaces | PublicLogic",
-  description:
-    "A governed workspace for each project, issue, client, grant, property, or institutional process.",
+  title: "CaseSpaces",
+  description: "A CaseSpace gives one important piece of work a clear home for its people, sources, decisions, deadlines, evidence, and next steps.",
 };
 
-const holds = [
-  { title: "Context", body: "Why this exists, who it serves, and what good looks like." },
-  { title: "Evidence", body: "The documents, scans, and records that back every decision." },
-  { title: "Decisions", body: "What was chosen, by whom, and the reasoning at the time." },
-  { title: "Next steps", body: "The current owner and the next action, always visible." },
+const CONTENTS = [
+  { h: "Purpose", p: "What the work is trying to accomplish and what a good finish looks like." },
+  { h: "People", p: "Who owns, contributes, reviews, approves, and carries the next step." },
+  { h: "Sources", p: "The files, messages, records, and facts the work depends on." },
+  { h: "Movement", p: "The tasks, deadlines, dependencies, and open questions that shape the path." },
+  { h: "Decisions", p: "What was decided, by whom, and why it made sense at the time." },
+  { h: "Closeout", p: "What happened, what remains, and what the next person needs to know." },
 ];
 
 export default function CaseSpacesPage() {
   return (
     <>
       <SiteHeader />
-      <main>
+      <main id="main">
         <PageIntro
           eyebrow="CaseSpaces"
-          title="A governed place for every case."
-          lede="Give each project, issue, client, grant, property, or institutional process one container for context, evidence, decisions, and next steps."
+          title="Give the work one clear place to live."
+          lede="A CaseSpace is a working home for one matter, project, grant, permit, property, program, or institutional process. It keeps the people, context, decisions, and next steps together without forcing every tool to change."
         />
 
-        <section className="section split">
-          <div>
-            <p className="eyebrow">What a CaseSpace holds</p>
-            <h2>One container. The whole thread.</h2>
-            <p className="lede">
-              A CaseSpace starts only when something needs a live container. Until then, capture stays
-              light. When it goes live, everything about the case lives in one governed place.
-            </p>
-          </div>
-          <ul className="list">
-            {holds.map((item) => (
-              <li key={item.title}>
-                <strong>{item.title}</strong>
-                <span>{item.body}</span>
-              </li>
+        <section className="section">
+          <div className="grid grid-3">
+            {CONTENTS.map((item) => (
+              <article className="card plain-card" key={item.h}>
+                <h3>{item.h}</h3>
+                <p>{item.p}</p>
+              </article>
             ))}
-          </ul>
-        </section>
-
-        <section className="section">
-          <div className="panel">
-            <p className="eyebrow">The governed object</p>
-            <h2>Where CaseSpace sits.</h2>
-            <p className="lede">
-              Every request is one of three things: a source PJ can pull from, a governed object PJ can
-              track, or an output PJ can seal. The CaseSpace is the governed object.
-            </p>
-            <p className="flow">
-              FORM opens → <strong>CaseSpace</strong> owns → CAL gates → Manifest / PRM checks → PRR records → VAULT governs → ARCHIEVE seals
-            </p>
           </div>
         </section>
 
         <section className="section">
-          <div className="cta-row">
-            <Link className="button primary" href="/pj">
-              See how PJ routes it
-            </Link>
-            <Link className="button secondary" href="/vault">
-              And how VAULT keeps it
-            </Link>
+          <div className="home-statement inset-statement">
+            <div>
+              <p className="eyebrow">Why it matters</p>
+              <h2>People can join the work without reconstructing it.</h2>
+              <p>
+                A new staff member, partner, reviewer, or leader can see what is happening,
+                understand what came before, and pick up the next step without starting over.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section className="section">
+          <div className="final-cta">
+            <p className="eyebrow">CaseSpace Build</p>
+            <h2>Start with one process that needs a better home.</h2>
+            <Link className="button primary" href="/contact">Build a CaseSpace</Link>
           </div>
         </section>
       </main>

@@ -5,9 +5,9 @@ import { PageIntro } from "../../components/PageIntro";
 import { JobCaseSpace } from "./JobCaseSpace";
 
 export const metadata: Metadata = {
-  title: "A job that tracks itself | PublicLogic",
+  title: "A Living Job Record",
   description:
-    "An electrician's day: every job is a CaseSpace that fills itself — hours, materials, change orders, photos, signature, invoice. Nothing changes about the tools they use.",
+    "A working example that keeps hours, materials, change orders, photos, signatures, and invoicing together from the first call to final payment.",
 };
 
 export default function JobPage() {
@@ -16,9 +16,9 @@ export default function JobPage() {
       <SiteHeader />
       <main>
         <PageIntro
-          eyebrow="BIZ · the living job folder"
+          eyebrow="Working example · project delivery"
           title="“I’ve got three jobs today.”"
-          lede="A contractor doesn’t think in projects or tasks — they think in jobs. A CaseSpace is just the digital job folder that follows the work from the first call to the final payment. They keep Gmail, Calendar, QuickBooks, photos, texts. The folder fills itself."
+          lede="A contractor thinks in jobs. This is a digital job folder that follows the work from the first call to final payment. Gmail, Calendar, QuickBooks, photos, and texts can stay. The record builds as the job moves."
         />
         <section className="section">
           <JobCaseSpace />

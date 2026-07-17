@@ -82,10 +82,9 @@ export function CemeteryRecord({ record, org }: { record: Rec; org: { name: stri
       </div>
 
       <p className="muni-spine-note">
-        Same runtime as STAY and MUNI — a <code>.gov</code> seed, a FORM, and an append-only PRR record for every
-        step. The difference here is the stakes: cemetery records are <strong>permanent</strong>. Sealing this case
-        produces the immutable packet that <em>is</em> the permanent record — and it stays verifiable for as long as
-        the Town keeps it.
+        Cemetery records are <strong>permanent</strong>. Each request, deed, payment, permit, and
+        interment becomes part of the same history. Close the record below to see how the town can
+        preserve it and detect later changes.
       </p>
       <SealVerify
         records={runtime.prr}

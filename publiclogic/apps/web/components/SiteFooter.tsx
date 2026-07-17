@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BrandMark } from "./BrandMark";
 
 export function SiteFooter() {
   const year = new Date().getFullYear();
@@ -7,22 +8,24 @@ export function SiteFooter() {
       <div className="footer-grid">
         <div>
           <Link className="brand" href="/" aria-label="PublicLogic home">
-            <span className="brand-mark" aria-hidden="true" />
-            <span>PublicLogic</span>
+            <BrandMark />
           </Link>
-          <p className="footer-tag">Systems That Stick.</p>
+          <p className="footer-tag">Systems stewardship for continuity.</p>
         </div>
         <nav aria-label="Footer">
           <Link href="/work">Work</Link>
-          <Link href="/casespaces">CaseSpaces</Link>
+          <Link href="/proof">Proof</Link>
+          <Link href="/services">Services</Link>
+          <Link href="/method">Method</Link>
+          <Link href="/permit-bridge">Permit &amp; Bridge</Link>
+          <Link href="/about">About</Link>
           <Link href="/pj">PuddleJumper</Link>
-          <Link href="/vault">VAULT</Link>
           <Link href="/contact">Contact</Link>
         </nav>
       </div>
       <div className="footer-base">
-        <span>© {year} PublicLogic LLC</span>
-        <span>Continuity • Data • Stewardship</span>
+        <span>© {year} PublicLogic LLC · Gardner, Massachusetts</span>
+        <span>We do not create dependency. We create understanding.</span>
       </div>
     </footer>
   );

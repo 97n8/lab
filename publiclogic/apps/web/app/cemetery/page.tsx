@@ -7,9 +7,9 @@ import data from "./sample-record.json";
 import type { CemeteryRecord as Rec } from "./buildCemeteryRuntime";
 
 export const metadata: Metadata = {
-  title: "Cemetery Records · Unexpected Proof | PublicLogic",
+  title: "Municipal Cemetery Records",
   description:
-    "Municipal cemetery records — burial request, deed, fees, scheduling, and permit on one permanent timeline. The case where the record itself is the service, on PJ's verified runtime.",
+    "A working example that keeps a burial request, deed, fees, scheduling, permit, and map together as one permanent municipal record.",
 };
 
 export default function CemeteryPage() {
@@ -18,9 +18,9 @@ export default function CemeteryPage() {
       <SiteHeader />
       <main>
         <PageIntro
-          eyebrow="MUNI · unexpected proof — cemetery records"
+          eyebrow="Working example · permanent records"
           title="Where the record is the service."
-          lede="A burial request, a deed, fees, scheduling, a permit, and a map — one permanent record on one timeline. Cemetery records are kept forever, which makes them the purest test of PJ's promise: the record should stay, and it should still be provable decades later."
+          lede="A burial request, deed, fees, scheduling, permit, and map belong on one permanent timeline. The record should remain understandable, complete, and ready to check decades later."
         />
         <section className="section">
           <CemeteryRecord record={data.record as Rec} org={data.org} />
