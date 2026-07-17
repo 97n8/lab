@@ -51,7 +51,7 @@ interface StayAppProps {
 export function StayApp({ dashboard, dashboardLive, reservations, totals, monthly, transactionsLive }: StayAppProps) {
   const [view, setView] = useState<View>("dashboard");
   const [selectedCode, setSelectedCode] = useState<string | null>(null);
-  const [copied, setCopied] = useState(false);
+  const [copyStatus, setCopyStatus] = useState<"idle" | "copied" | "error">("idle");
 
   const selected = useMemo(() => reservations.find((r) => r.code === selectedCode) ?? null, [reservations, selectedCode]);
   const maxGross = useMemo(() => Math.max(1, ...monthly.map((m) => m.gross)), [monthly]);
@@ -60,9 +60,14 @@ export function StayApp({ dashboard, dashboardLive, reservations, totals, monthl
   const go = (v: View) => { setView(v); setSelectedCode(null); };
 
   const copyCommand = async () => {
-    await navigator.clipboard?.writeText("AIRBNB_KPL_ICAL_URL=https://www.airbnb.com/calendar/ical/XXXX.ics?s=YYYY npm run kpl:sync");
-    setCopied(true);
-    window.setTimeout(() => setCopied(false), 1600);
+    try {
+      if (!navigator.clipboard) throw new Error("Clipboard unavailable");
+      await navigator.clipboard.writeText("npm run kpl:sync");
+      setCopyStatus("copied");
+    } catch {
+      setCopyStatus("error");
+    }
+    window.setTimeout(() => setCopyStatus("idle"), 1800);
   };
 
   return (
@@ -75,9 +80,14 @@ export function StayApp({ dashboard, dashboardLive, reservations, totals, monthl
             <div className="stay-brand-sub">STAY OPERATIONS</div>
           </div>
         </div>
-        <nav className="stay-nav">
+        <nav className="stay-nav" aria-label="Stay operations">
           {NAV.map(([key, label, Icon]) => (
-            <button key={key} className={`nav-item ${view === key ? "active" : ""}`} onClick={() => go(key)}>
+            <button
+              key={key}
+              className={`nav-item ${view === key ? "active" : ""}`}
+              aria-current={view === key ? "page" : undefined}
+              onClick={() => go(key)}
+            >
               <Icon size={16} strokeWidth={1.9} />
               {label}
             </button>
@@ -94,7 +104,8 @@ export function StayApp({ dashboard, dashboardLive, reservations, totals, monthl
           {view === "dashboard" && (
             <DashboardView
               dashboard={dashboard} totals={totals} monthly={monthly} maxGross={maxGross}
-              nextArrival={nextArrival} dashboardLive={dashboardLive} go={go}
+              nextArrival={nextArrival} dashboardLive={dashboardLive}
+              transactionsLive={transactionsLive} go={go}
             />
           )}
           {view === "reservations" && !selected && (
@@ -103,10 +114,12 @@ export function StayApp({ dashboard, dashboardLive, reservations, totals, monthl
           {view === "reservations" && selected && (
             <ReservationDetail r={selected} onBack={() => setSelectedCode(null)} />
           )}
-          {view === "calendar" && <CalendarView dashboard={dashboard} />}
+          {view === "calendar" && <CalendarView dashboard={dashboard} dashboardLive={dashboardLive} />}
           {view === "turnovers" && <TurnoversView dashboard={dashboard} dashboardLive={dashboardLive} />}
-          {view === "financials" && <FinancialsView totals={totals} monthly={monthly} maxGross={maxGross} />}
-          {view === "sync" && <SyncView copied={copied} onCopy={copyCommand} />}
+          {view === "financials" && (
+            <FinancialsView totals={totals} monthly={monthly} maxGross={maxGross} transactionsLive={transactionsLive} />
+          )}
+          {view === "sync" && <SyncView copyStatus={copyStatus} onCopy={copyCommand} />}
         </div>
       </main>
     </div>
@@ -123,8 +136,11 @@ function Heading({ title, sub }: { title: string; sub: string }) {
 }
 
 function BarChart({ monthly, maxGross }: { monthly: MonthlyRevenue[]; maxGross: number }) {
+  const summary = monthly.length > 0
+    ? monthly.map((m) => `${m.month}: ${usd(m.gross)}`).join(", ")
+    : "No revenue rows in this export.";
   return (
-    <div className="bar-chart">
+    <div className="bar-chart" role="img" aria-label={`Gross revenue by month. ${summary}`}>
       {monthly.map((m) => (
         <div key={m.month} className="bar-chart-col">
           <div className="bar-chart-bar" style={{ height: `${Math.max(4, (m.gross / maxGross) * 100)}%` }} title={`${m.month}: ${usd(m.gross)}`} />
@@ -136,10 +152,10 @@ function BarChart({ monthly, maxGross }: { monthly: MonthlyRevenue[]; maxGross: 
 }
 
 function DashboardView({
-  dashboard, totals, monthly, maxGross, nextArrival, dashboardLive, go,
+  dashboard, totals, monthly, maxGross, nextArrival, dashboardLive, transactionsLive, go,
 }: {
   dashboard: Dashboard; totals: Totals; monthly: MonthlyRevenue[]; maxGross: number;
-  nextArrival: Booking | null; dashboardLive: boolean; go: (v: View) => void;
+  nextArrival: Booking | null; dashboardLive: boolean; transactionsLive: boolean; go: (v: View) => void;
 }) {
   const kpis = [
     ["Gross earnings", usd(totals.gross), `${totals.count} reservations`],
@@ -153,10 +169,12 @@ function DashboardView({
   return (
     <>
       <Heading title="Operations" sub={`${dashboard.property} · financials from the transaction export, status from CaseSpace sync`} />
-      {!dashboardLive && (
+      {(!dashboardLive || !transactionsLive) && (
         <div className="note-banner">
-          Showing the committed sample snapshot. Run <code>npm run kpl:sync</code> from the repo root with{" "}
-          <code>AIRBNB_KPL_ICAL_URL</code> set to write live data to <code>data/kpl/</code>.
+          Showing sample {[
+            !dashboardLive && "bookings and turnovers",
+            !transactionsLive && "reservations and financials",
+          ].filter(Boolean).join(" plus ")}. Open Sync for the two refresh paths.
         </div>
       )}
       <div className="kpi-grid">
@@ -214,8 +232,10 @@ function ReservationsView({
           </thead>
           <tbody>
             {reservations.map((r) => (
-              <tr key={r.code} className="row-click" onClick={() => onSelect(r.code)}>
-                <td style={{ fontWeight: 700 }}>{r.guest}</td>
+              <tr key={r.code}>
+                <td style={{ fontWeight: 700 }}>
+                  <button className="table-link" onClick={() => onSelect(r.code)}>{r.guest}</button>
+                </td>
                 <td className="muted-cell" style={{ fontFamily: "ui-monospace, monospace", fontSize: "0.8rem" }}>{r.code}</td>
                 <td>{mmm(r.start)} – {mmm(r.end)}</td>
                 <td>{r.nights}</td>
@@ -262,7 +282,7 @@ function ReservationDetail({ r, onBack }: { r: Reservation; onBack: () => void }
   );
 }
 
-function CalendarView({ dashboard }: { dashboard: Dashboard }) {
+function CalendarView({ dashboard, dashboardLive }: { dashboard: Dashboard; dashboardLive: boolean }) {
   const [y, m] = dashboard.now_date.split("-").map(Number);
   const monthLabel = new Date(y, m - 1, 1).toLocaleDateString("en-US", { month: "long", year: "numeric" });
   const daysInMonth = new Date(y, m, 0).getDate();
@@ -278,6 +298,9 @@ function CalendarView({ dashboard }: { dashboard: Dashboard }) {
   return (
     <>
       <Heading title="Calendar" sub={`${monthLabel} · check-ins, checkouts, and turnovers from the CaseSpace sync.`} />
+      {!dashboardLive && (
+        <div className="note-banner">Sample CaseSpace snapshot. Open Sync to load the current booking calendar.</div>
+      )}
       <div className="card card-pad">
         <div className="cal-grid">
           {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((d) => <div key={d} className="cal-dow">{d}</div>)}
@@ -333,10 +356,15 @@ function TurnoversView({ dashboard, dashboardLive }: { dashboard: Dashboard; das
   );
 }
 
-function FinancialsView({ totals, monthly, maxGross }: { totals: Totals; monthly: MonthlyRevenue[]; maxGross: number }) {
+function FinancialsView({
+  totals, monthly, maxGross, transactionsLive,
+}: { totals: Totals; monthly: MonthlyRevenue[]; maxGross: number; transactionsLive: boolean }) {
   return (
     <>
       <Heading title="Financials" sub="Computed from the Airbnb transaction history export — no property costs included." />
+      {!transactionsLive && (
+        <div className="note-banner">Sample transaction export shown. Open Sync to load the current Airbnb export.</div>
+      )}
       <div className="grid-2">
         <div className="card card-pad">
           <div className="kpi-label">Payout ledger</div>
@@ -361,7 +389,9 @@ function FinancialsView({ totals, monthly, maxGross }: { totals: Totals; monthly
   );
 }
 
-function SyncView({ copied, onCopy }: { copied: boolean; onCopy: () => void }) {
+function SyncView({
+  copyStatus, onCopy,
+}: { copyStatus: "idle" | "copied" | "error"; onCopy: () => void }) {
   return (
     <>
       <Heading title="Sync" sub="This dashboard reads committed/local files — it does not fetch Airbnb itself." />
@@ -378,8 +408,8 @@ function SyncView({ copied, onCopy }: { copied: boolean; onCopy: () => void }) {
             </div>
           </div>
           <button className="code-block" onClick={onCopy} style={{ marginTop: "1.25rem" }}>
-            <span>AIRBNB_KPL_ICAL_URL=… npm run kpl:sync</span>
-            {copied ? <Check size={16} /> : <Copy size={16} />}
+            <span>{copyStatus === "error" ? "Copy failed — run: npm run kpl:sync" : "npm run kpl:sync"}</span>
+            {copyStatus === "copied" ? <Check size={16} /> : <Copy size={16} />}
           </button>
           <div className="note-banner" style={{ marginTop: "1rem" }}>
             This writes <code>data/kpl/dashboard.json</code>, which the Dashboard, Calendar, and Turnovers views read

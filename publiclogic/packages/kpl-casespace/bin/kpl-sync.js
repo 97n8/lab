@@ -4,9 +4,16 @@
 //   node bin/kpl-sync.js --file path.ics (sync a local .ics instead)
 import { runSync } from "../src/sync.js";
 import { dataDir } from "../src/storage.js";
+import { loadEnvFile } from "node:process";
+import { fileURLToPath } from "node:url";
 
 const argv = process.argv.slice(2);
 const fileIdx = argv.indexOf("--file");
+try {
+  loadEnvFile(fileURLToPath(new URL("../../../.env", import.meta.url)));
+} catch (err) {
+  if (err.code !== "ENOENT") throw err;
+}
 const env = { ...process.env };
 if (fileIdx !== -1 && argv[fileIdx + 1]) env.KPL_ICAL_FILE = argv[fileIdx + 1];
 

@@ -17,11 +17,18 @@ Turnovers and Calendar use the CaseSpace sync. Both files are gitignored
 data; without them the app falls back to the committed sample fixtures in
 `data/` and says so in the UI.
 
+The parser accepts standard Airbnb CSV quoting, currency-formatted USD values,
+and exports spanning multiple years. Missing columns, malformed dates, and
+unsupported currencies fail with the affected CSV row instead of silently
+showing zeroes.
+
 ## Run
 
 ```bash
 npm install            # from the repo root
 npm run stay:dev        # http://localhost:3001
+npm run stay:build      # production build
+npm --workspace @publiclogic/stay run lint
 ```
 
 ## Structure
