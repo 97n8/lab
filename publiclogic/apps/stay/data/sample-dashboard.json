@@ -1,0 +1,210 @@
+{
+  "property": "Kendall Pond Lodge",
+  "generated_at": "2026-06-26T16:00:30.814Z",
+  "now_date": "2026-02-10",
+  "counts": {
+    "total_cases": 9,
+    "active_bookings": 1,
+    "upcoming_checkins": 3,
+    "upcoming_checkouts": 4,
+    "turnovers_needed": 4,
+    "blocked_cases": 1
+  },
+  "active_bookings": [
+    {
+      "case_id": "KPL-BOOK-2026-02-08-78c86f66",
+      "guest_name": "Airbnb Guest",
+      "check_in_date": "2026-02-08",
+      "checkout_date": "2026-02-11",
+      "status": "ACTIVE",
+      "linked_turnover_case_id": "KPL-TURN-2026-02-11-906f9b78"
+    }
+  ],
+  "upcoming_checkins": [
+    {
+      "case_id": "KPL-BOOK-2026-02-12-502b5ccc",
+      "guest_name": "Airbnb Guest",
+      "check_in_date": "2026-02-12",
+      "checkout_date": "2026-02-14",
+      "status": "CONFIRMED",
+      "linked_turnover_case_id": "KPL-TURN-2026-02-14-740cc113"
+    },
+    {
+      "case_id": "KPL-BOOK-2026-02-14-f3724616",
+      "guest_name": "Airbnb Guest",
+      "check_in_date": "2026-02-14",
+      "checkout_date": "2026-02-18",
+      "status": "CONFIRMED",
+      "linked_turnover_case_id": "KPL-TURN-2026-02-18-fabccf44"
+    },
+    {
+      "case_id": "KPL-BOOK-2026-02-20-b51de522",
+      "guest_name": "Airbnb Guest",
+      "check_in_date": "2026-02-20",
+      "checkout_date": "2026-02-24",
+      "status": "CONFIRMED",
+      "linked_turnover_case_id": "KPL-TURN-2026-02-24-6f27705b"
+    }
+  ],
+  "upcoming_checkouts": [
+    {
+      "case_id": "KPL-BOOK-2026-02-08-78c86f66",
+      "guest_name": "Airbnb Guest",
+      "check_in_date": "2026-02-08",
+      "checkout_date": "2026-02-11",
+      "status": "ACTIVE",
+      "linked_turnover_case_id": "KPL-TURN-2026-02-11-906f9b78"
+    },
+    {
+      "case_id": "KPL-BOOK-2026-02-12-502b5ccc",
+      "guest_name": "Airbnb Guest",
+      "check_in_date": "2026-02-12",
+      "checkout_date": "2026-02-14",
+      "status": "CONFIRMED",
+      "linked_turnover_case_id": "KPL-TURN-2026-02-14-740cc113"
+    },
+    {
+      "case_id": "KPL-BOOK-2026-02-14-f3724616",
+      "guest_name": "Airbnb Guest",
+      "check_in_date": "2026-02-14",
+      "checkout_date": "2026-02-18",
+      "status": "CONFIRMED",
+      "linked_turnover_case_id": "KPL-TURN-2026-02-18-fabccf44"
+    },
+    {
+      "case_id": "KPL-BOOK-2026-02-20-b51de522",
+      "guest_name": "Airbnb Guest",
+      "check_in_date": "2026-02-20",
+      "checkout_date": "2026-02-24",
+      "status": "CONFIRMED",
+      "linked_turnover_case_id": "KPL-TURN-2026-02-24-6f27705b"
+    }
+  ],
+  "turnovers_needed": [
+    {
+      "case_id": "KPL-TURN-2026-02-11-906f9b78",
+      "booking_case_id": "KPL-BOOK-2026-02-08-78c86f66",
+      "turnover_date": "2026-02-11",
+      "next_checkin_date": "2026-02-12",
+      "priority": "HIGH",
+      "cleaner": "unassigned",
+      "status": "NEEDS_ASSIGNMENT"
+    },
+    {
+      "case_id": "KPL-TURN-2026-02-14-740cc113",
+      "booking_case_id": "KPL-BOOK-2026-02-12-502b5ccc",
+      "turnover_date": "2026-02-14",
+      "next_checkin_date": "2026-02-14",
+      "priority": "SAME_DAY",
+      "cleaner": "unassigned",
+      "status": "NEEDED"
+    },
+    {
+      "case_id": "KPL-TURN-2026-02-18-fabccf44",
+      "booking_case_id": "KPL-BOOK-2026-02-14-f3724616",
+      "turnover_date": "2026-02-18",
+      "next_checkin_date": "2026-02-20",
+      "priority": "NORMAL",
+      "cleaner": "unassigned",
+      "status": "NEEDED"
+    },
+    {
+      "case_id": "KPL-TURN-2026-02-24-6f27705b",
+      "booking_case_id": "KPL-BOOK-2026-02-20-b51de522",
+      "turnover_date": "2026-02-24",
+      "next_checkin_date": null,
+      "priority": "NORMAL",
+      "cleaner": "unassigned",
+      "status": "NEEDED"
+    }
+  ],
+  "blocked_cases": [
+    {
+      "case_id": "KPL-TURN-2026-02-11-906f9b78",
+      "booking_case_id": "KPL-BOOK-2026-02-08-78c86f66",
+      "turnover_date": "2026-02-11",
+      "next_checkin_date": "2026-02-12",
+      "priority": "HIGH",
+      "cleaner": "unassigned",
+      "status": "NEEDS_ASSIGNMENT"
+    }
+  ],
+  "all_cases": [
+    {
+      "case_id": "KPL-BOOK-2026-02-08-78c86f66",
+      "guest_name": "Airbnb Guest",
+      "check_in_date": "2026-02-08",
+      "checkout_date": "2026-02-11",
+      "status": "ACTIVE",
+      "linked_turnover_case_id": "KPL-TURN-2026-02-11-906f9b78"
+    },
+    {
+      "case_id": "KPL-BOOK-2026-02-12-502b5ccc",
+      "guest_name": "Airbnb Guest",
+      "check_in_date": "2026-02-12",
+      "checkout_date": "2026-02-14",
+      "status": "CONFIRMED",
+      "linked_turnover_case_id": "KPL-TURN-2026-02-14-740cc113"
+    },
+    {
+      "case_id": "KPL-BOOK-2026-02-14-f3724616",
+      "guest_name": "Airbnb Guest",
+      "check_in_date": "2026-02-14",
+      "checkout_date": "2026-02-18",
+      "status": "CONFIRMED",
+      "linked_turnover_case_id": "KPL-TURN-2026-02-18-fabccf44"
+    },
+    {
+      "case_id": "KPL-BOOK-2026-02-20-b51de522",
+      "guest_name": "Airbnb Guest",
+      "check_in_date": "2026-02-20",
+      "checkout_date": "2026-02-24",
+      "status": "CONFIRMED",
+      "linked_turnover_case_id": "KPL-TURN-2026-02-24-6f27705b"
+    },
+    {
+      "case_id": "KPL-BOOK-2026-02-26-7b542f36",
+      "guest_name": null,
+      "check_in_date": "2026-02-26",
+      "checkout_date": "2026-02-28",
+      "status": "BLOCKED",
+      "linked_turnover_case_id": null
+    },
+    {
+      "case_id": "KPL-TURN-2026-02-11-906f9b78",
+      "booking_case_id": "KPL-BOOK-2026-02-08-78c86f66",
+      "turnover_date": "2026-02-11",
+      "next_checkin_date": "2026-02-12",
+      "priority": "HIGH",
+      "cleaner": "unassigned",
+      "status": "NEEDS_ASSIGNMENT"
+    },
+    {
+      "case_id": "KPL-TURN-2026-02-14-740cc113",
+      "booking_case_id": "KPL-BOOK-2026-02-12-502b5ccc",
+      "turnover_date": "2026-02-14",
+      "next_checkin_date": "2026-02-14",
+      "priority": "SAME_DAY",
+      "cleaner": "unassigned",
+      "status": "NEEDED"
+    },
+    {
+      "case_id": "KPL-TURN-2026-02-18-fabccf44",
+      "booking_case_id": "KPL-BOOK-2026-02-14-f3724616",
+      "turnover_date": "2026-02-18",
+      "next_checkin_date": "2026-02-20",
+      "priority": "NORMAL",
+      "cleaner": "unassigned",
+      "status": "NEEDED"
+    },
+    {
+      "case_id": "KPL-TURN-2026-02-24-6f27705b",
+      "booking_case_id": "KPL-BOOK-2026-02-20-b51de522",
+      "turnover_date": "2026-02-24",
+      "next_checkin_date": null,
+      "priority": "NORMAL",
+      "cleaner": "unassigned",
+      "status": "NEEDED"
+    }
+  ]
+}

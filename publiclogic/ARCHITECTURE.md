@@ -112,10 +112,13 @@ deliberately (no big-bang move). Target homes:
 ## Adoption status
 
 - **Now:** this document + a navigable top-level skeleton (READMEs per layer).
-  `capabilities/` adopted as the name.
+  `capabilities/` adopted as the name. `apps/stay` is stood up as a standalone
+  Next.js dashboard (Kendall Pond as the first STAY configuration) — but it
+  still calls into `kpl-casespace` directly rather than through
+  `capabilities/booking` + `capabilities/turnover` + `integrations/airbnb`.
 - **Not yet (deliberate):** empty leaf directories, the Turborepo migration
   (`turbo.json` + `tooling/`), and moving `kpl-casespace` — these land as real
   code does, so we don't ship ~100 empty folders or a half-done build migration.
 - **Next step when ready:** extract `capabilities/booking` + `capabilities/turnover`
-  + `integrations/airbnb` from `kpl-casespace`, and stand up `apps/stay` that
-  composes them (Kendall Pond as the first STAY configuration).
+  + `integrations/airbnb` from `kpl-casespace` so `apps/stay` composes them
+  instead of importing the package directly.

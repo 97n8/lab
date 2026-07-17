@@ -1,0 +1,27 @@
+{
+  "name": "@publiclogic/stay",
+  "private": true,
+  "version": "0.1.0",
+  "description": "STAY operator dashboard — Kendall Pond Lodge, the first STAY configuration.",
+  "scripts": {
+    "dev": "next dev -p 3001",
+    "build": "next build",
+    "start": "next start -p 3001",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@publiclogic/shared": "*",
+    "lucide-react": "latest",
+    "next": "^16.2.9",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.3",
+    "@types/node": "^26.0.0",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "eslint": "^9.39.4",
+    "eslint-config-next": "^16.2.9"
+  }
+}
