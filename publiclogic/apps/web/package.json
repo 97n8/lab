@@ -6,13 +6,21 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "pt:new": "node scripts/paper-trail/new-item.mjs",
+    "pt:validate": "npx tsx scripts/paper-trail/validate-collection.ts",
+    "pt:canon": "node scripts/paper-trail/validate-canon.mjs",
+    "pt:links": "node scripts/paper-trail/check-links.mjs",
+    "pt:immutable": "node scripts/paper-trail/check-immutable-dates.mjs"
   },
   "dependencies": {
     "@publiclogic/golden-path": "*",
+    "gray-matter": "^4.0.3",
+    "marked": "^18.0.6",
     "next": "^16.2.9",
     "react": "^19.2.7",
-    "react-dom": "^19.2.7"
+    "react-dom": "^19.2.7",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "typescript": "^6.0.3",
@@ -20,6 +28,7 @@
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "eslint": "^9.39.4",
-    "eslint-config-next": "^16.2.9"
+    "eslint-config-next": "^16.2.9",
+    "tsx": "^4.19.2"
   }
 }

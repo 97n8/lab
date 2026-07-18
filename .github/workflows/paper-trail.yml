@@ -1,0 +1,39 @@
+name: paper-trail
+
+# The Paper Trail merge gate (build spec §6). Schema validation, canon lint,
+# link check, and slug/ID collision all run here; the Next build itself
+# (publiclogic.yml) is the fifth gate — it throws on the same merge-gate
+# invariants via lib/paper-trail/collection.ts, so a broken collection can't
+# reach main even if this workflow were skipped.
+
+on:
+  push:
+    branches: [main]
+    paths: ['publiclogic/apps/web/content/paper-trail/**', 'publiclogic/apps/web/lib/paper-trail/**']
+  pull_request:
+    paths: ['publiclogic/apps/web/content/paper-trail/**', 'publiclogic/apps/web/lib/paper-trail/**']
+  workflow_dispatch:
+
+jobs:
+  merge-gate:
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: publiclogic/apps/web } }
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: publiclogic/package-lock.json
+      - working-directory: publiclogic
+        run: npm ci
+      - name: Schema + merge-gate invariants
+        run: npm run pt:validate
+      - name: Canon lint
+        run: npm run pt:canon
+      - name: Link check
+        run: npm run pt:links
+      - name: datePublished immutability
+        run: npm run pt:immutable

@@ -1792,3 +1792,130 @@ h2 { font-size: clamp(2rem, 4.4vw, 3.4rem); }
   .scan-close { align-items: stretch; flex-direction: column; }
   .scan-button { justify-content: center; }
 }
+
+/* ---------- The Paper Trail ---------- */
+.pt-index { padding-top: 0; }
+
+.pt-shelf-tabs { display: flex; gap: .5rem; margin-bottom: 1rem; }
+.pt-tab {
+  padding: .5rem 1rem; border: 1px solid var(--line); border-radius: 999px;
+  color: var(--muted); font-weight: 700; text-decoration: none; font-size: .9rem;
+}
+.pt-tab:hover { border-color: var(--gold); }
+.pt-tab-active { background: var(--green); border-color: var(--green); color: var(--white); }
+
+.pt-topic-chips { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 2rem; }
+.pt-chip {
+  padding: .35rem .85rem; border: 1px solid var(--line); border-radius: 999px;
+  color: var(--green); font-weight: 700; font-size: .82rem; text-decoration: none; background: var(--cream);
+}
+.pt-chip:hover { border-color: var(--green); }
+.pt-chip-active { background: var(--green); border-color: var(--green); color: var(--white); }
+
+.pt-item-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.1rem; margin-top: .5rem; }
+.pt-item-card {
+  display: grid; gap: .5rem; align-content: start; padding: 1.5rem;
+  background: var(--white); border: 1px solid var(--line); border-radius: 14px;
+  text-decoration: none; transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+}
+.pt-item-card:hover { transform: translateY(-3px); border-color: var(--green); box-shadow: 0 22px 55px rgba(10, 30, 60, .1); }
+.pt-item-card h3 { font-size: 1.25rem; margin: 0; color: var(--deep); }
+.pt-item-card p { color: var(--muted); margin: 0; font-size: .95rem; line-height: 1.55; }
+.pt-item-shelf {
+  color: var(--gold); font-size: .72rem; font-weight: 800; text-transform: uppercase; letter-spacing: .1em;
+}
+.pt-item-meta { display: flex; justify-content: space-between; color: var(--muted); font-size: .82rem; font-weight: 600; margin-top: .25rem; }
+.pt-empty { color: var(--muted); font-style: italic; }
+
+.pt-topic-row { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1rem; }
+.pt-shelf-chip {
+  padding: .3rem .8rem; border-radius: 999px; font-size: .74rem; font-weight: 800;
+  text-transform: uppercase; letter-spacing: .08em; text-decoration: none; color: var(--white); background: var(--green);
+}
+.pt-shelf-chip.pt-shelf-finding { background: var(--deep); }
+.pt-tag-chip {
+  padding: .3rem .8rem; border-radius: 999px; font-size: .78rem; font-weight: 700;
+  text-decoration: none; color: var(--green); background: var(--cream); border: 1px solid var(--line);
+}
+.pt-tag-chip:hover { border-color: var(--green); }
+
+.pt-record-line { color: var(--muted); font-weight: 700; font-size: .92rem; margin: .75rem 0 1.5rem; font-variant-numeric: tabular-nums; }
+.pt-corrected-flag { color: #7a5a14; font-weight: 800; }
+
+.pt-abstract {
+  background: #fbfaf6; border: 1px solid var(--line); border-left: 4px solid var(--gold);
+  border-radius: 0 14px 14px 0; padding: 1.4rem 1.5rem; margin-bottom: 2rem;
+  display: grid; gap: 1rem; align-items: start;
+}
+.pt-abstract p { margin: 0; color: var(--ink); font-size: 1.1rem; line-height: 1.6; }
+
+.pt-copy-btn {
+  justify-self: start; padding: .45rem 1rem; border: 1px solid var(--line); border-radius: 7px;
+  background: var(--white); color: var(--green); font-weight: 700; font-size: .85rem; cursor: pointer;
+}
+.pt-copy-btn:hover { border-color: var(--green); }
+
+.pt-body { color: var(--ink); line-height: 1.7; font-size: 1.05rem; margin-bottom: 2.5rem; }
+.pt-body h2 { font-size: 1.6rem; margin: 2rem 0 .75rem; }
+.pt-body h3 { font-size: 1.3rem; margin: 1.5rem 0 .5rem; }
+.pt-body p { margin: 0 0 1.1rem; }
+.pt-body ul, .pt-body ol { margin: 0 0 1.1rem; padding-left: 1.4rem; }
+.pt-body a { color: var(--green); }
+.pt-body blockquote { border-left: 3px solid var(--gold); margin: 0 0 1.1rem; padding-left: 1rem; color: var(--muted); }
+.pt-body code { background: #eef3f0; padding: .1em .4em; border-radius: 6px; font-size: .9em; color: var(--deep); }
+.pt-body pre { background: var(--deep); color: #eafff7; padding: 1rem 1.25rem; border-radius: 12px; overflow-x: auto; }
+.pt-body pre code { background: none; color: inherit; padding: 0; }
+
+.pt-sources { margin-bottom: 2.5rem; }
+.pt-sources ul { padding-left: 1.2rem; color: var(--ink); }
+.pt-sources a { color: var(--green); }
+.pt-no-sources { color: var(--muted); font-style: italic; }
+
+.pt-corrections { margin-bottom: 2.5rem; }
+.pt-corrections ul { list-style: none; margin: 1rem 0 0; padding: 0; display: grid; gap: .6rem; }
+.pt-corrections li {
+  display: flex; flex-wrap: wrap; gap: .6rem; align-items: baseline;
+  background: #fbf3df; border: 1px solid #e6cf95; border-radius: 10px; padding: .75rem 1rem;
+}
+.pt-correction-date { color: #7a5a14; font-weight: 800; font-size: .85rem; }
+.pt-correction-version { color: var(--muted); font-weight: 700; font-size: .82rem; }
+.pt-correction-note { color: var(--ink); flex-basis: 100%; }
+
+.pt-citation {
+  margin-bottom: 2rem; padding: 1.5rem; background: var(--white); border: 1px solid var(--line);
+  border-radius: 14px; display: grid; gap: .85rem;
+}
+.pt-citation h2 { font-size: 1.1rem; margin: 0; }
+.pt-citation-text { margin: 0; color: var(--ink); font-family: ui-monospace, monospace; font-size: .88rem; line-height: 1.6; }
+
+.pt-seal-footer {
+  margin: 2rem 0; padding: 1.25rem 1.5rem; border-top: 3px solid var(--gold);
+  background: var(--deep); color: #eafff7; border-radius: 0 0 14px 14px;
+}
+.pt-seal-label { margin: 0 0 .3rem; font-weight: 800; font-size: .85rem; text-transform: uppercase; letter-spacing: .06em; }
+.pt-seal-meta { margin: 0; color: #cbe9df; font-size: .9rem; font-variant-numeric: tabular-nums; }
+
+.pt-share-row { display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; }
+.pt-share-row .button { min-height: 40px; padding: .5rem 1rem; font-size: .88rem; }
+.pt-pdf-pending { color: var(--muted); border-style: dashed; cursor: default; }
+.pt-pdf-pending:hover { transform: none; }
+
+/* ---------- Paper Trail: /print (PDF export target, §7) ---------- */
+@page { size: letter; margin: 1in; }
+.pt-print {
+  max-width: 7.5in; margin: 0 auto; padding: 0 0 2rem; color: #17242d;
+  font-family: "IBM Plex Sans", Arial, sans-serif; line-height: 1.6;
+}
+.pt-print-seal {
+  border-bottom: 3px solid var(--gold); padding-bottom: 1rem; margin-bottom: 1.5rem;
+}
+.pt-print-seal-mark { font-weight: 800; font-size: 1.1rem; color: var(--deep); }
+.pt-print-seal-line { font-weight: 800; font-size: .75rem; letter-spacing: .1em; text-transform: uppercase; color: var(--gold); margin-top: .3rem; }
+.pt-print-seal-meta { font-size: .82rem; color: var(--muted); margin-top: .3rem; }
+.pt-print h1 { font-size: 2rem; margin: 0 0 .4rem; }
+.pt-print-tags { color: var(--muted); font-weight: 700; font-size: .85rem; text-transform: uppercase; letter-spacing: .05em; margin: 0 0 1rem; }
+.pt-print-abstract { font-size: 1.05rem; font-style: italic; color: var(--ink); border-left: 3px solid var(--gold); padding-left: 1rem; margin-bottom: 1.5rem; }
+.pt-print-corrections ul, .pt-print h2 + ul { list-style: none; padding: 0; }
+.pt-print-corrections li { border-top: 1px solid var(--line); padding: .5rem 0; font-size: .92rem; }
+.pt-print-citation { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--line); font-family: ui-monospace, monospace; font-size: .82rem; color: var(--muted); }
+

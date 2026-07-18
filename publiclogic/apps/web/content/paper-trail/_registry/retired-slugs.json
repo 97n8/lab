@@ -1,0 +1,4 @@
+{
+  "_comment": "Slugs retired via a rename. Keyed by year, listing slugs that must never be reused. Populated by the redirect that replaces a renamed item — see docs/paper-trail/README.md.",
+  "2026": []
+}

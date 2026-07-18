@@ -1,0 +1,9 @@
+{
+  "publiclogic": { "name": "PublicLogic LLC", "short": "PublicLogic" },
+  "puddlejumper": {
+    "name": "PuddleJumper",
+    "short": "PJ",
+    "descriptor": "Governance Process Runtime"
+  },
+  "archieve": { "name": "ARCHIEVE" }
+}

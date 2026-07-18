@@ -1,0 +1,64 @@
+name: paper-trail-pdf
+
+# Post-build PDF export for The Paper Trail (build spec §7). Deliberately
+# separate from publiclogic.yml: Playwright adds ~15-30s per item and
+# ~500MB of Chromium, and blocking the main site deploy on that is
+# unnecessary coupling. The main build already deployed by the time this runs.
+
+on:
+  push:
+    branches: [main]
+    paths: ['publiclogic/apps/web/content/paper-trail/**']
+  workflow_dispatch:
+
+jobs:
+  pdf-export:
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: publiclogic } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: publiclogic/package-lock.json
+      - run: npm ci
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-chromium
+      - name: Install Playwright + Chromium
+        working-directory: publiclogic/apps/web
+        run: |
+          npm install --no-save playwright
+          npx playwright install --with-deps chromium
+      - name: Build web
+        run: npm run build
+      - name: Start web (background)
+        working-directory: publiclogic/apps/web
+        run: npx next start -p 3000 &
+      - name: Wait for server
+        run: |
+          for i in $(seq 1 30); do
+            curl -sf http://localhost:3000/paper-trail > /dev/null && exit 0
+            sleep 2
+          done
+          echo "server did not come up in time" >&2
+          exit 1
+      - name: Generate PDFs
+        working-directory: publiclogic/apps/web
+        env:
+          PAPER_TRAIL_BASE_URL: http://localhost:3000
+        run: node scripts/paper-trail/generate-pdf.mjs
+      - name: Commit generated PDFs
+        run: |
+          git config user.name "paper-trail-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add apps/web/public/paper-trail/pdf
+          if git diff --cached --quiet; then
+            echo "No PDF changes to commit."
+          else
+            git commit -m "chore(paper-trail): regenerate PDFs [skip ci]"
+            git push
+          fi

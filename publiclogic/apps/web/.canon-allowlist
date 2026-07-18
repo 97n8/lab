@@ -1,0 +1,4 @@
+# The Paper Trail canon lint allowlist (build spec §6).
+# One pattern per line — a literal substring matched against the flagged
+# line (hard-fail denylist) or context window (warnings). Every override is
+# itself on the record: don't silence a rule, explain the legitimate use.

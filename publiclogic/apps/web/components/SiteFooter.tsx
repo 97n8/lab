@@ -18,6 +18,7 @@ export function SiteFooter() {
           <Link href="/services">Services</Link>
           <Link href="/method">Method</Link>
           <Link href="/permit-bridge">Permit &amp; Bridge</Link>
+          <Link href="/paper-trail">Paper Trail</Link>
           <Link href="/about">About</Link>
           <Link href="/pj">PuddleJumper</Link>
           <Link href="/contact">Contact</Link>

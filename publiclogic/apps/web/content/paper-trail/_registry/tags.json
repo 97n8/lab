@@ -1,0 +1,9 @@
+{
+  "grants": { "label": "Grants & Funding" },
+  "governance": { "label": "Governance & Controls" },
+  "energy": { "label": "Energy & Climate" },
+  "procurement": { "label": "Procurement" },
+  "str": { "label": "Short-Term Rental Operations" },
+  "puddlejumper": { "label": "PuddleJumper" },
+  "municipal": { "label": "Municipal Practice" }
+}
