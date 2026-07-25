@@ -6,7 +6,7 @@ import { ItemCard } from "../../components/paper-trail/ItemCard";
 import { ShelfTabs } from "../../components/paper-trail/ShelfTabs";
 import { TopicChips } from "../../components/paper-trail/TopicChips";
 import { getAllTagsInUse, getPublishedItems, getTagRegistry } from "../../lib/paper-trail/collection";
-import { buildOrganizationJsonLd, buildWebsiteJsonLd } from "../../lib/paper-trail/jsonld";
+import { buildOrganizationJsonLd, buildWebsiteJsonLd, jsonLdScriptProps } from "../../lib/paper-trail/jsonld";
 
 export const metadata: Metadata = {
   title: "The Paper Trail",
@@ -21,14 +21,8 @@ export default function PaperTrailIndex() {
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(buildOrganizationJsonLd()) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(buildWebsiteJsonLd()) }}
-      />
+      <script type="application/ld+json" {...jsonLdScriptProps(buildOrganizationJsonLd())} />
+      <script type="application/ld+json" {...jsonLdScriptProps(buildWebsiteJsonLd())} />
       <SiteHeader />
       <main id="main">
         <PageIntro

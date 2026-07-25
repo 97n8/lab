@@ -34,8 +34,11 @@ export function buildAtomFeed({
     .map((item) => {
       const url = itemUrl(item);
       const updatedAt = (item.dateModified ?? item.datePublished).toISOString();
+      // Raw (unescaped) HTML — esc() below applies once, at interpolation,
+      // for both branches. Pre-escaping the abstract here would double-escape
+      // it (e.g. "&" -> "&amp;" -> "&amp;amp;") once <content> also escapes it.
       const contentHtml =
-        item.shelf === "finding" ? (marked.parse(item.body, { async: false }) as string) : `<p>${esc(item.abstract)}</p>`;
+        item.shelf === "finding" ? (marked.parse(item.body, { async: false }) as string) : `<p>${item.abstract}</p>`;
 
       return `  <entry>
     <id>${esc(item.id)}</id>

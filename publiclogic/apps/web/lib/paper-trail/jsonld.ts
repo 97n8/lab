@@ -7,6 +7,18 @@ function isoDate(d: Date): string {
   return d.toISOString();
 }
 
+/**
+ * Props for a `<script type="application/ld+json">` tag. JSON.stringify
+ * does not escape "/", so a title/abstract/correction note that ever
+ * contained the literal string "</script>" would close the tag early and
+ * let the rest render as markup. Escaping "<" is the standard guard —
+ * invalid inside a JSON string value, so it round-trips through JSON.parse
+ * unchanged.
+ */
+export function jsonLdScriptProps(data: unknown): { dangerouslySetInnerHTML: { __html: string } } {
+  return { dangerouslySetInnerHTML: { __html: JSON.stringify(data).replace(/</g, "\\u003c") } };
+}
+
 /** shelf === "release" -> NewsArticle; "finding" -> Report if sourced, else Article (§3.2). */
 export function articleType(item: Pick<PaperTrailItem, "shelf" | "sources">): "NewsArticle" | "Article" | "Report" {
   if (item.shelf === "release") return "NewsArticle";

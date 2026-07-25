@@ -16,7 +16,7 @@ import {
   getPublishedItems,
   getTagRegistry,
 } from "../../../../lib/paper-trail/collection";
-import { buildArticleJsonLd, buildBreadcrumbJsonLd } from "../../../../lib/paper-trail/jsonld";
+import { buildArticleJsonLd, buildBreadcrumbJsonLd, jsonLdScriptProps } from "../../../../lib/paper-trail/jsonld";
 import { buildCitation } from "../../../../lib/paper-trail/citation";
 import { buildSeal } from "../../../../lib/paper-trail/seal";
 import { pdfFileExists } from "../../../../lib/paper-trail/pdf";
@@ -79,14 +79,8 @@ export default async function PaperTrailItemPage({
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
-      />
+      <script type="application/ld+json" {...jsonLdScriptProps(articleJsonLd)} />
+      <script type="application/ld+json" {...jsonLdScriptProps(breadcrumbJsonLd)} />
       <SiteHeader />
       <main id="main">
         <article className="section pt-item">

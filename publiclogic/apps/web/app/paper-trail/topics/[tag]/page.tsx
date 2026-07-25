@@ -5,7 +5,7 @@ import { SiteFooter } from "../../../../components/SiteFooter";
 import { PageIntro } from "../../../../components/PageIntro";
 import { ItemCard } from "../../../../components/paper-trail/ItemCard";
 import { getPublishedByTag, getTagRegistry } from "../../../../lib/paper-trail/collection";
-import { buildTopicHubJsonLd } from "../../../../lib/paper-trail/jsonld";
+import { buildTopicHubJsonLd, jsonLdScriptProps } from "../../../../lib/paper-trail/jsonld";
 
 export function generateStaticParams() {
   const tags = getTagRegistry();
@@ -37,7 +37,7 @@ export default async function TopicHubPage({ params }: { params: Promise<{ tag: 
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" {...jsonLdScriptProps(jsonLd)} />
       <SiteHeader />
       <main id="main">
         <PageIntro

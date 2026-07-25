@@ -2,7 +2,7 @@
 // Invariant 3a (§2.2): datePublished is immutable once an item has been
 // published. Diffs changed content files in this PR against the base
 // branch and fails if a previously-published item's datePublished moved.
-import { execSync } from "node:child_process";
+import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
@@ -12,15 +12,18 @@ const PATHSPEC = "publiclogic/apps/web/content/paper-trail";
 
 let repoRoot;
 try {
-  repoRoot = execSync("git rev-parse --show-toplevel", { encoding: "utf8" }).trim();
+  repoRoot = execFileSync("git", ["rev-parse", "--show-toplevel"], { encoding: "utf8" }).trim();
 } catch {
   console.log("Not inside a git checkout — skipping immutable-date check.");
   process.exit(0);
 }
 
+// execFileSync passes each argument straight to the git process (no shell),
+// so a maliciously crafted filename in a diff (backticks, `;`, `$()`, all
+// legal in a Unix filename) can't be interpreted as shell syntax here.
 function readFrontmatterAtRef(ref, relPath) {
   try {
-    const raw = execSync(`git show ${ref}:${relPath}`, { cwd: repoRoot, encoding: "utf8" });
+    const raw = execFileSync("git", ["show", `${ref}:${relPath}`], { cwd: repoRoot, encoding: "utf8" });
     return matter(raw).data;
   } catch {
     return null; // didn't exist at ref — a new file, nothing to guard
@@ -29,7 +32,7 @@ function readFrontmatterAtRef(ref, relPath) {
 
 let changed = [];
 try {
-  const out = execSync(`git diff --name-only ${baseRef}...HEAD -- ${PATHSPEC}`, {
+  const out = execFileSync("git", ["diff", "--name-only", `${baseRef}...HEAD`, "--", PATHSPEC], {
     cwd: repoRoot,
     encoding: "utf8",
   });
